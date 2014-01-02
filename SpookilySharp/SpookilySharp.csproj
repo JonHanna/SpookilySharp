@@ -40,7 +40,7 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>NET_4_5</DefineConstants>
     <DocumentationFile>bin\Release\SpookilySharp.xml</DocumentationFile>

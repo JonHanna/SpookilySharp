@@ -42,7 +42,7 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

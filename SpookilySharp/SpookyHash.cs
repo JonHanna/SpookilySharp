@@ -19,7 +19,7 @@
 // permission is given by him to port the algorithm into other languages, as per here.
 
 //FIXME: Is this safe? Can we tell when it is? It gives a good performance boost, if it is...
-#define ALLOW_UNALIGNED_READ
+//#define ALLOW_UNALIGNED_READ
 
 using System;
 using System.IO;
@@ -154,7 +154,7 @@ namespace SpookilySharp
         //FIXME: Can we improve this, but remain platform-independent?
         private static unsafe void MemCpy(void* dest, void* source, long length)
         {
-            int firstNiggle = (int)(length & 7);
+            int firstNiggle = (int)(length & (sizeof(IntPtr) - 1));
             if(firstNiggle != 0)
             {
                 var db = (byte*)dest;
@@ -167,14 +167,65 @@ namespace SpookilySharp
                 dest = db;
                 source = sb;
             }
-            if(length > 8)
+            if(length > sizeof(IntPtr))
             {
-                var dl = (long*)dest;
-                var sl = (long*)source;
-                do
+                var dl = (IntPtr*)dest;
+                var sl = (IntPtr*)source;
+                long rem = length / sizeof(IntPtr);
+                length -= rem * sizeof(IntPtr);
+                switch(rem % 16)
                 {
-                    *dl++ = *sl++;
-                }while((length -= 8) > 8);
+                    case 0:
+                        *dl++ = *sl++;
+                        goto case 15;
+                    case 15:
+                        *dl++ = *sl++;
+                        goto case 14;
+                    case 14:
+                        *dl++ = *sl++;
+                        goto case 13;
+                    case 13:
+                        *dl++ = *sl++;
+                        goto case 12;
+                    case 12:
+                        *dl++ = *sl++;
+                        goto case 11;
+                    case 11:
+                        *dl++ = *sl++;
+                        goto case 10;
+                    case 10:
+                        *dl++ = *sl++;
+                        goto case 9;
+                    case 9:
+                        *dl++ = *sl++;
+                        goto case 8;
+                    case 8:
+                        *dl++ = *sl++;
+                        goto case 7;
+                    case 7:
+                        *dl++ = *sl++;
+                        goto case 6;
+                    case 6:
+                        *dl++ = *sl++;
+                        goto case 5;
+                    case 5:
+                        *dl++ = *sl++;
+                        goto case 4;
+                    case 4:
+                        *dl++ = *sl++;
+                        goto case 3;
+                    case 3:
+                        *dl++ = *sl++;
+                        goto case 2;
+                    case 2:
+                        *dl++ = *sl++;
+                        goto case 1;
+                    case 1:
+                        *dl++ = *sl++;
+                        if((rem -= 16) > 0)
+                            goto case 0;
+                        break;
+                }
                 dest = dl;
                 source = sl;
             }
@@ -255,7 +306,7 @@ namespace SpookilySharp
             ulong* buf = stackalloc ulong[2 * NumVars];
             if((((long)message) & 7) != 0)
             {
-                MemCpy(buf, message, (int)length);
+                MemCpy(buf, message, length);
                 p64 = buf;
             }
             else
