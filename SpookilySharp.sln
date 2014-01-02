@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpookilySharp", "SpookilySharp\SpookilySharp.csproj", "{7FEC3600-9C64-4035-8E59-B646893DB408}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpookyHashTesting", "SpookyHashTesting\SpookyHashTesting.csproj", "{F15BBF01-0C93-4F3A-8381-D945E4AC6E62}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FEC3600-9C64-4035-8E59-B646893DB408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FEC3600-9C64-4035-8E59-B646893DB408}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FEC3600-9C64-4035-8E59-B646893DB408}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FEC3600-9C64-4035-8E59-B646893DB408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15BBF01-0C93-4F3A-8381-D945E4AC6E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F15BBF01-0C93-4F3A-8381-D945E4AC6E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15BBF01-0C93-4F3A-8381-D945E4AC6E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F15BBF01-0C93-4F3A-8381-D945E4AC6E62}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = SpookyHash\SpookilySharp.csproj
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.FileWidth = 120
+		$2.EolMarker = Unix
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
+		$2.scope = text/plain
+	EndGlobalSection
+EndGlobal
