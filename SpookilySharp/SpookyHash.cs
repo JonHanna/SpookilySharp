@@ -665,7 +665,7 @@ namespace SpookilySharp
             _state11 = h11;
         }
         /// <summary>
-        /// Produces the final hash of the message.
+        /// Produces the final hash of the message. It does not prevent further updates, and can be called multiple times while the hash is added to.
         /// </summary>
         /// <param name="hash1">The first half of the 128-bit hash.</param>
         /// <param name="hash2">The second half of the 128-bit hash.</param>
@@ -677,7 +677,7 @@ namespace SpookilySharp
             hash2 = (long)uhash2;
         }
         /// <summary>
-        /// Produces the final hash of the message.
+        /// Produces the final hash of the message. It does not prevent further updates, and can be called multiple times while the hash is added to.
         /// </summary>
         /// <param name="hash1">The first half of the 128-bit hash.</param>
         /// <param name="hash2">The second half of the 128-bit hash.</param>
