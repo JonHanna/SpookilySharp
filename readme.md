@@ -25,4 +25,4 @@ This implementation has a lot of hand-inlining, wherever profiling showed it to 
 
 # Quality
 
-SpookyHash has very good “avalance” tendencies as examined in the link above, [here](http://blog.aggregateknowledge.com/2012/02/02/choosing-a-good-hash-function-part-3/) and elsewhere. It’s quality is such that even on a 32-bit build the overall performance of some hash-based structures (particularly open-addressing with power-two sizes, being particularly vulnerable to lower-bit collisions) will be better than with most .NET implementations of `GetHashCode()`.
+SpookyHash has very good “avalance” tendencies as examined in the link above, [here](http://blog.aggregateknowledge.com/2012/02/02/choosing-a-good-hash-function-part-3/) and elsewhere. Its quality is such that even on a 32-bit build the overall performance of some hash-based structures (particularly open-addressing with power-two sizes, being particularly vulnerable to lower-bit collisions) will be better than with most .NET implementations of `GetHashCode()`.
