@@ -165,7 +165,8 @@ namespace SpookilySharp
         /// <returns>A <see cref="string"/> that represents the hash code as a 16-digit hexadecimal number.</returns>
         public override string ToString()
         {
-            return _hash1.ToString("X8", CultureInfo.InvariantCulture) + _hash2.ToString("X8", CultureInfo.InvariantCulture);
+            // Analysis disable once FormatStringProblem
+            return _hash1.ToString("X8") + _hash2.ToString("X8");
         }
     }	
 }

@@ -214,7 +214,7 @@ namespace SpookyHashTesting
         }
         private static IEnumerable<int> RandomInts(int num)
         {
-            Random rand = new Random();
+            var rand = new Random();
             while(num-- != 0)
                 yield return rand.Next(int.MinValue, int.MaxValue);
         }

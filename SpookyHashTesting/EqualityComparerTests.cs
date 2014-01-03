@@ -20,19 +20,19 @@ using System.Collections.Generic;
 
 namespace SpookyHashTesting
 {
-    [TestFixture()]
+    [TestFixture]
     public class EqualityComparerTests
     {
-        private static IEnumerable<SpookyEqualityComparer> TestComparers
+        private static IEnumerable<SpookyStringEqualityComparer> TestComparers
         {
             get
             {
-                yield return new SpookyEqualityComparer();
-                yield return new SpookyEqualityComparer(false);
-                yield return new SpookyEqualityComparer(true);
-                Random rand = new Random();
+                yield return new SpookyStringEqualityComparer();
+                yield return new SpookyStringEqualityComparer(false);
+                yield return new SpookyStringEqualityComparer(true);
+                var rand = new Random();
                 for(int i = 0; i != 8; ++i)
-                    yield return new SpookyEqualityComparer(rand.Next(int.MinValue, int.MaxValue));
+                    yield return new SpookyStringEqualityComparer(rand.Next(int.MinValue, int.MaxValue));
             }
         }
         [Test]
@@ -47,13 +47,13 @@ namespace SpookyHashTesting
         [Test]
         public void ConsistentHash()
         {
-            var x = new SpookyEqualityComparer();
-            var y = new SpookyEqualityComparer();
+            var x = new SpookyStringEqualityComparer();
+            var y = new SpookyStringEqualityComparer();
             Assert.AreEqual(x.GetHashCode("abcde"), y.GetHashCode("abcde"));
             Assert.AreEqual(x.GetHashCode("abcde".ToCharArray()), y.GetHashCode("abcde".ToCharArray()));
             Assert.AreEqual(x.GetHashCode("abcde"), y.GetHashCode("abcde".ToCharArray()));
-            x = new SpookyEqualityComparer(0);
-            y = new SpookyEqualityComparer(0);
+            x = new SpookyStringEqualityComparer(0);
+            y = new SpookyStringEqualityComparer(0);
             Assert.AreEqual(x.GetHashCode("abcde"), y.GetHashCode("abcde"));
             Assert.AreEqual(x.GetHashCode("abcde".ToCharArray()), y.GetHashCode("abcde".ToCharArray()));
             Assert.AreEqual(x.GetHashCode("abcde"), y.GetHashCode("abcde".ToCharArray()));
