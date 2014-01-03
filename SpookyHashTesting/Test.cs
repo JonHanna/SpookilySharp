@@ -16,6 +16,8 @@
 // Based on Bob Jenkins’ tests.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using SpookilySharp;
 using NUnit.Framework;
 
@@ -194,17 +196,110 @@ namespace SpookyHashTesting
                 0x27c2e04b,0x0b7523bd,0x07305776,0xc6be7503,0x918fa7c9,0xaf2e2cd9,0x82046f8e,0xcc1c8250";
         [Test]
         [Ignore]
-        public void TestNative()
+        public void TestNativeSpeed()
         {
             for(int i = 0; i != 1000000; ++i)
                 MediumLengthString.GetHashCode();
         }
         [Test]
         [Ignore]
-        public void TestSpooky()
+        public void TestSpookySpeed()
         {
             for(int i = 0; i != 1000000; ++i)
                 MediumLengthString.SpookyHash32();
+        }
+        private static IEnumerable<uint> RandomUints(int num)
+        {
+            return RandomInts(num).Select(i => (uint)i);
+        }
+        private static IEnumerable<int> RandomInts(int num)
+        {
+            Random rand = new Random();
+            while(num-- != 0)
+                yield return rand.Next(int.MinValue, int.MaxValue);
+        }
+        private static IEnumerable<ulong> RandomUlongs(int num)
+        {
+            using(var en = RandomUints(num * 2).GetEnumerator())
+                while(en.MoveNext())
+                {
+                    ulong high = (ulong)en.Current << 4;
+                    en.MoveNext();
+                    yield return high & en.Current;
+                }
+        }
+        private static IEnumerable<long> RandomLongs(int num)
+        {
+            return RandomUlongs(num).Select(ul => (long)ul);
+        }
+        private const int RandomCycleCount = 20;
+        [Test]
+        public unsafe void ReHashUInt()
+        {
+            foreach(uint seed in RandomUints(RandomCycleCount))
+                foreach(uint message in RandomUints(RandomCycleCount))
+                {
+                    uint copy = message;
+                    uint* p = &copy;
+                        Assert.AreEqual(SpookyHash.Hash32(p, 4, seed), message.ReHash(seed));
+                }
+            foreach(uint message in RandomUints(RandomCycleCount))
+            {
+                uint copy = message;
+                uint* p = &copy;
+                Assert.AreEqual(SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.ReHash());
+            }
+        }
+        [Test]
+        public unsafe void ReHashInt()
+        {
+            foreach(int seed in RandomInts(RandomCycleCount))
+                foreach(int message in RandomInts(RandomCycleCount))
+                {
+                    int copy = message;
+                    int* p = &copy;
+                    Assert.AreEqual((int)SpookyHash.Hash32(p, 4, (uint)seed), message.ReHash(seed));
+                }
+            foreach(int message in RandomInts(RandomCycleCount))
+            {
+                int copy = message;
+                int* p = &copy;
+                Assert.AreEqual((int)SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.ReHash());
+            }
+        }
+        [Test]
+        public unsafe void ReHashULong()
+        {
+            foreach(var seed in RandomUlongs(RandomCycleCount))
+                foreach(var message in RandomUlongs(RandomCycleCount))
+                {
+                    var copy = message;
+                    ulong* p = &copy;
+                    Assert.AreEqual(SpookyHash.Hash64(p, 8, seed), message.ReHash(seed));
+                }
+            foreach(var message in RandomUlongs(RandomCycleCount))
+            {
+                var copy = message;
+                ulong* p = &copy;
+                Assert.AreEqual(SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.ReHash());
+            }
+        }
+        [Test]
+        public unsafe void ReHashLong()
+        {
+            foreach(var seed in RandomLongs(RandomCycleCount))
+                foreach(var message in RandomLongs(RandomCycleCount))
+                {
+                    var copy = message;
+                    long* p = &copy;
+                    Assert.AreEqual((long)SpookyHash.Hash64(p, 8, (ulong)seed), message.ReHash(seed));
+                }
+            foreach(var message in RandomLongs(RandomCycleCount))
+            {
+                var copy = message;
+                long* p = &copy;
+                Assert.AreEqual((long)SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.ReHash());
+            }
         }
     }
     [TestFixture]

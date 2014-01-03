@@ -21,7 +21,7 @@ Global
 		{F15BBF01-0C93-4F3A-8381-D945E4AC6E62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = SpookyHash\SpookilySharp.csproj
+		StartupItem = SpookilySharp\SpookilySharp.csproj
 		Policies = $0
 		$0.StandardHeader = $1
 		$1.Text = @${FileName}\n\nAuthor:\n    ${AuthorName} <${AuthorEmail}>\n\n© ${Year} ${CopyrightHolder}\n\nThis source code is licensed under the EUPL, Version 1.1 only (the “Licence”).\nYou may not use, modify or distribute this work except in compliance with the Licence.\nYou may obtain a copy of the Licence at:\n<http://joinup.ec.europa.eu/software/page/eupl/licence-eupl>\nA copy is also distributed with this source code.\nUnless required by applicable law or agreed to in writing, software distributed under the\nLicence is distributed on an “AS IS” basis, without warranties or conditions of any kind.

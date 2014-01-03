@@ -72,6 +72,7 @@
     <Compile Include="SpookyHasher.cs" />
     <Compile Include="SpookyEqualityComparer.cs" />
     <Compile Include="HashCode128.cs" />
+    <Compile Include="ReDistributor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

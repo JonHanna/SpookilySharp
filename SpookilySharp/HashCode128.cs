@@ -167,6 +167,5 @@ namespace SpookilySharp
         {
             return _hash1.ToString("X8", CultureInfo.InvariantCulture) + _hash2.ToString("X8", CultureInfo.InvariantCulture);
         }
-    }
-	
+    }	
 }
