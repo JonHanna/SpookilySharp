@@ -12,6 +12,7 @@
 // A copy is also distributed with this source code.
 // Unless required by applicable law or agreed to in writing, software distributed under the
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
+
 using System;
 
 namespace SpookilySharp
