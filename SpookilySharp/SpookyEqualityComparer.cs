@@ -25,7 +25,7 @@ namespace SpookilySharp
     /// SpookyHash for its hash codes./>.
     /// </summary>
     public class SpookyEqualityComparer
-        : IEqualityComparer<char[]>, IEqualityComparer<string>, IEquatable<SpookyEqualityComparer>, ICloneable
+        : IEqualityComparer<char[]>, IEqualityComparer<string>, IEquatable<SpookyEqualityComparer>
     {
         private readonly int _seed;
         /// <summary>
@@ -256,11 +256,6 @@ namespace SpookilySharp
         public override int GetHashCode()
         {
             return _seed;
-        }
-        object ICloneable.Clone()
-        {
-            // Immutable, therefore safe to pass self as clone.
-            return this;
         }
     }
 }
