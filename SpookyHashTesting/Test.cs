@@ -200,7 +200,7 @@ namespace SpookyHashTesting
                 MediumLengthString.GetHashCode();
         }
         [Test]
-        //[Ignore]
+        [Ignore]
         public void TestSpooky()
         {
             for(int i = 0; i != 1000000; ++i)
