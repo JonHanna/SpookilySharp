@@ -1,4 +1,4 @@
-﻿// SpookyHash.cs
+﻿// SpookyHasher.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
