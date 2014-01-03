@@ -1,4 +1,4 @@
-// SpookyHash.cs
+﻿// SpookyHash.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -18,10 +18,8 @@
 // work of a living person in your jurisdiction. If not, it may be reasonably inferred that
 // permission is given by him to port the algorithm into other languages, as per here.
 
-//FIXME: Is this safe? Can we tell when it is? It gives a good performance boost, if it is...
-//#define ALLOW_UNALIGNED_READ
-
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -159,21 +157,41 @@ namespace SpookilySharp
             {
                 var db = (byte*)dest;
                 var sb = (byte*)source;
-                do
+                switch(firstNiggle)
                 {
-                    *db++ = *sb++;
-                    --length;
-                }while(--firstNiggle != 0);
+                    case 7:
+                        *db++ = *sb++;
+                        goto case 6;
+                    case 6:
+                        *db++ = *sb++;
+                        goto case 5;
+                    case 5:
+                        *db++ = *sb++;
+                        goto case 4;
+                    case 4:
+                        *db++ = *sb++;
+                        goto case 3;
+                    case 3:
+                        *db++ = *sb++;
+                        goto case 2;
+                    case 2:
+                        *db++ = *sb++;
+                        goto case 1;
+                    case 1:
+                        *db++ = *sb++;
+                        break;
+                }
                 dest = db;
                 source = sb;
+                length -= firstNiggle;
             }
-            if(length > sizeof(IntPtr))
+            if(length >= sizeof(IntPtr))
             {
                 var dl = (IntPtr*)dest;
                 var sl = (IntPtr*)source;
                 long rem = length / sizeof(IntPtr);
                 length -= rem * sizeof(IntPtr);
-                switch(rem % 16)
+                switch(rem & 15)
                 {
                     case 0:
                         *dl++ = *sl++;
@@ -233,42 +251,154 @@ namespace SpookilySharp
             {
                 var db = (byte*)dest;
                 var sb = (byte*)source;
-                do
+                switch(length)
                 {
-                    *db++ = *sb++;
-                }while(--length != 0);
+                    case 7:
+                        *db++ = *sb++;
+                        goto case 6;
+                    case 6:
+                        *db++ = *sb++;
+                        goto case 5;
+                    case 5:
+                        *db++ = *sb++;
+                        goto case 4;
+                    case 4:
+                        *db++ = *sb++;
+                        goto case 3;
+                    case 3:
+                        *db++ = *sb++;
+                        goto case 2;
+                    case 2:
+                        *db++ = *sb++;
+                        goto case 1;
+                    case 1:
+                        *db++ = *sb++;
+                        break;
+                }
             }
         }
         //FIXME: Can we improve this, but remain platform-independent?
         private static unsafe void MemZero(void* dest, long length)
         {
-            int firstNiggle = (int)(length & 7);
+            int firstNiggle = (int)(length & (sizeof(IntPtr) - 1));
             if(firstNiggle != 0)
             {
                 var db = (byte*)dest;
-                do
+                switch(firstNiggle)
                 {
-                    *db++ = 0;
-                    --length;
-                }while(--firstNiggle != 0);
+                    case 7:
+                        *db++ = 0;;
+                        goto case 6;
+                    case 6:
+                        *db++ = 0;;
+                        goto case 5;
+                    case 5:
+                        *db++ = 0;;
+                        goto case 4;
+                    case 4:
+                        *db++ = 0;;
+                        goto case 3;
+                    case 3:
+                        *db++ = 0;;
+                        goto case 2;
+                    case 2:
+                        *db++ = 0;;
+                        goto case 1;
+                    case 1:
+                        *db++ = 0;;
+                        break;
+                }
                 dest = db;
+                length -= firstNiggle;
             }
-            if(length > 8)
+            if(length >= sizeof(IntPtr))
             {
-                var dl = (long*)dest;
-                do
+                var dl = (IntPtr*)dest;
+                long rem = length / sizeof(IntPtr);
+                length -= rem * sizeof(IntPtr);
+                IntPtr zero = IntPtr.Zero;
+                switch(rem & 15)
                 {
-                    *dl++ = 0;
-                }while((length -= 8) > 8);
+                    case 0:
+                        *dl++ = zero;
+                        goto case 15;
+                    case 15:
+                        *dl++ = zero;
+                        goto case 14;
+                    case 14:
+                        *dl++ = zero;
+                        goto case 13;
+                    case 13:
+                        *dl++ = zero;
+                        goto case 12;
+                    case 12:
+                        *dl++ = zero;
+                        goto case 11;
+                    case 11:
+                        *dl++ = zero;
+                        goto case 10;
+                    case 10:
+                        *dl++ = zero;
+                        goto case 9;
+                    case 9:
+                        *dl++ = zero;
+                        goto case 8;
+                    case 8:
+                        *dl++ = zero;
+                        goto case 7;
+                    case 7:
+                        *dl++ = zero;
+                        goto case 6;
+                    case 6:
+                        *dl++ = zero;
+                        goto case 5;
+                    case 5:
+                        *dl++ = zero;
+                        goto case 4;
+                    case 4:
+                        *dl++ = zero;
+                        goto case 3;
+                    case 3:
+                        *dl++ = zero;
+                        goto case 2;
+                    case 2:
+                        *dl++ = zero;
+                        goto case 1;
+                    case 1:
+                        *dl++ = zero;
+                        if((rem -= 16) > 0)
+                            goto case 0;
+                        break;
+                }
                 dest = dl;
             }
             if(length != 0)
             {
                 var db = (byte*)dest;
-                do
+                switch(length)
                 {
-                    *db++ = 0;
-                }while(--length != 0);
+                    case 7:
+                        *db++ = 0;
+                        goto case 6;
+                    case 6:
+                        *db++ = 0;
+                        goto case 5;
+                    case 5:
+                        *db++ = 0;
+                        goto case 4;
+                    case 4:
+                        *db++ = 0;
+                        goto case 3;
+                    case 3:
+                        *db++ = 0;
+                        goto case 2;
+                    case 2:
+                        *db++ = 0;
+                        goto case 1;
+                    case 1:
+                        *db++ = 0;
+                        break;
+                }
             }
         }
         /// <summary>
