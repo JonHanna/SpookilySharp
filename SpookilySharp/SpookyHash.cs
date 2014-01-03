@@ -1,4 +1,4 @@
-﻿// SpookyHash.cs
+// SpookyHash.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -19,8 +19,6 @@
 // permission is given by him to port the algorithm into other languages, as per here.
 
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Security;
 
@@ -150,7 +148,6 @@ namespace SpookilySharp
             hash1 = h0;
             hash2 = h1;
         }
-        //FIXME: Can we improve this, but remain platform-independent?
         [SecurityCritical]
         private static unsafe void MemCpy(void* dest, void* source, long length)
         {
@@ -279,7 +276,6 @@ namespace SpookilySharp
                 }
             }
         }
-        //FIXME: Can we improve this, but remain platform-independent?
         [SecurityCritical]
         private static unsafe void MemZero(void* dest, long length)
         {
@@ -863,6 +859,16 @@ namespace SpookilySharp
             Final(out uhash1, out uhash2);
             hash1 = (long)uhash1;
             hash2 = (long)uhash2;
+        }
+        /// <summary>
+        /// Produces the final hash of the message. It does not prevent further updates, and can be called multiple times while the hash is added to.
+        /// </summary>
+        /// <returns>A <see cref="HashCode128"/> representing the 128-bit hash.</returns>
+        public HashCode128 Final()
+        {
+            ulong hash1, hash2;
+            Final(out hash1, out hash2);
+            return new HashCode128(hash1, hash2);
         }
         /// <summary>
         /// Produces the final hash of the message. It does not prevent further updates, and can be called multiple times while the hash is added to.
