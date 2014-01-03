@@ -246,7 +246,7 @@ namespace SpookilySharp
 	            return 0;
 	        uint hash = (uint)seed;
 	        fixed(char* ptr = str + RuntimeHelpers.OffsetToStringData)
-	            return (int)SpookyHash.Hash32(ptr, str.Length, hash);
+            return (int)SpookyHash.Hash32(ptr, str.Length * 2, hash);
 	    }
 	    /// <summary>
 	    /// Produces a 32-bit SpookyHash of a <see cref="string"/>, using a default seed.
