@@ -22,6 +22,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Security;
 
 namespace SpookilySharp
 {
@@ -45,7 +46,7 @@ namespace SpookilySharp
         /// <param name="hash1">Takes as input a seed value, returns as output half of the hash.</param>
         /// <param name="hash2">Takes as input a seed value, returns as output half of the hash.</param>
         /// <remarks>This is not a CLS-compliant method, and is not accessible by some .NET languages.</remarks>
-        [CLSCompliant(false)]
+        [CLSCompliant(false), SecurityCritical]
         public static unsafe void Hash128(void* message, long length, ref ulong hash1, ref ulong hash2)
         {
             if (length < BufSize)
@@ -150,6 +151,7 @@ namespace SpookilySharp
             hash2 = h1;
         }
         //FIXME: Can we improve this, but remain platform-independent?
+        [SecurityCritical]
         private static unsafe void MemCpy(void* dest, void* source, long length)
         {
             int firstNiggle = (int)(length & (sizeof(IntPtr) - 1));
@@ -278,6 +280,7 @@ namespace SpookilySharp
             }
         }
         //FIXME: Can we improve this, but remain platform-independent?
+        [SecurityCritical]
         private static unsafe void MemZero(void* dest, long length)
         {
             int firstNiggle = (int)(length & (sizeof(IntPtr) - 1));
@@ -408,7 +411,7 @@ namespace SpookilySharp
         /// <param name="message">Pointer to the first element to hash.</param>
         /// <param name="length">The size, in bytes, of the elements to hash.</param>
         /// <param name="seed">A seed for the hash.</param>
-        [CLSCompliant(false)]
+        [CLSCompliant(false), SecurityCritical]
         public unsafe static ulong Hash64(void* message, long length, ulong seed)
         {
             ulong hash1 = seed;
@@ -422,13 +425,14 @@ namespace SpookilySharp
         /// <param name="message">Pointer to the first element to hash.</param>
         /// <param name="length">The size, in bytes, of the elements to hash.</param>
         /// <param name="seed">A seed for the hash.</param>
-        [CLSCompliant(false)]
+        [CLSCompliant(false), SecurityCritical]
         public unsafe static uint Hash32(void* message, long length, uint seed)
         {
             ulong hash1 = seed, hash2 = seed;
             Hash128(message, length, ref hash1, ref hash2);
             return (uint)hash1;
         }
+        [SecurityCritical]
         private unsafe static void Short(void *message, long length, ref ulong hash1, ref ulong hash2)
         {
             ulong* p64;
@@ -621,6 +625,7 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater than the length of the array.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater than the length of the array.</exception>
+        [SecuritySafeCritical]
         public unsafe void Update(byte[] message, long startIndex, long length)
         {
             if(message == null)
@@ -652,6 +657,7 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater than the length of the array.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater than the length of the array.</exception>
+        [SecuritySafeCritical]
         public unsafe void Update(char[] message, long startIndex, long length)
         {
             if(message == null)
@@ -683,6 +689,7 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater than the length of the array.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater than the length of the array.</exception>
+        [SecuritySafeCritical]
         public unsafe void Update(string message, int startIndex, int length)
         {
             if(message == null)
@@ -710,7 +717,7 @@ namespace SpookilySharp
         /// </summary>
         /// <param name="message">Pointer to the data to hash.</param>
         /// <param name="length">How many bytes to hash.</param>
-        [CLSCompliant(false)]
+        [CLSCompliant(false), SecurityCritical]
         public unsafe void Update(void* message, long length)
         {
             ulong h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
@@ -863,7 +870,7 @@ namespace SpookilySharp
         /// <param name="hash1">The first half of the 128-bit hash.</param>
         /// <param name="hash2">The second half of the 128-bit hash.</param>
         /// <remarks>This is not a CLS-compliant method, and is not accessible by some .NET languages.</remarks>
-        [CLSCompliant(false)]
+        [CLSCompliant(false), SecuritySafeCritical]
         public unsafe void Final(out ulong hash1, out ulong hash2)
         {
             if (_length < BufSize)
@@ -967,6 +974,7 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
+        [SecuritySafeCritical]
         public unsafe static Tuple<long, long> SpookyHash128(this string str, long seed0, long seed1)
         {
             if(str == null)
@@ -994,6 +1002,7 @@ namespace SpookilySharp
         /// <param name="str">The <see cref="string"/> to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
+        [SecuritySafeCritical]
         public unsafe static long SpookyHash64(this string str, long seed)
         {
             if(str == null)
@@ -1019,6 +1028,7 @@ namespace SpookilySharp
         /// <param name="str">The <see cref="string"/> to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
+        [SecuritySafeCritical]
         public unsafe static int SpookyHash32(this string str, int seed)
         {
             if(str == null)
@@ -1049,6 +1059,7 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater than the length of the array.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater than the length of the array.</exception>
+        [SecuritySafeCritical]
         public unsafe static Tuple<long, long> SpookyHash128(this char[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
@@ -1088,6 +1099,7 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater than the length of the array.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater than the length of the array.</exception>
+        [SecuritySafeCritical]
         public unsafe static long SpookyHash64(this char[] message, int startIndex, int length, long seed)
         {
             if(message == null)
@@ -1125,6 +1137,7 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater than the length of the array.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater than the length of the array.</exception>
+        [SecuritySafeCritical]
         public unsafe static int SpookyHash32(this char[] message, int startIndex, int length, int seed)
         {
             if(message == null)
@@ -1180,7 +1193,7 @@ namespace SpookilySharp
         /// <param name="message">The array to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        public unsafe static long SpookyHash64(this char[] message, long seed)
+        public static long SpookyHash64(this char[] message, long seed)
         {
             return SpookyHash64(message, 0, 0, seed);
         }
@@ -1201,7 +1214,7 @@ namespace SpookilySharp
         /// <param name="message">The array to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        public unsafe static int SpookyHash32(this char[] message, int seed)
+        public static int SpookyHash32(this char[] message, int seed)
         {
             return SpookyHash32(message, 0, message.Length, seed);
         }
@@ -1227,6 +1240,7 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater than the length of the array.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater than the length of the array.</exception>
+        [SecuritySafeCritical]
         public unsafe static Tuple<long, long> SpookyHash128(this byte[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
@@ -1266,6 +1280,7 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater than the length of the array.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater than the length of the array.</exception>
+        [SecuritySafeCritical]
         public unsafe static long SpookyHash64(this byte[] message, int startIndex, int length, long seed)
         {
             if(message == null)
@@ -1303,6 +1318,7 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater than the length of the array.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater than the length of the array.</exception>
+        [SecuritySafeCritical]
         public unsafe static int SpookyHash32(this byte[] message, int startIndex, int length, int seed)
         {
             if(message == null)
@@ -1358,7 +1374,7 @@ namespace SpookilySharp
         /// <param name="message">The array to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        public unsafe static long SpookyHash64(this byte[] message, long seed)
+        public static long SpookyHash64(this byte[] message, long seed)
         {
             return SpookyHash64(message, 0, 0, seed);
         }
@@ -1379,7 +1395,7 @@ namespace SpookilySharp
         /// <param name="message">The array to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        public unsafe static int SpookyHash32(this byte[] message, int seed)
+        public static int SpookyHash32(this byte[] message, int seed)
         {
             return SpookyHash32(message, 0, message.Length, seed);
         }
@@ -1401,6 +1417,7 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
+        [SecuritySafeCritical]
         public unsafe static Tuple<long, long> SpookyHash128(this Stream stream, long seed0, long seed1)
         {
             if(stream == null)

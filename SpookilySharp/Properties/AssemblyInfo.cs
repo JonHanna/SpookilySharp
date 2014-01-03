@@ -13,8 +13,9 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
-using System.Reflection;
 using System;
+using System.Reflection;
+using System.Security;
 
 [assembly: AssemblyTitle("Spookily Sharp")]
 [assembly: AssemblyDescription(".NET/Mono implementation of SpookyHash")]
@@ -29,3 +30,5 @@ using System;
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("1.0.*")]
 [assembly: CLSCompliant(true)]
+[assembly: SecurityCritical]
+[assembly: AllowPartiallyTrustedCallers]
