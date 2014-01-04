@@ -30,5 +30,5 @@ using System.Security;
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("1.0.*")]
 [assembly: CLSCompliant(true)]
-[assembly: SecurityCritical]
-[assembly: AllowPartiallyTrustedCallers]
+//[assembly: SecurityCritical]
+//[assembly: AllowPartiallyTrustedCallers]

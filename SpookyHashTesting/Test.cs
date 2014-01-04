@@ -303,6 +303,7 @@ namespace SpookyHashTesting
         }
     }
     [TestFixture]
+    
     public class IncrementalTest
     {
         private const int BUFSIZE = 1024;
