@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-# SharpDevelop 4.3
+# SharpDevelop 4.4
 # MonoDevelop 4.2.2
 # And yet I still end up having to hack bits by hand...
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpookilySharp", "SpookilySharp\SpookilySharp.csproj", "{B010C38D-0BC9-4859-9433-0890B03CF6BE}"
@@ -16,6 +16,8 @@ Global
 		Release|4.0 = Release|4.0
 		Debug|4.5 = Debug|4.5
 		Release|4.5 = Release|4.5
+		Debug|4.5.1 = Debug|4.5.1
+		Release|4.5.1 = Release|4.5.1
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|3.5.Build.0 = Debug|3.5
@@ -42,6 +44,14 @@ Global
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|4.5.ActiveCfg = Debug|Any CPU
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|4.5.Build.0 = Release|Any CPU
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|4.5.ActiveCfg = Release|Any CPU
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|4.5.1.Build.0 = Debug|4.5.1
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|4.5.1.ActiveCfg = Debug|4.5.1
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|4.5.1.Build.0 = Release|4.5.1
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|4.5.1.ActiveCfg = Release|4.5.1
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|4.5.1.Build.0 = Debug|Any CPU
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|4.5.1.ActiveCfg = Debug|Any CPU
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|4.5.1.Build.0 = Release|Any CPU
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|4.5.1.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SpookilySharp\SpookilySharp.csproj
