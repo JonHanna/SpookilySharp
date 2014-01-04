@@ -234,24 +234,24 @@ namespace SpookyHashTesting
 	    }
 	    private const int RandomCycleCount = 20;
 	    [Test]
-	    public unsafe void ReHashUInt()
+	    public unsafe void RehashUInt()
 	    {
 	        foreach(uint seed in RandomUints(RandomCycleCount))
 	            foreach(uint message in RandomUints(RandomCycleCount))
 	            {
 	                uint copy = message;
 	                uint* p = &copy;
-	                    Assert.AreEqual(SpookyHash.Hash32(p, 4, seed), message.ReHash(seed));
+	                    Assert.AreEqual(SpookyHash.Hash32(p, 4, seed), message.Rehash(seed));
 	            }
 	        foreach(uint message in RandomUints(RandomCycleCount))
 	        {
 	            uint copy = message;
 	            uint* p = &copy;
-	            Assert.AreEqual(SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.ReHash());
+	            Assert.AreEqual(SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.Rehash());
 	        }
 	    }
 	    [Test]
-	    public unsafe void ReHashInt()
+	    public unsafe void RehashInt()
 	    {
 	        foreach(int seed in RandomInts(RandomCycleCount))
 	            foreach(int message in RandomInts(RandomCycleCount))
@@ -260,7 +260,7 @@ namespace SpookyHashTesting
 	                int* p = &copy;
 	                unchecked
 	                {
-	                    Assert.AreEqual((int)SpookyHash.Hash32(p, 4, (uint)seed), message.ReHash(seed));
+	                    Assert.AreEqual((int)SpookyHash.Hash32(p, 4, (uint)seed), message.Rehash(seed));
 	                }
 	            }
 	        foreach(int message in RandomInts(RandomCycleCount))
@@ -269,29 +269,29 @@ namespace SpookyHashTesting
 	            int* p = &copy;
 	            unchecked
 	            {
-	                Assert.AreEqual((int)SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.ReHash());
+	                Assert.AreEqual((int)SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.Rehash());
 	            }
 	        }
 	    }
 	    [Test]
-	    public unsafe void ReHashULong()
+	    public unsafe void RehashULong()
 	    {
 	        foreach(var seed in RandomUlongs(RandomCycleCount))
 	            foreach(var message in RandomUlongs(RandomCycleCount))
 	            {
 	                var copy = message;
 	                ulong* p = &copy;
-	                Assert.AreEqual(SpookyHash.Hash64(p, 8, seed), message.ReHash(seed));
+	                Assert.AreEqual(SpookyHash.Hash64(p, 8, seed), message.Rehash(seed));
 	            }
 	        foreach(var message in RandomUlongs(RandomCycleCount))
 	        {
 	            var copy = message;
 	            ulong* p = &copy;
-	            Assert.AreEqual(SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.ReHash());
+	            Assert.AreEqual(SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.Rehash());
 	        }
 	    }
 	    [Test]
-	    public unsafe void ReHashLong()
+	    public unsafe void RehashLong()
 	    {
 	        foreach(var seed in RandomLongs(RandomCycleCount))
 	            foreach(var message in RandomLongs(RandomCycleCount))
@@ -300,7 +300,7 @@ namespace SpookyHashTesting
 	                long* p = &copy;
 	                unchecked
 	                {
-	                    Assert.AreEqual((long)SpookyHash.Hash64(p, 8, (ulong)seed), message.ReHash(seed));
+	                    Assert.AreEqual((long)SpookyHash.Hash64(p, 8, (ulong)seed), message.Rehash(seed));
 	                }
 	            }
 	        foreach(var message in RandomLongs(RandomCycleCount))
@@ -309,7 +309,7 @@ namespace SpookyHashTesting
 	            long* p = &copy;
 	            unchecked
 	            {
-	                Assert.AreEqual((long)SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.ReHash());
+	                Assert.AreEqual((long)SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.Rehash());
 	            }
 	        }
 	    }

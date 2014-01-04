@@ -10,3 +10,4 @@ OpenCover
 !/packages/repositories.config
 TestNuGet/packages/**/*
 !TestNuGet/packages/repositories.config
+/SpookilySharp/ProfilingSessions/*.sdps

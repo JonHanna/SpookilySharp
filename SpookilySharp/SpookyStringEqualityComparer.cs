@@ -1,4 +1,4 @@
-// SpookyStringEqualityComparer.cs
+﻿// SpookyStringEqualityComparer.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -14,6 +14,7 @@
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security;
 
@@ -24,8 +25,7 @@ namespace SpookilySharp
     /// SpookyHash for its hash codes./>.
     /// </summary>
     public class SpookyStringEqualityComparer
-        : IWellDistributedEqualityComparer<char[]>, IWellDistributedEqualityComparer<string>,
-        IEquatable<SpookyStringEqualityComparer>
+        : IEqualityComparer<char[]>, IEqualityComparer<string>, IEquatable<SpookyStringEqualityComparer>
     {
         private readonly int _seed;
         /// <summary>
@@ -60,6 +60,7 @@ namespace SpookilySharp
         /// <returns>The 32-bit signed SpookyHash hash code, or zero if the array is null.</returns>
         /// <summary>Returns a 32-bit signed SpookyHash hash code for the specified array.</summary>
         /// <param name="obj">The array of <see cref="char"/> to hash.</param>
+        [WellDistributedHash]
         public int GetHashCode(char[] obj)
         {
             return obj == null ? 0 : obj.SpookyHash32(_seed);
@@ -67,6 +68,7 @@ namespace SpookilySharp
         /// <returns>The 32-bit signed SpookyHash hash code, or zero if the string is null.</returns>
         /// <summary>Returns a 32-bit signed SpookyHash hash code for the specified string.</summary>
         /// <param name="obj">The <see cref="string"/> to hash.</param>
+        [WellDistributedHash]
         public int GetHashCode(string obj)
         {
             return obj == null ? 0 : obj.SpookyHash32(_seed);
@@ -253,9 +255,10 @@ namespace SpookilySharp
         /// </summary>
         /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
         /// hash table.</returns>
+        [WellDistributedHash]
         public override int GetHashCode()
         {
-            return _seed;
+            return _seed.Rehash();
         }
     }
 }

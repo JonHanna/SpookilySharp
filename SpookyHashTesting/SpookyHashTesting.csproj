@@ -65,6 +65,7 @@
     <Compile Include="HashTests.cs" />
     <Compile Include="IncrementalTest.cs" />
     <Compile Include="Hash128Tests.cs" />
+    <Compile Include="WellDistributedHashAttributeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpookilySharp\SpookilySharp.csproj">

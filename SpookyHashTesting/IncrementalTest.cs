@@ -1,4 +1,4 @@
-﻿// Test.cs
+﻿// IncrementalTest.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>

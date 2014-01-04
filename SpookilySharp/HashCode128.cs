@@ -14,6 +14,7 @@
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace SpookilySharp
@@ -37,6 +38,7 @@ namespace SpookilySharp
         /// <remarks>The value passed to <paramref name="s"/> must be a 16-digit hexadecimal number for this to succeed.
         /// Leading, trailing and contained whitespace is allowed. A leading <c>0X</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "s")]
         public static bool TryParse(string s, out HashCode128 result)
         {
             if(s != null)
@@ -136,6 +138,7 @@ namespace SpookilySharp
         /// <remarks>The value passed to <paramref name="s"/> must be a 16-digit hexadecimal number for this to succeed.
         /// Leading, trailing and contained whitespace is allowed. A leading <c>0X</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "s")]
         public static HashCode128 Parse(string s)
         {
             ExceptionHelper.CheckNotNullS(s);
@@ -232,9 +235,34 @@ namespace SpookilySharp
         /// Returns a <see cref="string"/> that represents the current <see cref="HashCode128"/>.
         /// </summary>
         /// <returns>A <see cref="string"/> that represents the hash code as a 16-digit hexadecimal number.</returns>
+        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "System.UInt64.ToString(System.String)")]
         public override string ToString()
         {
             return _hash1.ToString("X8") + _hash2.ToString("X8");
+        }
+        /// <summary>
+        /// Determines whether two <see cref="HashCode128"/> instances are equal.
+        /// </summary>
+        /// <param name="x">The first <see cref="HashCode128"/> instance to compare.</param>
+        /// <param name="y">The second <see cref="HashCode128"/> instance to compare.</param>
+        /// <returns><c>true</c> if the two <see cref="HashCode128"/> instances are equal; otherwise, <c>false</c>.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
+        public static bool operator==(HashCode128 x, HashCode128 y)
+        {
+            return x.Equals(y);
+        }
+        /// <summary>
+        /// Determines whether two <see cref="HashCode128"/> instances are different.
+        /// </summary>
+        /// <param name="x">The first <see cref="HashCode128"/> instance to compare.</param>
+        /// <param name="y">The second <see cref="HashCode128"/> instance to compare.</param>
+        /// <returns><c>true</c> if the two <see cref="HashCode128"/> instances are different; otherwise, <c>false</c>.</returns>
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y")]
+        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
+        public static bool operator!=(HashCode128 x, HashCode128 y)
+        {
+            return !x.Equals(y);
         }
     }	
 }
