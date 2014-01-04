@@ -14,6 +14,7 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\$(Platform)\</IntermediateOutputPath>
     <OutputPath>bin\$(Configuration)\$(Platform)\</OutputPath>
+    <DocumentationFile>$(OutputPath)\SpookilySharp.xml</DocumentationFile>
     <WarningLevel>4</WarningLevel>
     <TargetFrameworkProfile />
     <ProductVersion>10.0.0</ProductVersion>
@@ -24,6 +25,9 @@
     <FileAlignment>4096</FileAlignment>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>hackcraftPublic.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == '4.5' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -44,7 +48,6 @@
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
-    <DefineConstants></DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
