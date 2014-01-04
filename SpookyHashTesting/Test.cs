@@ -108,7 +108,7 @@ namespace SpookyHashTesting
             fixed(byte* ptr = buf)
                 for(int i = 0; i != BUFSIZE; ++i)
                 {
-                    buf[i] = (byte)(i+128);
+                buf[i] = unchecked((byte)(i+128));
                     saw[i] = SpookyHash.Hash32(ptr, i, 0);
                     Assert.AreEqual(expected[i], saw[i]);
                 }
@@ -210,7 +210,7 @@ namespace SpookyHashTesting
         }
         private static IEnumerable<uint> RandomUints(int num)
         {
-            return RandomInts(num).Select(i => (uint)i);
+            return RandomInts(num).Select(i => unchecked((uint)i));
         }
         private static IEnumerable<int> RandomInts(int num)
         {
@@ -258,13 +258,19 @@ namespace SpookyHashTesting
                 {
                     int copy = message;
                     int* p = &copy;
-                    Assert.AreEqual((int)SpookyHash.Hash32(p, 4, (uint)seed), message.ReHash(seed));
+                    unchecked
+                    {
+                        Assert.AreEqual((int)SpookyHash.Hash32(p, 4, (uint)seed), message.ReHash(seed));
+                    }
                 }
             foreach(int message in RandomInts(RandomCycleCount))
             {
                 int copy = message;
                 int* p = &copy;
-                Assert.AreEqual((int)SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.ReHash());
+                unchecked
+                {
+                    Assert.AreEqual((int)SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.ReHash());
+                }
             }
         }
         [Test]
@@ -292,13 +298,19 @@ namespace SpookyHashTesting
                 {
                     var copy = message;
                     long* p = &copy;
-                    Assert.AreEqual((long)SpookyHash.Hash64(p, 8, (ulong)seed), message.ReHash(seed));
+                    unchecked
+                    {
+                        Assert.AreEqual((long)SpookyHash.Hash64(p, 8, (ulong)seed), message.ReHash(seed));
+                    }
                 }
             foreach(var message in RandomLongs(RandomCycleCount))
             {
                 var copy = message;
                 long* p = &copy;
-                Assert.AreEqual((long)SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.ReHash());
+                unchecked
+                {
+                    Assert.AreEqual((long)SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.ReHash());
+                }
             }
         }
     }
@@ -313,7 +325,7 @@ namespace SpookyHashTesting
             var bufArr = new byte[BUFSIZE];
             for (int i=0; i<BUFSIZE; ++i)
             {
-                bufArr[i] = (byte)i;
+                bufArr[i] = unchecked((byte)i);
             }
             for (int i=0; i<BUFSIZE; ++i)
             {
