@@ -62,7 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EqualityComparerTests.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="HashTests.cs" />
+    <Compile Include="IncrementalTest.cs" />
+    <Compile Include="Hash128Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpookilySharp\SpookilySharp.csproj">

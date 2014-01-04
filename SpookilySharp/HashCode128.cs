@@ -1,4 +1,4 @@
-// HashCode128.cs
+﻿// HashCode128.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -26,7 +26,7 @@ namespace SpookilySharp
         /// <summary>
         /// A <see cref="HashCode128"/> that is all-zero. This is the same as the default value.
         /// </summary>
-        public static readonly HashCode128 Zero = new HashCode128(0, 0);
+        public static readonly HashCode128 Zero = default(HashCode128);
         /// <summary>
         /// Tries to parse a <see cref="HashCode128"/> from a string.
         /// </summary>
@@ -35,26 +35,93 @@ namespace SpookilySharp
         /// <param name="result">The 128-bit has code parsed from the string, or <see cref="HashCode128.Zero"/> if
         /// the parsing was unsuccessful.</param>
         /// <remarks>The value passed to <paramref name="s"/> must be a 16-digit hexadecimal number for this to succeed.
-        /// Leading and trailing whitespace is allowed. Leading zeros must not be omitted.</remarks>
+        /// Leading, trailing and contained whitespace is allowed. A leading <c>0X</c> is permitted, but not required.
+        /// Leading zeros must not be omitted.</remarks>
         public static bool TryParse(string s, out HashCode128 result)
         {
             if(s != null)
             {
-                s = s.Trim();
-                if(s.Length == 16)
+                int idx = 0;
+                bool xSeen = false;
+                int len = s.Length;
+                // parse as we go rather than trimming and using ulong.Parse() so we don't spend forever
+                // trimming a long string.
+                if(len >= 16)
                 {
-                    ulong hash1;
-                    if(ulong.TryParse(s.Substring(0, 16), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out hash1))
+                    ulong first = 0;
+                    int sIdx;
+                    for(sIdx = 0; sIdx != len; ++sIdx)
                     {
-                        ulong hash2;
-                        if(ulong.TryParse(s.Substring(16, 16), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out hash2))
+                        char c = s[sIdx];
+                        if(!char.IsWhiteSpace(c))
                         {
-                            result = new HashCode128(hash1, hash2);
+                            switch(c)
+                            {
+                                case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7':
+                                case '8': case '9':
+                                    first = (first << 4) + (ulong)c - (ulong)'0';
+                                    break;
+                                case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+                                    first = (first << 4) + (ulong)c - ((ulong)'a' - 0xA);
+                                    break;
+                                case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+                                    first = (first << 4) + (ulong)c - ((ulong)'A' - 0xA);
+                                    break;
+                                case 'X': case 'x':
+                                    if(idx == 1 && first == 0 && !xSeen)
+                                    {
+                                        idx = 0;
+                                        xSeen = true;
+                                        continue;
+                                    }
+                                    else
+                                        goto fail;
+                                default:
+                                    goto fail;
+                            }
+                            if(++idx == 8)
+                                break;
+                        }
+                    }
+                    if(idx == 8)
+                    {
+                        ulong second = 0;
+                        for(++sIdx ;sIdx != len; ++sIdx)
+                        {
+                            char c = s[sIdx];
+                            if(!char.IsWhiteSpace(c))
+                            {
+                                switch(c)
+                                {
+                                    case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7':
+                                    case '8': case '9':
+                                        second = (second << 4) + (ulong)c - (ulong)'0';
+                                        break;
+                                    case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+                                        second = (second << 4) + (ulong)c - ((ulong)'a' - 0xA);
+                                        break;
+                                    case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+                                        second = (second << 4) + (ulong)c - ((ulong)'A' - 0xA);
+                                        break;
+                                    default:
+                                        goto fail;
+                                }
+                                if(++idx == 16)
+                                    break;
+                            }
+                        }
+                        if(idx == 16)
+                        {
+                            for(++sIdx ;sIdx != len; ++sIdx)
+                                if(!char.IsWhiteSpace(s[sIdx]))
+                                    goto fail;
+                            result = new HashCode128(first, second);
                             return true;
                         }
                     }
                 }
             }
+        fail:
             result = default(HashCode128);
             return false;
         }
@@ -66,13 +133,15 @@ namespace SpookilySharp
         /// <returns>The <see cref="HashCode128"/> represented by <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> was null.</exception>
         /// <exception cref="FormatException"><paramref name="s"/> did not contain a 16-digit hexadecimal number.</exception> 
+        /// <remarks>The value passed to <paramref name="s"/> must be a 16-digit hexadecimal number for this to succeed.
+        /// Leading, trailing and contained whitespace is allowed. A leading <c>0X</c> is permitted, but not required.
+        /// Leading zeros must not be omitted.</remarks>
         public static HashCode128 Parse(string s)
         {
-            if(s == null)
-                throw new ArgumentNullException("s");
+            ExceptionHelper.CheckNotNullS(s);
             HashCode128 ret;
             if(!TryParse(s, out ret))
-                throw new FormatException("The string did not contain a 16-digit hexadecimal number.");
+                ExceptionHelper.BadHashCode128Format();
             return ret;
         }
         private readonly ulong _hash1;
@@ -130,8 +199,8 @@ namespace SpookilySharp
         /// <summary>
         /// Determines whether the specified <see cref="HashCode128"/> is equal to the current <see cref="HashCode128"/>.
         /// </summary>
-        /// <param name="other">The <see cref="SpookilySharp.HashCode128"/> to compare with the current <see cref="SpookilySharp.HashCode128"/>.</param>
-        /// <returns><c>true</c> if the specified <see cref="SpookilySharp.HashCode128"/> is equal to the current
+        /// <param name="other">The <see cref="HashCode128"/> to compare with the current <see cref="HashCode128"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="HashCode128"/> is equal to the current
         /// <see cref="HashCode128"/>; otherwise, <c>false</c>.</returns>
         public bool Equals(HashCode128 other)
         {
@@ -165,7 +234,6 @@ namespace SpookilySharp
         /// <returns>A <see cref="string"/> that represents the hash code as a 16-digit hexadecimal number.</returns>
         public override string ToString()
         {
-            // Analysis disable once FormatStringProblem
             return _hash1.ToString("X8") + _hash2.ToString("X8");
         }
     }	
