@@ -25,10 +25,9 @@ using System.Security;
 [assembly: AssemblyConfiguration("Release")]
 #endif
 [assembly: AssemblyProduct("Spookily Sharp")]
-[assembly: AssemblyCopyright("Jon Hanna")]
+[assembly: AssemblyCopyright("© 2014 Jon Hanna")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("1.0.*")]
 [assembly: CLSCompliant(true)]
-//[assembly: SecurityCritical]
-//[assembly: AllowPartiallyTrustedCallers]
+[assembly: AllowPartiallyTrustedCallers]
