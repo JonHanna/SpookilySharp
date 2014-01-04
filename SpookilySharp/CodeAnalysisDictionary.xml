@@ -1,8 +1,10 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <Dictionary>
      <Words>
         <Recognized>
             <Word>Redistributor</Word>
+            <Word>x</Word>
+            <Word>y</Word>
         </Recognized>
     </Words>
 </Dictionary>

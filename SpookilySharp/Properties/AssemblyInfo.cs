@@ -15,6 +15,7 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security;
 
 [assembly: AssemblyTitle("Spookily Sharp")]
@@ -31,3 +32,4 @@ using System.Security;
 [assembly: AssemblyVersion("1.0.*")]
 [assembly: CLSCompliant(true)]
 [assembly: AllowPartiallyTrustedCallers]
+[assembly: ComVisible(false)]

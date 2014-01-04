@@ -11,3 +11,4 @@ OpenCover
 TestNuGet/packages/**/*
 !TestNuGet/packages/repositories.config
 /SpookilySharp/ProfilingSessions/*.sdps
+StyleCop.Cache

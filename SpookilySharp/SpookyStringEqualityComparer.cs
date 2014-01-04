@@ -15,40 +15,39 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Security;
 
 namespace SpookilySharp
 {
-    /// <summary>
-    /// An equality comparer for <see cref="string"/>s and <see cref="char"/> arrays that uses
-    /// SpookyHash for its hash codes./>.
-    /// </summary>
+    /// <summary>An equality comparer for <see cref="string"/>s and <see cref="char"/> arrays that uses SpookyHash for
+    /// its hash codes.</summary>
     public class SpookyStringEqualityComparer
         : IEqualityComparer<char[]>, IEqualityComparer<string>, IEquatable<SpookyStringEqualityComparer>
     {
         private readonly int _seed;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SpookyStringEqualityComparer"/> class with a default seed.
-        /// </summary>
+
+        /// <summary>Initialises a new instance of the <see cref="SpookyStringEqualityComparer"/> class, with a default
+        /// seed.</summary>
         public SpookyStringEqualityComparer()
-            :this(unchecked((int)SpookyHash.SpookyConst))
+            : this(unchecked((int)SpookyHash.SpookyConst))
         {
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SpookyStringEqualityComparer"/> class with a given seed.
-        /// </summary>
-        /// <param name="seed">The seed.</param>
+
+        /// <summary>Initialises a new instance of the <see cref="SpookyStringEqualityComparer"/> class with a given
+        /// seed.</summary>
+        /// <param name="seed">The seed. Instances with the same seed will produce the same hash codes for the same
+        /// input, but different hash codes than other instances.</param>
         /// <remarks>Instances with different seeds will produces different hash codes for the same item. This can be
         /// useful in preventing Hash DoS attacks.</remarks>
         public SpookyStringEqualityComparer(int seed)
         {
             _seed = seed;
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SpookyStringEqualityComparer"/> class with a default or randomised
-        /// seed.
-        /// </summary>
+
+        /// <summary>Initialises a new instance of the <see cref="SpookyStringEqualityComparer"/> class with a default
+        /// or randomised seed.</summary>
         /// <param name="randomizeSeed">If set to <c>true</c> the seed is taken from the number of milliseconds the
         /// system has been up, otherwise the default seed is used.</param>
         /// <remarks>This is useful in reducing Hash DoS attacks, though different instances of the comparer will not
@@ -57,6 +56,7 @@ namespace SpookilySharp
             : this(randomizeSeed ? Environment.TickCount : unchecked((int)SpookyHash.SpookyConst))
         {
         }
+
         /// <returns>The 32-bit signed SpookyHash hash code, or zero if the array is null.</returns>
         /// <summary>Returns a 32-bit signed SpookyHash hash code for the specified array.</summary>
         /// <param name="obj">The array of <see cref="char"/> to hash.</param>
@@ -65,6 +65,7 @@ namespace SpookilySharp
         {
             return obj == null ? 0 : obj.SpookyHash32(_seed);
         }
+
         /// <returns>The 32-bit signed SpookyHash hash code, or zero if the string is null.</returns>
         /// <summary>Returns a 32-bit signed SpookyHash hash code for the specified string.</summary>
         /// <param name="obj">The <see cref="string"/> to hash.</param>
@@ -73,7 +74,8 @@ namespace SpookilySharp
         {
             return obj == null ? 0 : obj.SpookyHash32(_seed);
         }
-        /// <summary>Returns true if the two arrays are identical</summary>
+
+        /// <summary>Returns true if the two arrays are identical.</summary>
         /// <param name="x">The first array to compare.</param>
         /// <param name="y">The second array to compare.</param>
         /// <returns>True if the two arrays are identical, false otherwise.</returns>
@@ -93,7 +95,8 @@ namespace SpookilySharp
                 fixed(char* py = y)
                     return Equals(px, py, len);
         }
-        /// <summary>Returns true if the two <see cref="string"/>s are identical</summary>
+
+        /// <summary>Returns true if the two <see cref="string"/>s are identical.</summary>
         /// <param name="x">The first <see cref="string"/> to compare.</param>
         /// <param name="y">The second <see cref="string"/> to compare.</param>
         /// <returns>True if the two <see cref="string"/>s are identical, false otherwise.</returns>
@@ -101,10 +104,11 @@ namespace SpookilySharp
         {
             return x == y;
         }
-        /// <summary>Returns true if the string and array of characters contain the same sequence of characters,
-        /// or both are null.</summary>
+
+        /// <summary>Returns true if the string and array of characters contain the same sequence of characters, or both
+        /// are null.</summary>
         /// <param name="x">The string to compare.</param>
-        /// <param name="y">The array to cmpare.</param>
+        /// <param name="y">The array to compare.</param>
         /// <returns>True if the two sequences of characters are identical, or both are null, false otherwise.</returns>
         [SecuritySafeCritical]
         public unsafe bool Equals(string x, char[] y)
@@ -122,9 +126,10 @@ namespace SpookilySharp
                 fixed(char* py = y)
                     return Equals(px, py, len);
         }
-        /// <summary>Returns true if the string and array of characters contain the same sequence of characters,
-        /// or both are null.</summary>
-        /// <param name="x">The array to cmpare.</param>
+
+        /// <summary>Returns true if the string and array of characters contain the same sequence of characters, or both
+        /// are null.</summary>
+        /// <param name="x">The array to compare.</param>
         /// <param name="y">The string to compare.</param>
         /// <returns>True if the two sequences of characters are identical, or both are null, false otherwise.</returns>
         [SecuritySafeCritical]
@@ -228,33 +233,34 @@ namespace SpookilySharp
             }
             return true;
         }
-        /// <summary>
-        /// Determines whether the specified <see cref="SpookyStringEqualityComparer"/> is equal to the current <see cref="SpookyStringEqualityComparer"/>.
-        /// </summary>
-        /// <param name="other">The <see cref="SpookyStringEqualityComparer"/> to compare with the current <see cref="SpookilySharp.SpookyStringEqualityComparer"/>.</param>
+
+        /// <summary>Determines whether the specified <see cref="SpookyStringEqualityComparer"/> is equal to the current
+        /// <see cref="SpookyStringEqualityComparer"/>.</summary>
+        /// <param name="other">The <see cref="SpookyStringEqualityComparer"/> to compare with the current
+        /// <see cref="SpookilySharp.SpookyStringEqualityComparer"/>.</param>
         /// <returns><c>true</c> if the specified <see cref="SpookyStringEqualityComparer"/> is equal to the current
         /// <see cref="SpookyStringEqualityComparer"/>; otherwise, <c>false</c>.</returns>
-        /// <remarks>Two instances of <see cref="SpookyStringEqualityComparer"/> are considered equal if they have the same seed,
-        /// and as such can be depended upon to produce the same hash codes for the same input.</remarks>
+        /// <remarks>Two instances of <see cref="SpookyStringEqualityComparer"/> are considered equal if they have the
+        /// same seed, and as such can be depended upon to produce the same hash codes for the same input.</remarks>
         public bool Equals(SpookyStringEqualityComparer other)
         {
             return other != null && other._seed == _seed;
         }
-        /// <summary>
-        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="SpookyStringEqualityComparer"/>.
-        /// </summary>
-        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="SpookyStringEqualityComparer"/>.</param>
-        /// <returns><c>true</c> if the specified <see cref="object"/> is a <see cref="SpookyStringEqualityComparer"/> equal to the current
-        /// <see cref="SpookyStringEqualityComparer"/>; otherwise, <c>false</c>.</returns>
+
+        /// <summary>Determines whether the specified <see cref="object"/> is equal to the current
+        /// <see cref="SpookyStringEqualityComparer"/>.</summary>
+        /// <param name="obj">The <see cref="object"/> to compare with the current
+        /// <see cref="SpookyStringEqualityComparer"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is a <see cref="SpookyStringEqualityComparer"/>
+        /// equal to the current <see cref="SpookyStringEqualityComparer"/>; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             return Equals(obj as SpookyStringEqualityComparer);
         }
-        /// <summary>
-        /// Serves as a hash function for a <see cref="SpookyStringEqualityComparer"/> object.
-        /// </summary>
-        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
-        /// hash table.</returns>
+
+        /// <summary>Serves as a hash function for a <see cref="SpookyStringEqualityComparer"/> object.</summary>
+        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures
+        /// such as a hash table.</returns>
         [WellDistributedHash]
         public override int GetHashCode()
         {
