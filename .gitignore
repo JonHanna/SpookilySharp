@@ -6,5 +6,7 @@ obj/*
 *.*~
 OpenCover
 /SpookilySharp/pkg/SpookilySharp.1.0.5117.nupkg
-TestNuGet/packages/*
+/packages/**/*
+!/packages/repositories.config
+TestNuGet/packages/**/*
 !TestNuGet/packages/repositories.config
