@@ -54,3 +54,9 @@ The TL/DR version of the above links: If you give SpookyHash two different input
 SpookyHash’s 128-bit form is of comparable size to some older cryptographic hashes, such as MD5. Aside from such small cryptographic hashes being deprecated for most uses, SpookyHash is **not** a cryptographic hash, and should not be used as such.
 
 That said, SpookyHash is likely to be reasonably resilient in the face of hash DoS attacks, as its strong distribution makes the task of producing multiple inputs with the same hash codes more difficult. However, if you will be hashing items from untrusted input, such as web requests, you should use the seeded forms of the hash methods, and the seeded constructors to the equality comparers. This will make the output unpredictable without knowledge of the seed. (Uptime serves as a reasonably good seed value).
+
+# Platform Independence
+
+Unlike default builds of the original C++ version, Spookily Sharp will work on processors that do not allow for unaligned reads. Like the C++ version, a compilation constant affects this, though unaligned reads are prevented by default. If you know your code will never run on such processors, compiling with `ALLOW_UNALIGNED_READ` defined will give a performance boost on some chips, though some which allow unaligned reads suffer a peformance penalty in doing so.
+
+If run on a big-endian system, the code would produce different hashes, but of equal quality.
