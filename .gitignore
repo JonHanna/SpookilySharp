@@ -5,10 +5,11 @@ obj/*
 *.userprefs
 *.*~
 OpenCover
-/SpookilySharp/pkg/SpookilySharp.1.0.5117.nupkg
+*.nupkg
 /packages/**/*
 !/packages/repositories.config
 TestNuGet/packages/**/*
 !TestNuGet/packages/repositories.config
-/SpookilySharp/ProfilingSessions/*.sdps
+*.sdps
 StyleCop.Cache
+StyleCopViolations.xml
