@@ -42,7 +42,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == '3.5' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-	<DefineConstants>NET_35</DefineConstants>
+    <DefineConstants>NET_35</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>True</DebugSymbols>
@@ -50,14 +50,14 @@
     <Optimize>False</Optimize>
     <DefineConstants>$(DefineConstants);DEBUG;CODE_ANALYSIS</DefineConstants>
     <RunCodeAnalysis>True</RunCodeAnalysis>
-    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Performance#CA1822;-Microsoft.Usage#CA2233</CodeAnalysisRules>
+    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Usage#CA2233</CodeAnalysisRules>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
     <RunCodeAnalysis>False</RunCodeAnalysis>
-	<DefineConstants>$(DefineConstants)</DefineConstants>
+    <DefineConstants>$(DefineConstants)</DefineConstants>
     <CodeAnalysisRules>-Microsoft.Performance#CA1822;-Microsoft.Usage#CA2233</CodeAnalysisRules>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
@@ -65,7 +65,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup Condition=" '$(Platform)' != '3.5' ">
-	<Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HashCode128.cs" />

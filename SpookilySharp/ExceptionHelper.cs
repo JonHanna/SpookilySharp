@@ -1,4 +1,4 @@
-﻿﻿// ExceptionHelper.cs
+// ExceptionHelper.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -35,7 +35,9 @@ namespace SpookilySharp
             throw new FormatException("The string did not contain a 16-digit hexadecimal number.");
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage",
+            "CA2208:InstantiateArgumentExceptionsCorrectly",
+            Justification = "Helper method called by methods with such a parameter")]
         private static void StartIndexOutOfRange()
         {
             // Analysis disable once NotResolvedInText
