@@ -2,6 +2,22 @@
 
 A .NET/Mono implementation of Bob Jenkins’ [SpookyHash version 2](http://burtleburtle.net/bob/hash/spooky.html). Offers 32- 64- and 128-bit hashes of strings, char and byte arrays, streams and any type of object represented by an array of simple types.  
 
+# License
+
+> Licensed under the EUPL, Version 1.1 only (the “Licence”).  
+> You may not use, modify or distribute this work except in compliance with the Licence.  
+> You may obtain a copy of the Licence at:  
+> <http://joinup.ec.europa.eu/software/page/eupl/licence-eupl>  
+> A copy is also distributed with this source code.  
+> Unless required by applicable law or agreed to in writing, software distributed under the  
+> Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
+
+# NuGet Package
+
+Spookily Sharp is available as a [NuGet package](https://www.nuget.org/packages/SpookilySharp)
+
+Run `Install-Package SpookilySharp` in the [Package Manager Console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console) or search for “SpookilySharp” in your IDE’s package management plug-in.
+
 # Usage
 
 The `SpookyHash` class allows for both incremental and one-shot use.  
