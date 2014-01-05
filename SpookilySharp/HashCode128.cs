@@ -31,7 +31,8 @@ namespace SpookilySharp
         /// <summary>The minimum value value of <see cref="HashCode128"/> when converted to a <see cref="BigInteger"/>.
         /// </summary>
         public static readonly BigInteger MinValue = BigInteger.Zero;
-        /// <summary>The maximum value value of <see cref="HashCode128"/> when converted to a <see cref="BigInteger"/>.
+
+                /// <summary>The maximum value value of <see cref="HashCode128"/> when converted to a <see cref="BigInteger"/>.
         /// </summary>
         public static readonly BigInteger MaxValue = (((BigInteger)ulong.MaxValue) << 64) + ulong.MaxValue;
 #endif
@@ -56,9 +57,7 @@ namespace SpookilySharp
         {
         }
 #if !NET_35
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SpookilySharp.HashCode128"/> struct.
-        /// </summary>
+        /// <summary>Initialises a new instance of the <see cref="HashCode128"/> struct.</summary>
         /// <param name="hash">A <see cref="BigInteger"/> with the same bit-pattern as the hash.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="hash"/> is less than <see cref="MinValue"/> or
         /// greater than <see cref="MaxValue"/>.</exception>
@@ -69,8 +68,26 @@ namespace SpookilySharp
             _hash1 = (ulong)(hash >> 64);
             _hash2 = (ulong)(hash & ulong.MaxValue);
         }
-#endif
 
+        /// <summary>Converts the hash code to a <see cref="BigInteger"/></summary>
+        /// <param name="hash">The <see cref="HashCode128"/> to convert.</param>
+        /// <returns>The <see cref="BigInteger"/> representing the same bit-pattern as the hash-code.</returns>
+        /// <remarks>As <see cref="BigInteger"/> was introduced to the BCL with framework version 4.0, this method is
+        /// unavailable in the version of SpookilySharp that works with version 3.5.</remarks>
+        public static implicit operator BigInteger(HashCode128 hash)
+        {
+            return hash.ToBigInteger();
+        }
+
+        /// <summary>Converts a <see cref="BigInteger"/> to a <see cref="HashCode128"/>.</summary>
+        /// <param name="hash">A <see cref="BigInteger"/> with the same bit-pattern as the hash.</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="hash"/> is less than <see cref="MinValue"/> or
+        /// greater than <see cref="MaxValue"/>.</exception>
+        public static explicit operator HashCode128(BigInteger hash)
+        {
+            return new HashCode128(hash);
+        }
+#endif
         /// <summary>Gets the first 64 bits of the hash code, as a <see cref="long"/>.</summary>
         /// <value>The first 64 bits of the hash code.</value>
         public long Hash1
@@ -294,25 +311,6 @@ namespace SpookilySharp
         public BigInteger ToBigInteger()
         {
             return (((BigInteger)_hash1) << 64) + _hash2;
-        }
-
-        /// <summary>Converts the hash code to a <see cref="BigInteger"/></summary>
-        /// <param name="hash">The <see cref="HashCode128"/> to convert.</param>
-        /// <returns>The <see cref="BigInteger"/> representing the same bit-pattern as the hash-code.</returns>
-        /// <remarks>As <see cref="BigInteger"/> was introduced to the BCL with framework version 4.0, this method is
-        /// unavailable in the version of SpookilySharp that works with version 3.5.</remarks>
-        public static implicit operator BigInteger(HashCode128 hash)
-        {
-            return hash.ToBigInteger();
-        }
-
-        /// <summary>Converts a <see cref="BigInteger"/> to a <see cref="HashCode128"/>.</summary>
-        /// <param name="hash">A <see cref="BigInteger"/> with the same bit-pattern as the hash.</param>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="hash"/> is less than <see cref="MinValue"/> or
-        /// greater than <see cref="MaxValue"/>.</exception>
-        public static explicit operator HashCode128(BigInteger hash)
-        {
-            return new HashCode128(hash);
         }
 #endif
     }    
