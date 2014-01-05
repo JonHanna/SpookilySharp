@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{B010C38D-0BC9-4859-9433-0890B03CF6BE}</ProjectGuid>
@@ -25,11 +25,11 @@
     <FileAlignment>4096</FileAlignment>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <Prefer32Bit>False</Prefer32Bit>
     <DelaySign>true</DelaySign>
     <AssemblyOriginatorKeyFile>hackcraftPublic.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>false</SignAssembly>
     <SourceAnalysisOverrideSettingsFile>D:\SpookilySharp\SpookilySharp\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == '4.5.1' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
@@ -42,12 +42,13 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == '3.5' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<DefineConstants>NET_35</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
-    <DefineConstants>DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>$(DefineConstants);DEBUG;CODE_ANALYSIS</DefineConstants>
     <RunCodeAnalysis>True</RunCodeAnalysis>
     <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Performance#CA1822;-Microsoft.Usage#CA2233</CodeAnalysisRules>
   </PropertyGroup>
@@ -56,10 +57,15 @@
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
     <RunCodeAnalysis>False</RunCodeAnalysis>
+	<DefineConstants>$(DefineConstants)</DefineConstants>
     <CodeAnalysisRules>-Microsoft.Performance#CA1822;-Microsoft.Usage#CA2233</CodeAnalysisRules>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' != '3.5' ">
+	<Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HashCode128.cs" />

@@ -624,14 +624,9 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
-        public unsafe void Update(byte[] message, long startIndex, long length)
+        public unsafe void Update(byte[] message, int startIndex, int length)
         {
-            if(message == null)
-                throw new ArgumentNullException("message");
-            if(startIndex < 0 || startIndex > message.Length)
-                throw new ArgumentOutOfRangeException("startIndex");
-            if(startIndex + length > message.Length)
-                throw new ArgumentException("Attempt to read beyond the end of the array");
+            ExceptionHelper.CheckArrayIncNull(message, startIndex, length);
             fixed(byte* ptr = message)
                 Update(ptr + startIndex, length);
         }
@@ -656,16 +651,11 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
-        public unsafe void Update(char[] message, long startIndex, long length)
+        public unsafe void Update(char[] message, int startIndex, int length)
         {
-            if(message == null)
-                throw new ArgumentNullException("message");
-            if(startIndex < 0 || startIndex > message.Length)
-                throw new ArgumentOutOfRangeException("startIndex");
-            if(startIndex + length > message.Length)
-                throw new ArgumentException("Attempt to read beyond the end of the array");
+            ExceptionHelper.CheckArrayIncNull(message, startIndex, length);
             fixed(char* ptr = message)
-                Update(ptr + startIndex, length * 2);
+                Update(ptr + startIndex, ((long)length) << 1);
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -690,14 +680,9 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public unsafe void Update(string message, int startIndex, int length)
         {
-            if(message == null)
-                throw new ArgumentNullException("message");
-            if(startIndex < 0 || startIndex > message.Length)
-                throw new ArgumentOutOfRangeException("startIndex");
-            if(startIndex + length > message.Length)
-                throw new ArgumentException("Attempt to read beyond the end of the array");
-            fixed(char* ptr = message + RuntimeHelpers.OffsetToStringData)
-                Update(ptr + startIndex, (long)length * 2);
+            ExceptionHelper.CheckString(message, startIndex, length);
+            fixed(char* ptr = message)
+                Update(ptr + startIndex, ((long)length) << 1);
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>

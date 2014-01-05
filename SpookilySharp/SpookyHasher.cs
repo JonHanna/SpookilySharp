@@ -36,7 +36,7 @@ namespace SpookilySharp
                 return default(HashCode128);
             ulong hash1 = (ulong)seed0;
             ulong hash2 = (ulong)seed1;
-            fixed(char* ptr = message + RuntimeHelpers.OffsetToStringData)
+            fixed(char* ptr = message)
                 SpookyHash.Hash128(ptr, message.Length, ref hash1, ref hash2);
             return new HashCode128(hash1, hash2);
         }
@@ -61,7 +61,7 @@ namespace SpookilySharp
             if(message == null)
                 return 0L;
             ulong hash = (ulong)seed;
-            fixed(char* ptr = message + RuntimeHelpers.OffsetToStringData)
+            fixed(char* ptr = message)
                 return (long)SpookyHash.Hash64(ptr, message.Length, hash);
         }
 
@@ -85,8 +85,8 @@ namespace SpookilySharp
             if(message == null)
                 return 0;
             uint hash = (uint)seed;
-            fixed(char* ptr = message + RuntimeHelpers.OffsetToStringData)
-            return (int)SpookyHash.Hash32(ptr, message.Length * 2, hash);
+            fixed(char* ptr = message)
+                return (int)SpookyHash.Hash32(ptr, ((long)message.Length) << 1, hash);
         }
 
         /// <summary>Produces a 32-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
@@ -116,14 +116,11 @@ namespace SpookilySharp
         {
             if(message == null)
                 return default(HashCode128);
-            if(startIndex < 0 || startIndex > message.Length)
-                throw new ArgumentOutOfRangeException("startIndex");
-            if(startIndex + length > message.Length)
-                throw new ArgumentException("Attempt to read beyond the end of the array");
+            ExceptionHelper.CheckArray(message, startIndex, length);
             ulong hash1 = (ulong)seed0;
             ulong hash2 = (ulong)seed1;
             fixed(char* ptr = message)
-                SpookyHash.Hash128(ptr + startIndex, (long)length * 2, ref hash1, ref hash2);
+                SpookyHash.Hash128(ptr + startIndex, ((long)length) << 1, ref hash1, ref hash2);
             return new HashCode128(hash1, hash2);
         }
 
@@ -163,13 +160,10 @@ namespace SpookilySharp
         {
             if(message == null)
                 return 0;
-            if(startIndex < 0 || startIndex > message.Length)
-                throw new ArgumentOutOfRangeException("startIndex");
-            if(startIndex + length > message.Length)
-                throw new ArgumentException("Attempt to read beyond the end of the array");
+            ExceptionHelper.CheckArray(message, startIndex, length);
             ulong hash = (ulong)seed;
             fixed(char* ptr = message)
-                return (long)SpookyHash.Hash64(ptr + startIndex, (long)length * 2, hash);
+                return (long)SpookyHash.Hash64(ptr + startIndex, ((long)length) << 1, hash);
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of characters, with a default seed.</summary>
@@ -203,13 +197,10 @@ namespace SpookilySharp
         {
             if(message == null)
                 return 0;
-            if(startIndex < 0 || startIndex > message.Length)
-                throw new ArgumentOutOfRangeException("startIndex");
-            if(startIndex + length > message.Length)
-                throw new ArgumentException("Attempt to read beyond the end of the array");
+            ExceptionHelper.CheckArray(message, startIndex, length);
             uint hash = (uint)seed;
             fixed(char* ptr = message)
-                return (int)SpookyHash.Hash32(ptr + startIndex, (long)length * 2, hash);
+                return (int)SpookyHash.Hash32(ptr + startIndex, ((long)length) << 1, hash);
         }
 
         /// <summary>Produces a 32-bit SpookyHash of an array of characters, with a default seed.</summary>
@@ -308,10 +299,7 @@ namespace SpookilySharp
         {
             if(message == null)
                 return default(HashCode128);
-            if(startIndex < 0 || startIndex > message.Length)
-                throw new ArgumentOutOfRangeException("startIndex");
-            if(startIndex + length > message.Length)
-                throw new ArgumentException("Attempt to read beyond the end of the array");
+            ExceptionHelper.CheckArray(message, startIndex, length);
             ulong hash1 = (ulong)seed0;
             ulong hash2 = (ulong)seed1;
             fixed(byte* ptr = message)
@@ -355,10 +343,7 @@ namespace SpookilySharp
         {
             if(message == null)
                 return 0;
-            if(startIndex < 0 || startIndex > message.Length)
-                throw new ArgumentOutOfRangeException("startIndex");
-            if(startIndex + length > message.Length)
-                throw new ArgumentException("Attempt to read beyond the end of the array");
+            ExceptionHelper.CheckArray(message, startIndex, length);
             ulong hash = (ulong)seed;
             fixed(byte* ptr = message)
                 return (long)SpookyHash.Hash64(ptr + startIndex, length, hash);
@@ -395,10 +380,7 @@ namespace SpookilySharp
         {
             if(message == null)
                 return 0;
-            if(startIndex < 0 || startIndex > message.Length)
-                throw new ArgumentOutOfRangeException("startIndex");
-            if(startIndex + length > message.Length)
-                throw new ArgumentException("Attempt to read beyond the end of the array");
+            ExceptionHelper.CheckArray(message, startIndex, length);
             uint hash = (uint)seed;
             fixed(byte* ptr = message)
                 return (int)SpookyHash.Hash32(ptr + startIndex, length, hash);

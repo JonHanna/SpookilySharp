@@ -1,4 +1,4 @@
-﻿// ExceptionHelper.cs
+﻿﻿// ExceptionHelper.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -33,6 +33,47 @@ namespace SpookilySharp
         public static void BadHashCode128Format()
         {
             throw new FormatException("The string did not contain a 16-digit hexadecimal number.");
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly")]
+        private static void StartIndexOutOfRange()
+        {
+            // Analysis disable once NotResolvedInText
+            throw new ArgumentOutOfRangeException("startIndex");
+        }
+        
+        private static void PastArrayBounds()
+        {
+            throw new ArgumentException("Attempt to read beyond the end of the array.");
+        }
+        
+        private static void PastStringBounds()
+        {
+            throw new ArgumentException("Attempt to read beyond the end of the string.");
+        }
+        
+        public static void CheckArray<T>(T[] message, int startIndex, int length)
+        {
+            if(startIndex < 0 || startIndex > message.Length)
+                StartIndexOutOfRange();
+            if(startIndex + length > message.Length)
+                PastArrayBounds();
+        }
+        
+        public static void CheckArrayIncNull<T>(T[] message, int startIndex, int length)
+        {
+            if(message == null)
+                throw new ArgumentNullException("message");
+            CheckArray(message, startIndex, length);
+        }
+        public static void CheckString(string message, int startIndex, int length)
+        {
+            if(message == null)
+                throw new ArgumentNullException("message");
+            if(startIndex < 0 || startIndex > message.Length)
+                StartIndexOutOfRange();
+            if(startIndex + length > message.Length)
+                PastStringBounds();
         }
     }
 }

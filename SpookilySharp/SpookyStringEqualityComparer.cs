@@ -122,7 +122,7 @@ namespace SpookilySharp
                 return false;
             if(len == 0)
                 return true;
-            fixed(char* px = x + RuntimeHelpers.OffsetToStringData)
+            fixed(char* px = x)
                 fixed(char* py = y)
                     return Equals(px, py, len);
         }
@@ -145,7 +145,7 @@ namespace SpookilySharp
             if(len == 0)
                 return true;
             fixed(char* px = x)
-                fixed(char* py = y + RuntimeHelpers.OffsetToStringData)
+                fixed(char* py = y)
                     return Equals(px, py, len);
         }
         [SecurityCritical]
