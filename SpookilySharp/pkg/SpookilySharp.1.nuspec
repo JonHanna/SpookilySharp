@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>SpookilySharp</id>
-        <version>1.0.5117</version>
+        <version>1.0.5118</version>
         <title>Spookily Sharp</title>
         <authors>Jon Hanna</authors>
         <licenseUrl>http://joinup.ec.europa.eu/software/page/eupl/licence-eupl</licenseUrl>
@@ -12,7 +12,8 @@
         <summary>A .NET/Mono implementation of Bob Jenkins’ SpookyHash version 2. Offers 32-, 64- and 128-bit hashes.</summary>
         <copyright>© 2014 Jon Hanna</copyright>
         <frameworkAssemblies>
-            <frameworkAssembly assemblyName="System" targetFramework=".NETFramework3.5, .NETFramework4.0, .NETFramework4.5" />
+            <frameworkAssembly assemblyName="System" targetFramework=".NETFramework3.5, .NETFramework4.0, .NETFramework4.5, .NETFramework4.5.1" />
+            <frameworkAssembly assemblyName="System.Numerics" targetFramework=".NETFramework4.0, .NETFramework4.5, .NETFramework4.5.1" />
         </frameworkAssemblies>
     </metadata>
     <files>
@@ -22,6 +23,8 @@
         <file src="..\bin\Release\4.0\SpookilySharp.xml" target="lib\net40\SpookilySharp.xml" />
         <file src="..\bin\Release\4.5\SpookilySharp.dll" target="lib\net45\SpookilySharp.dll" />
         <file src="..\bin\Release\4.5\SpookilySharp.xml" target="lib\net45\SpookilySharp.xml" />
+        <file src="..\bin\Release\4.5.1\SpookilySharp.dll" target="lib\net451\SpookilySharp.dll" />
+        <file src="..\bin\Release\4.5.1\SpookilySharp.xml" target="lib\net451\SpookilySharp.xml" />
         <file src="..\..\EUPLv.1.1 - Licence.pdf" target="EUPLv.1.1 - Licence.pdf" />
     </files>
 </package>
