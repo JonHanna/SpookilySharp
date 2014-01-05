@@ -12,6 +12,7 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\$(Platform)\</IntermediateOutputPath>
     <OutputPath>bin\$(Configuration)\$(Platform)\</OutputPath>
     <DocumentationFile>$(OutputPath)\SpookilySharp.xml</DocumentationFile>
@@ -59,7 +60,6 @@
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <DefineConstants>$(DefineConstants)</DefineConstants>
     <CodeAnalysisRules>-Microsoft.Performance#CA1822;-Microsoft.Usage#CA2233</CodeAnalysisRules>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
