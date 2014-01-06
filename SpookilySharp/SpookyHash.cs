@@ -32,7 +32,7 @@ namespace SpookilySharp
     public class SpookyHash
     {
         internal const ulong SpookyConst = 0xDEADBEEFDEADBEEF;
-        private static bool AllowUnalignedRead = AttemptDetectAllowUnalignedRead();
+        private static readonly bool AllowUnalignedRead = AttemptDetectAllowUnalignedRead();
         private const int NumVars = 12;
         private const long BlockSize = NumVars * 8;
         private const long BufSize = 2 * BlockSize;
@@ -85,11 +85,6 @@ namespace SpookilySharp
             ulong* buf = stackalloc ulong[NumVars];
             if(!AllowUnalignedRead && (((long)message) & 7) == 0)
             {
-                if((7 & (int)buf) != 0)
-                {
-                    AllowUnalignedRead = true;
-                    Thread.MemoryBarrier();
-                }
                 while (p64 < end)
                 { 
                     h0 += p64[0];    h2 ^= h10;   h11 ^= h0;   h0 =   h0 << 11 | h0 >> -11;   h11 += h1;
@@ -977,18 +972,9 @@ namespace SpookilySharp
             if(!AllowUnalignedRead && length != 0 && (((long)message) & 7) != 0)
             {
                 ulong* buf = stackalloc ulong[2 * NumVars];
-                if((7 & (long)buf) != 0)
-                {
-                    AllowUnalignedRead = true;
-                    Thread.MemoryBarrier();
-                    p64 = (ulong*)message;
-                }
-                else
-                {
-                    MemCpy(buf, message, length);
-                    Short(buf, length, ref hash1, ref hash2);
-                    return;
-                }
+                MemCpy(buf, message, length);
+                Short(buf, length, ref hash1, ref hash2);
+                return;
             }
             else
                 p64 = (ulong*)message;
