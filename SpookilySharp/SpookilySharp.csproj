@@ -11,7 +11,7 @@
     <NoWin32Manifest>False</NoWin32Manifest>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\$(Platform)\</IntermediateOutputPath>
     <OutputPath>bin\$(Configuration)\$(Platform)\</OutputPath>
@@ -26,7 +26,7 @@
     <FileAlignment>4096</FileAlignment>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DelaySign>true</DelaySign>
+    <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>hackcraftPublic.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>false</SignAssembly>
     <SourceAnalysisOverrideSettingsFile>D:\SpookilySharp\SpookilySharp\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>

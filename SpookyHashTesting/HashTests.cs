@@ -1,4 +1,4 @@
-﻿// Test.cs
+// Test.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -210,7 +210,7 @@ namespace SpookyHashTesting
 	    }
 	    private static IEnumerable<uint> RandomUints(int num)
 	    {
-	        return RandomInts(num).Select(i => unchecked((uint)i));
+            return RandomInts(num).Select((int i) => unchecked((uint)i));
 	    }
 	    private static IEnumerable<int> RandomInts(int num)
 	    {

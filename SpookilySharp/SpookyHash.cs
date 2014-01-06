@@ -1,4 +1,4 @@
-﻿﻿// SpookyHash.cs
+﻿// SpookyHash.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -173,27 +173,6 @@ namespace SpookilySharp
         [SecurityCritical]
         private static unsafe void MemCpy32Aligned(void* dest, void* source, long length)
         {
-            int firstNiggle = (int)(length & 3);
-            if(firstNiggle != 0)
-            {
-                var db = (byte*)dest;
-                var sb = (byte*)source;
-                switch(firstNiggle)
-                {
-                    case 3:
-                        *db++ = *sb++;
-                        goto case 2;
-                    case 2:
-                        *db++ = *sb++;
-                        goto case 1;
-                    case 1:
-                        *db++ = *sb++;
-                        break;
-                }
-                dest = db;
-                source = sb;
-                length -= firstNiggle;
-            }
             if(length >= 4)
             {
                 var di = (int*)dest;
@@ -277,15 +256,6 @@ namespace SpookilySharp
         [SecurityCritical]
         private static unsafe void MemCpy16Aligned(void* dest, void* source, long length)
         {
-            if((length & 1) != 0)
-            {
-                var db = (byte*)dest;
-                var sb = (byte*)source;
-                *db++ = *sb++;
-                dest = db;
-                source = sb;
-                length -= 1;
-            }
             if(length >= sizeof(short))
             {
                 var dl = (short*)dest;
@@ -421,57 +391,24 @@ namespace SpookilySharp
                     MemCpyUnaligned(dest, source, length);
                     return;
                 }
-                else if((alignTest & 3) != 0)
+                if((alignTest & 3) != 0)
                 {
                     MemCpy16Aligned(dest, source, length);
                     return;
                 }
-                else if((alignTest & 7) != 0)
+                if((alignTest & 7) != 0)
                 {
                     MemCpy32Aligned(dest, source, length);
                     return;
                 }
             }
-            int firstNiggle = (int)(length & (sizeof(IntPtr) - 1));
-            if(firstNiggle != 0)
-            {
-                var db = (byte*)dest;
-                var sb = (byte*)source;
-                switch(firstNiggle)
-                {
-                    case 7:
-                        *db++ = *sb++;
-                        goto case 6;
-                    case 6:
-                        *db++ = *sb++;
-                        goto case 5;
-                    case 5:
-                        *db++ = *sb++;
-                        goto case 4;
-                    case 4:
-                        *db++ = *sb++;
-                        goto case 3;
-                    case 3:
-                        *db++ = *sb++;
-                        goto case 2;
-                    case 2:
-                        *db++ = *sb++;
-                        goto case 1;
-                    case 1:
-                        *db++ = *sb++;
-                        break;
-                }
-                dest = db;
-                source = sb;
-                length -= firstNiggle;
-            }
-            if(length >= sizeof(IntPtr))
+            if(length >= 8)
             {
                 //Copy 64-bit chunks in 64-bit process, 32-bit chunks in 32-bit process. 
-                var dl = (IntPtr*)dest;
-                var sl = (IntPtr*)source;
-                long rem = length / sizeof(IntPtr);
-                length -= rem * sizeof(IntPtr);
+                var dl = (long*)dest;
+                var sl = (long*)source;
+                long rem = length >> 3;
+                length -= rem << 3;
                 switch(rem & 15)
                 {
                     case 0:
@@ -561,25 +498,6 @@ namespace SpookilySharp
         [SecurityCritical]
         private static unsafe void MemZero32Aligned(void* dest, long length)
         {
-            int firstNiggle = (int)(length & 3);
-            if(firstNiggle != 0)
-            {
-                var db = (byte*)dest;
-                switch(firstNiggle)
-                {
-                    case 3:
-                        *db++ = 0;
-                        goto case 2;
-                    case 2:
-                        *db++ = 0;
-                        goto case 1;
-                    case 1:
-                        *db++ = 0;
-                        break;
-                }
-                dest = db;
-                length -= firstNiggle;
-            }
             if(length >= 4)
             {
                 var di = (int*)dest;
@@ -660,13 +578,6 @@ namespace SpookilySharp
         [SecurityCritical]
         private static unsafe void MemZero16Aligned(void* dest, long length)
         {
-            if((length & 1) != 0)
-            {
-                var db = (byte*)dest;
-                *db++ = 0;
-                dest = db;
-                length -= 1;
-            }
             if(length >= sizeof(short))
             {
                 var dl = (short*)dest;
@@ -810,92 +721,60 @@ namespace SpookilySharp
                     return;
                 }
             }
-            int firstNiggle = (int)(length & (sizeof(IntPtr) - 1));
-            if(firstNiggle != 0)
+            if(length >= 8)
             {
-                var db = (byte*)dest;
-                switch(firstNiggle)
-                {
-                    case 7:
-                        *db++ = 0;
-                        goto case 6;
-                    case 6:
-                        *db++ = 0;
-                        goto case 5;
-                    case 5:
-                        *db++ = 0;
-                        goto case 4;
-                    case 4:
-                        *db++ = 0;
-                        goto case 3;
-                    case 3:
-                        *db++ = 0;
-                        goto case 2;
-                    case 2:
-                        *db++ = 0;
-                        goto case 1;
-                    case 1:
-                        *db++ = 0;
-                        break;
-                }
-                dest = db;
-                length -= firstNiggle;
-            }
-            if(length >= sizeof(IntPtr))
-            {
-                var dl = (IntPtr*)dest;
-                long rem = length / sizeof(IntPtr);
-                length -= rem * sizeof(IntPtr);
-                IntPtr zero = IntPtr.Zero;
+                var dl = (long*)dest;
+                long rem = length >> 3;
+                length -= rem << 3;
                 switch(rem & 15)
                 {
                     case 0:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 15;
                     case 15:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 14;
                     case 14:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 13;
                     case 13:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 12;
                     case 12:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 11;
                     case 11:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 10;
                     case 10:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 9;
                     case 9:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 8;
                     case 8:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 7;
                     case 7:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 6;
                     case 6:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 5;
                     case 5:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 4;
                     case 4:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 3;
                     case 3:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 2;
                     case 2:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         goto case 1;
                     case 1:
-                        *dl++ = zero;
+                        *dl++ = 0;
                         if((rem -= 16) > 0)
                             goto case 0;
                         break;
@@ -971,8 +850,7 @@ namespace SpookilySharp
                 Short(buf, length, ref hash1, ref hash2, true);
                 return;
             }
-            else
-                p64 = (ulong*)message;
+            p64 = (ulong*)message;
 
             long remainder = length & 31;
             ulong a = hash1;
@@ -1243,9 +1121,7 @@ namespace SpookilySharp
             if (newLength < BufSize)
             {
                 fixed(ulong* uptr = _data)
-                {
                     MemCpy(((byte*)uptr) + _remainder, message, length);
-                }
                 _length = length + _length;
                 _remainder = (byte)newLength;
                 return;
