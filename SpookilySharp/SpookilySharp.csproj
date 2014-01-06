@@ -64,9 +64,6 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(Platform)' != '3.5' ">
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="HashCode128.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

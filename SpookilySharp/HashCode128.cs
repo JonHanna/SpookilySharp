@@ -16,10 +16,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-#if !NET_35
-using System.Numerics;
-#endif
-
 namespace SpookilySharp
 {
     /// <summary>Represents a 128-bit hash code.</summary>
@@ -27,15 +23,7 @@ namespace SpookilySharp
     {
         /// <summary>A <see cref="HashCode128"/> that is all-zero. This is the same as the default value.</summary>
         public static readonly HashCode128 Zero = default(HashCode128);
-#if !NET_35
-        /// <summary>The minimum value value of <see cref="HashCode128"/> when converted to a <see cref="BigInteger"/>.
-        /// </summary>
-        public static readonly BigInteger MinValue = BigInteger.Zero;
 
-                /// <summary>The maximum value value of <see cref="HashCode128"/> when converted to a <see cref="BigInteger"/>.
-        /// </summary>
-        public static readonly BigInteger MaxValue = (((BigInteger)ulong.MaxValue) << 64) + ulong.MaxValue;
-#endif
         private readonly ulong _hash1;
         private readonly ulong _hash2;
 
@@ -56,38 +44,7 @@ namespace SpookilySharp
             : this(unchecked((ulong)hash1), unchecked((ulong)hash2))
         {
         }
-#if !NET_35
-        /// <summary>Initialises a new instance of the <see cref="HashCode128"/> struct.</summary>
-        /// <param name="hash">A <see cref="BigInteger"/> with the same bit-pattern as the hash.</param>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="hash"/> is less than <see cref="MinValue"/> or
-        /// greater than <see cref="MaxValue"/>.</exception>
-        public HashCode128(BigInteger hash)
-        {
-            if(hash < BigInteger.Zero || hash > MaxValue)
-                throw new ArgumentOutOfRangeException("hash");
-            _hash1 = (ulong)(hash >> 64);
-            _hash2 = (ulong)(hash & ulong.MaxValue);
-        }
 
-        /// <summary>Converts the hash code to a <see cref="BigInteger"/></summary>
-        /// <param name="hash">The <see cref="HashCode128"/> to convert.</param>
-        /// <returns>The <see cref="BigInteger"/> representing the same bit-pattern as the hash-code.</returns>
-        /// <remarks>As <see cref="BigInteger"/> was introduced to the BCL with framework version 4.0, this method is
-        /// unavailable in the version of SpookilySharp that works with version 3.5.</remarks>
-        public static implicit operator BigInteger(HashCode128 hash)
-        {
-            return hash.ToBigInteger();
-        }
-
-        /// <summary>Converts a <see cref="BigInteger"/> to a <see cref="HashCode128"/>.</summary>
-        /// <param name="hash">A <see cref="BigInteger"/> with the same bit-pattern as the hash.</param>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="hash"/> is less than <see cref="MinValue"/> or
-        /// greater than <see cref="MaxValue"/>.</exception>
-        public static explicit operator HashCode128(BigInteger hash)
-        {
-            return new HashCode128(hash);
-        }
-#endif
         /// <summary>Gets the first 64 bits of the hash code, as a <see cref="long"/>.</summary>
         /// <value>The first 64 bits of the hash code.</value>
         public long Hash1
@@ -303,15 +260,5 @@ namespace SpookilySharp
         {
             return _hash1.ToString("X8") + _hash2.ToString("X8");
         }
-#if !NET_35
-        /// <summary>Converts the hash code to a <see cref="BigInteger"/></summary>
-        /// <returns>The <see cref="BigInteger"/> representing the same bit-pattern as the hash-code.</returns>
-        /// <remarks>As <see cref="BigInteger"/> was introduced to the BCL with framework version 4.0, this method is
-        /// unavailable in the version of SpookilySharp that works with version 3.5.</remarks>
-        public BigInteger ToBigInteger()
-        {
-            return (((BigInteger)_hash1) << 64) + _hash2;
-        }
-#endif
     }    
 }
