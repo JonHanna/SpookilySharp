@@ -1,4 +1,4 @@
-﻿// SpookyHash.cs
+﻿﻿// SpookyHash.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -19,23 +19,23 @@
 // permission is given by him to port the algorithm into other languages, as per here.
 
 using System;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Security;
-using System.Threading;
 
 namespace SpookilySharp
 {
     /// <summary>Provides an implementation of SpookyHash, either incrementally or (by static methods) in a single
     /// operation.</summary>
+    [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+        "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
+        Justification = "More readable with multiple case statements.")]
     public class SpookyHash
     {
         internal const ulong SpookyConst = 0xDEADBEEFDEADBEEF;
-        private static readonly bool AllowUnalignedRead = AttemptDetectAllowUnalignedRead();
         private const int NumVars = 12;
         private const long BlockSize = NumVars * 8;
         private const long BufSize = 2 * BlockSize;
+        private static readonly bool AllowUnalignedRead = AttemptDetectAllowUnalignedRead();
         private static bool AttemptDetectAllowUnalignedRead()
         {
             switch(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE"))
@@ -256,7 +256,6 @@ namespace SpookilySharp
                 dest = di;
                 source = si;
             }
-            Debug.Assert(length < 4 && length >= 0);
             if(length != 0)
             {
                 var db = (byte*)dest;
@@ -349,7 +348,6 @@ namespace SpookilySharp
                 dest = dl;
                 source = sl;
             }
-            Debug.Assert(length == 1 || length == 0);
             if(length != 0)
                 *(byte*)dest = *(byte*)source;
         }
@@ -642,7 +640,6 @@ namespace SpookilySharp
                 }
                 dest = di;
             }
-            Debug.Assert(length < 4 && length >= 0);
             if(length != 0)
             {
                 var db = (byte*)dest;
@@ -730,7 +727,6 @@ namespace SpookilySharp
                 }
                 dest = dl;
             }
-            Debug.Assert(length == 1 || length == 0);
             if(length != 0)
                 *(byte*)dest = 0;
         }
@@ -795,7 +791,6 @@ namespace SpookilySharp
         [SecurityCritical]
         private static unsafe void MemZero(void* dest, long length)
         {
-            Debug.Assert(length != 0);
             if(!AllowUnalignedRead)
             {
                 int alignTest = (int)dest;
@@ -804,12 +799,12 @@ namespace SpookilySharp
                     MemZeroUnaligned(dest, length);
                     return;
                 }
-                else if((alignTest & 3) != 0)
+                if((alignTest & 3) != 0)
                 {
                     MemZero16Aligned(dest, length);
                     return;
                 }
-                else if((alignTest & 7) != 0)
+                if((alignTest & 7) != 0)
                 {
                     MemZero32Aligned(dest, length);
                     return;
