@@ -19,9 +19,11 @@
 // permission is given by him to port the algorithm into other languages, as per here.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Security;
+using System.Threading;
 
 namespace SpookilySharp
 {
@@ -30,9 +32,19 @@ namespace SpookilySharp
     public class SpookyHash
     {
         internal const ulong SpookyConst = 0xDEADBEEFDEADBEEF;
+        private static bool AllowUnalignedRead = AttemptDetectAllowUnalignedRead();
         private const int NumVars = 12;
         private const long BlockSize = NumVars * 8;
         private const long BufSize = 2 * BlockSize;
+        private static bool AttemptDetectAllowUnalignedRead()
+        {
+            switch(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE"))
+            {
+                case "x86": case "AMD64": // Known to tolerate unaligned-reads well.
+                    return true;
+            }
+            return false; // Not known to tolerate unaligned-reads well.
+        }
 
         /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
         /// <param name="message">Pointer to the first element to hash.</param>
@@ -50,6 +62,12 @@ namespace SpookilySharp
             Justification = "More readable with the repeated blocks of the mixing.")]
         public static unsafe void Hash128(void* message, long length, ref ulong hash1, ref ulong hash2)
         {
+            if((int)message == 0)
+            {
+                hash1 = 0;
+                hash2 = 0;
+                return;
+            }
             if (length < BufSize)
             {
                 Short(message, length, ref hash1, ref hash2);
@@ -65,8 +83,13 @@ namespace SpookilySharp
 
             ulong* end = p64 + ((length / BlockSize) * NumVars);
             ulong* buf = stackalloc ulong[NumVars];
-#if !ALLOW_UNALIGNED_READ
-            if((((long)message) & 7) == 0)
+            if(!AllowUnalignedRead && (((long)message) & 7) == 0)
+            {
+                if((7 & (int)buf) != 0)
+                {
+                    AllowUnalignedRead = true;
+                    Thread.MemoryBarrier();
+                }
                 while (p64 < end)
                 { 
                     h0 += p64[0];    h2 ^= h10;   h11 ^= h0;   h0 =   h0 << 11 | h0 >> -11;   h11 += h1;
@@ -83,8 +106,8 @@ namespace SpookilySharp
                     h11 += p64[11];  h1 ^= h9;    h10 ^= h11;  h11 = h11 << 46 | h11 >> -46;  h10 += h0;
                     p64 += NumVars;
                 }
+            }
             else
-#endif
                 while (p64 < end)
                 {
                     MemCpy(buf, p64, (int)BlockSize);
@@ -105,7 +128,8 @@ namespace SpookilySharp
                 }
             long remainder = length - ((byte*)end - (byte*)message);
 
-            MemCpy(buf, end, remainder);
+            if(remainder != 0)
+                MemCpy(buf, end, remainder);
             MemZero(((byte*)buf) + remainder, BlockSize - remainder);
             ((byte*)buf)[BlockSize - 1] = (byte)remainder;
 
@@ -152,8 +176,269 @@ namespace SpookilySharp
             hash2 = h1;
         }
         [SecurityCritical]
+        private static unsafe void MemCpy32Aligned(void* dest, void* source, long length)
+        {
+            int firstNiggle = (int)(length & 3);
+            if(firstNiggle != 0)
+            {
+                var db = (byte*)dest;
+                var sb = (byte*)source;
+                switch(firstNiggle)
+                {
+                    case 3:
+                        *db++ = *sb++;
+                        goto case 2;
+                    case 2:
+                        *db++ = *sb++;
+                        goto case 1;
+                    case 1:
+                        *db++ = *sb++;
+                        break;
+                }
+                dest = db;
+                source = sb;
+                length -= firstNiggle;
+            }
+            if(length >= 4)
+            {
+                var di = (int*)dest;
+                var si = (int*)source;
+                long rem = length >> 2;
+                length -= rem << 2;
+                switch(rem & 15)
+                {
+                    case 0:
+                        *di++ = *si++;
+                        goto case 15;
+                    case 15:
+                        *di++ = *si++;
+                        goto case 14;
+                    case 14:
+                        *di++ = *si++;
+                        goto case 13;
+                    case 13:
+                        *di++ = *si++;
+                        goto case 12;
+                    case 12:
+                        *di++ = *si++;
+                        goto case 11;
+                    case 11:
+                        *di++ = *si++;
+                        goto case 10;
+                    case 10:
+                        *di++ = *si++;
+                        goto case 9;
+                    case 9:
+                        *di++ = *si++;
+                        goto case 8;
+                    case 8:
+                        *di++ = *si++;
+                        goto case 7;
+                    case 7:
+                        *di++ = *si++;
+                        goto case 6;
+                    case 6:
+                        *di++ = *si++;
+                        goto case 5;
+                    case 5:
+                        *di++ = *si++;
+                        goto case 4;
+                    case 4:
+                        *di++ = *si++;
+                        goto case 3;
+                    case 3:
+                        *di++ = *si++;
+                        goto case 2;
+                    case 2:
+                        *di++ = *si++;
+                        goto case 1;
+                    case 1:
+                        *di++ = *si++;
+                        if((rem -= 16) > 0)
+                            goto case 0;
+                        break;
+                }
+                dest = di;
+                source = si;
+            }
+            Debug.Assert(length < 4 && length >= 0);
+            if(length != 0)
+            {
+                var db = (byte*)dest;
+                var sb = (byte*)source;
+                switch(length)
+                {
+                    case 3:
+                        *db++ = *sb++;
+                        goto case 2;
+                    case 2:
+                        *db++ = *sb++;
+                        goto case 1;
+                    case 1:
+                        *db++ = *sb++;
+                        break;
+                }
+            }
+        }
+        [SecurityCritical]
+        private static unsafe void MemCpy16Aligned(void* dest, void* source, long length)
+        {
+            if((length & 1) != 0)
+            {
+                var db = (byte*)dest;
+                var sb = (byte*)source;
+                *db++ = *sb++;
+                dest = db;
+                source = sb;
+                length -= 1;
+            }
+            if(length >= sizeof(short))
+            {
+                var dl = (short*)dest;
+                var sl = (short*)source;
+                long rem = length >> 1;
+                length -= rem << 1;
+                switch(rem & 15)
+                {
+                    case 0:
+                        *dl++ = *sl++;
+                        goto case 15;
+                    case 15:
+                        *dl++ = *sl++;
+                        goto case 14;
+                    case 14:
+                        *dl++ = *sl++;
+                        goto case 13;
+                    case 13:
+                        *dl++ = *sl++;
+                        goto case 12;
+                    case 12:
+                        *dl++ = *sl++;
+                        goto case 11;
+                    case 11:
+                        *dl++ = *sl++;
+                        goto case 10;
+                    case 10:
+                        *dl++ = *sl++;
+                        goto case 9;
+                    case 9:
+                        *dl++ = *sl++;
+                        goto case 8;
+                    case 8:
+                        *dl++ = *sl++;
+                        goto case 7;
+                    case 7:
+                        *dl++ = *sl++;
+                        goto case 6;
+                    case 6:
+                        *dl++ = *sl++;
+                        goto case 5;
+                    case 5:
+                        *dl++ = *sl++;
+                        goto case 4;
+                    case 4:
+                        *dl++ = *sl++;
+                        goto case 3;
+                    case 3:
+                        *dl++ = *sl++;
+                        goto case 2;
+                    case 2:
+                        *dl++ = *sl++;
+                        goto case 1;
+                    case 1:
+                        *dl++ = *sl++;
+                        if((rem -= 16) > 0)
+                            goto case 0;
+                        break;
+                }
+                dest = dl;
+                source = sl;
+            }
+            Debug.Assert(length == 1 || length == 0);
+            if(length != 0)
+                *(byte*)dest = *(byte*)source;
+        }
+        [SecurityCritical]
+        private static unsafe void MemCpyUnaligned(void* dest, void* source, long length)
+        {
+            var db = (byte*)dest;
+            var sb = (byte*)source;
+            switch(length & 15)
+            {
+                case 0:
+                    *db++ = *sb++;
+                    goto case 15;
+                case 15:
+                    *db++ = *sb++;
+                    goto case 14;
+                case 14:
+                    *db++ = *sb++;
+                    goto case 13;
+                case 13:
+                    *db++ = *sb++;
+                    goto case 12;
+                case 12:
+                    *db++ = *sb++;
+                    goto case 11;
+                case 11:
+                    *db++ = *sb++;
+                    goto case 10;
+                case 10:
+                    *db++ = *sb++;
+                    goto case 9;
+                case 9:
+                    *db++ = *sb++;
+                    goto case 8;
+                case 8:
+                    *db++ = *sb++;
+                    goto case 7;
+                case 7:
+                    *db++ = *sb++;
+                    goto case 6;
+                case 6:
+                    *db++ = *sb++;
+                    goto case 5;
+                case 5:
+                    *db++ = *sb++;
+                    goto case 4;
+                case 4:
+                    *db++ = *sb++;
+                    goto case 3;
+                case 3:
+                    *db++ = *sb++;
+                    goto case 2;
+                case 2:
+                    *db++ = *sb++;
+                    goto case 1;
+                case 1:
+                    *db++ = *sb++;
+                    if((length -= 16) > 0)
+                        goto case 0;
+                    return;
+            }
+        }
+        [SecurityCritical]
         private static unsafe void MemCpy(void* dest, void* source, long length)
         {
+            if(!AllowUnalignedRead)
+            {
+                int alignTest = (int)dest | (int)source;
+                if((alignTest & 1) != 0)
+                {
+                    MemCpyUnaligned(dest, source, length);
+                    return;
+                }
+                else if((alignTest & 3) != 0)
+                {
+                    MemCpy16Aligned(dest, source, length);
+                    return;
+                }
+                else if((alignTest & 7) != 0)
+                {
+                    MemCpy32Aligned(dest, source, length);
+                    return;
+                }
+            }
             int firstNiggle = (int)(length & (sizeof(IntPtr) - 1));
             if(firstNiggle != 0)
             {
@@ -189,6 +474,7 @@ namespace SpookilySharp
             }
             if(length >= sizeof(IntPtr))
             {
+                //Copy 64-bit chunks in 64-bit process, 32-bit chunks in 32-bit process. 
                 var dl = (IntPtr*)dest;
                 var sl = (IntPtr*)source;
                 long rem = length / sizeof(IntPtr);
@@ -280,8 +566,260 @@ namespace SpookilySharp
             }
         }
         [SecurityCritical]
+        private static unsafe void MemZero32Aligned(void* dest, long length)
+        {
+            int firstNiggle = (int)(length & 3);
+            if(firstNiggle != 0)
+            {
+                var db = (byte*)dest;
+                switch(firstNiggle)
+                {
+                    case 3:
+                        *db++ = 0;
+                        goto case 2;
+                    case 2:
+                        *db++ = 0;
+                        goto case 1;
+                    case 1:
+                        *db++ = 0;
+                        break;
+                }
+                dest = db;
+                length -= firstNiggle;
+            }
+            if(length >= 4)
+            {
+                var di = (int*)dest;
+                long rem = length >> 2;
+                length -= rem << 2;
+                switch(rem & 15)
+                {
+                    case 0:
+                        *di++ = 0;
+                        goto case 15;
+                    case 15:
+                        *di++ = 0;
+                        goto case 14;
+                    case 14:
+                        *di++ = 0;
+                        goto case 13;
+                    case 13:
+                        *di++ = 0;
+                        goto case 12;
+                    case 12:
+                        *di++ = 0;
+                        goto case 11;
+                    case 11:
+                        *di++ = 0;
+                        goto case 10;
+                    case 10:
+                        *di++ = 0;
+                        goto case 9;
+                    case 9:
+                        *di++ = 0;
+                        goto case 8;
+                    case 8:
+                        *di++ = 0;
+                        goto case 7;
+                    case 7:
+                        *di++ = 0;
+                        goto case 6;
+                    case 6:
+                        *di++ = 0;
+                        goto case 5;
+                    case 5:
+                        *di++ = 0;
+                        goto case 4;
+                    case 4:
+                        *di++ = 0;
+                        goto case 3;
+                    case 3:
+                        *di++ = 0;
+                        goto case 2;
+                    case 2:
+                        *di++ = 0;
+                        goto case 1;
+                    case 1:
+                        *di++ = 0;
+                        if((rem -= 16) > 0)
+                            goto case 0;
+                        break;
+                }
+                dest = di;
+            }
+            Debug.Assert(length < 4 && length >= 0);
+            if(length != 0)
+            {
+                var db = (byte*)dest;
+                switch(length)
+                {
+                    case 3:
+                        *db++ = 0;
+                        goto case 2;
+                    case 2:
+                        *db++ = 0;
+                        goto case 1;
+                    case 1:
+                        *db++ = 0;
+                        break;
+                }
+            }
+        }
+        [SecurityCritical]
+        private static unsafe void MemZero16Aligned(void* dest, long length)
+        {
+            if((length & 1) != 0)
+            {
+                var db = (byte*)dest;
+                *db++ = 0;
+                dest = db;
+                length -= 1;
+            }
+            if(length >= sizeof(short))
+            {
+                var dl = (short*)dest;
+                long rem = length >> 1;
+                length -= rem << 1;
+                switch(rem & 15)
+                {
+                    case 0:
+                        *dl++ = 0;
+                        goto case 15;
+                    case 15:
+                        *dl++ = 0;
+                        goto case 14;
+                    case 14:
+                        *dl++ = 0;
+                        goto case 13;
+                    case 13:
+                        *dl++ = 0;
+                        goto case 12;
+                    case 12:
+                        *dl++ = 0;
+                        goto case 11;
+                    case 11:
+                        *dl++ = 0;
+                        goto case 10;
+                    case 10:
+                        *dl++ = 0;
+                        goto case 9;
+                    case 9:
+                        *dl++ = 0;
+                        goto case 8;
+                    case 8:
+                        *dl++ = 0;
+                        goto case 7;
+                    case 7:
+                        *dl++ = 0;
+                        goto case 6;
+                    case 6:
+                        *dl++ = 0;
+                        goto case 5;
+                    case 5:
+                        *dl++ = 0;
+                        goto case 4;
+                    case 4:
+                        *dl++ = 0;
+                        goto case 3;
+                    case 3:
+                        *dl++ = 0;
+                        goto case 2;
+                    case 2:
+                        *dl++ = 0;
+                        goto case 1;
+                    case 1:
+                        *dl++ = 0;
+                        if((rem -= 16) > 0)
+                            goto case 0;
+                        break;
+                }
+                dest = dl;
+            }
+            Debug.Assert(length == 1 || length == 0);
+            if(length != 0)
+                *(byte*)dest = 0;
+        }
+        [SecurityCritical]
+        private static unsafe void MemZeroUnaligned(void* dest, long length)
+        {
+            var db = (byte*)dest;
+            switch(length & 15)
+            {
+                case 0:
+                    *db++ = 0;
+                    goto case 15;
+                case 15:
+                    *db++ = 0;
+                    goto case 14;
+                case 14:
+                    *db++ = 0;
+                    goto case 13;
+                case 13:
+                    *db++ = 0;
+                    goto case 12;
+                case 12:
+                    *db++ = 0;
+                    goto case 11;
+                case 11:
+                    *db++ = 0;
+                    goto case 10;
+                case 10:
+                    *db++ = 0;
+                    goto case 9;
+                case 9:
+                    *db++ = 0;
+                    goto case 8;
+                case 8:
+                    *db++ = 0;
+                    goto case 7;
+                case 7:
+                    *db++ = 0;
+                    goto case 6;
+                case 6:
+                    *db++ = 0;
+                    goto case 5;
+                case 5:
+                    *db++ = 0;
+                    goto case 4;
+                case 4:
+                    *db++ = 0;
+                    goto case 3;
+                case 3:
+                    *db++ = 0;
+                    goto case 2;
+                case 2:
+                    *db++ = 0;
+                    goto case 1;
+                case 1:
+                    *db++ = 0;
+                    if((length -= 16) > 0)
+                        goto case 0;
+                    return;
+            }
+        }
+        [SecurityCritical]
         private static unsafe void MemZero(void* dest, long length)
         {
+            Debug.Assert(length != 0);
+            if(!AllowUnalignedRead)
+            {
+                int alignTest = (int)dest;
+                if((alignTest & 1) != 0)
+                {
+                    MemZeroUnaligned(dest, length);
+                    return;
+                }
+                else if((alignTest & 3) != 0)
+                {
+                    MemZero16Aligned(dest, length);
+                    return;
+                }
+                else if((alignTest & 7) != 0)
+                {
+                    MemZero32Aligned(dest, length);
+                    return;
+                }
+            }
             int firstNiggle = (int)(length & (sizeof(IntPtr) - 1));
             if(firstNiggle != 0)
             {
@@ -436,15 +974,23 @@ namespace SpookilySharp
         private static unsafe void Short(void* message, long length, ref ulong hash1, ref ulong hash2)
         {
             ulong* p64;
-#if !ALLOW_UNALIGNED_READ
-            ulong* buf = stackalloc ulong[2 * NumVars];
-            if((((long)message) & 7) != 0)
+            if(!AllowUnalignedRead && length != 0 && (((long)message) & 7) != 0)
             {
-                MemCpy(buf, message, length);
-                p64 = buf;
+                ulong* buf = stackalloc ulong[2 * NumVars];
+                if((7 & (long)buf) != 0)
+                {
+                    AllowUnalignedRead = true;
+                    Thread.MemoryBarrier();
+                    p64 = (ulong*)message;
+                }
+                else
+                {
+                    MemCpy(buf, message, length);
+                    Short(buf, length, ref hash1, ref hash2);
+                    return;
+                }
             }
             else
-#endif
                 p64 = (ulong*)message;
 
             long remainder = length & 31;
@@ -698,6 +1244,7 @@ namespace SpookilySharp
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
         /// <param name="message">Pointer to the data to hash.</param>
         /// <param name="length">How many bytes to hash.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="message"/> was a null pointer.</exception>
         [CLSCompliant(false), SecurityCritical]
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
@@ -706,6 +1253,10 @@ namespace SpookilySharp
             Justification = "More readable with the repeated blocks of the mixing.")]
         public unsafe void Update(void* message, long length)
         {
+            if((int)message == 0)
+                throw new ArgumentNullException("message");
+            if(length == 0)
+                return;
             ulong h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
             long newLength = length + _remainder;
             if (newLength < BufSize)
@@ -782,8 +1333,7 @@ namespace SpookilySharp
 
                 ulong* end = p64 + ((length / BlockSize) * NumVars);
                 byte remainder = (byte)(length - ((byte*)end - ((byte*)p64)));
-#if !ALLOW_UNALIGNED_READ
-                if((((long)message) & 7) == 0)
+                if(!AllowUnalignedRead && (((long)message) & 7) == 0)
                     while (p64 < end)
                     { 
                         h0  += p64[0];  h2  ^= h10; h11 ^= h0;  h0 =  h0 << 11  | h0 >>  -11; h11 += h1;
@@ -801,7 +1351,6 @@ namespace SpookilySharp
                         p64 += NumVars;
                     }
                 else
-#endif
                     fixed(ulong* dataPtr = _data)
                         while (p64 < end)
                         {
@@ -821,7 +1370,8 @@ namespace SpookilySharp
                             p64 += NumVars;
                         }
                 _remainder = remainder;
-                MemCpy(p64Fixed, end, remainder);
+                if(remainder != 0)
+                    MemCpy(p64Fixed, end, remainder);
             }
             _state0 = h0;
             _state1 = h1;
