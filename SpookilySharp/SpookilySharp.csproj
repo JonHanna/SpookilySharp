@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{B010C38D-0BC9-4859-9433-0890B03CF6BE}</ProjectGuid>
@@ -43,13 +43,12 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == '3.5' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <DefineConstants>NET_35</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
-    <DefineConstants>$(DefineConstants);DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>DEBUG;CODE_ANALYSIS</DefineConstants>
     <RunCodeAnalysis>True</RunCodeAnalysis>
     <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Usage#CA2233</CodeAnalysisRules>
   </PropertyGroup>
@@ -58,7 +57,6 @@
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
     <RunCodeAnalysis>False</RunCodeAnalysis>
-    <DefineConstants>$(DefineConstants)</DefineConstants>
     <CodeAnalysisRules>-Microsoft.Performance#CA1822;-Microsoft.Usage#CA2233</CodeAnalysisRules>
   </PropertyGroup>
   <ItemGroup>
