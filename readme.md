@@ -57,6 +57,4 @@ That said, SpookyHash is likely to be reasonably resilient in the face of hash D
 
 # Platform Independence
 
-Unlike default builds of the original version of SpookyHash, Spookily Sharp will work on processors that do not allow for unaligned reads. Like the C++ version, a compilation constant affects this, though unaligned reads are prevented by default. If you know your code will never run on such processors, compiling with `ALLOW_UNALIGNED_READ` defined will give a performance boost on some chips, though some which allow unaligned reads suffer a peformance penalty in doing so.
-
 If run on a big-endian system, the code would produce different hashes, but of equal quality.
