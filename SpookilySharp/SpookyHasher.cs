@@ -1,4 +1,4 @@
-﻿// SpookyHasher.cs
+// SpookyHasher.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -32,14 +32,12 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static unsafe HashCode128 SpookyHash128(this string message, long seed0, long seed1)
         {
+            if(message == null)
+                return default(HashCode128);
             ulong hash1 = (ulong)seed0;
             ulong hash2 = (ulong)seed1;
             fixed(char* ptr = message)
-            {
-                if((int)ptr == 0)
-                    return default(HashCode128);
                 SpookyHash.Hash128(ptr, message.Length, ref hash1, ref hash2);
-            }
             return new HashCode128(hash1, hash2);
         }
 
@@ -60,9 +58,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static unsafe long SpookyHash64(this string message, long seed)
         {
+            if(message == null)
+                return 0L;
             ulong hash = (ulong)seed;
             fixed(char* ptr = message)
-                return (int)ptr == 0 ? 0L : (long)SpookyHash.Hash64(ptr, message.Length, hash);
+                return (long)SpookyHash.Hash64(ptr, message.Length, hash);
         }
 
         /// <summary>Produces a 64-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
@@ -82,8 +82,10 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static unsafe int SpookyHash32(this string message, int seed)
         {
+            if(message == null)
+                return 0;
             fixed(char* ptr = message)
-                return (int)ptr == 0 ? 0 : (int)SpookyHash.Hash32(ptr, ((long)message.Length) << 1, (uint)seed);
+                return (int)SpookyHash.Hash32(ptr, ((long)message.Length) << 1, (uint)seed);
         }
 
         /// <summary>Produces a 32-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
