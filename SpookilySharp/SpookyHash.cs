@@ -70,7 +70,7 @@ namespace SpookilySharp
             }
             if (length < BufSize)
             {
-                Short(message, length, ref hash1, ref hash2);
+                Short(message, length, ref hash1, ref hash2, false);
                 return;
             }
             ulong h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
@@ -83,7 +83,7 @@ namespace SpookilySharp
 
             ulong* end = p64 + ((length / BlockSize) * NumVars);
             ulong* buf = stackalloc ulong[NumVars];
-            if(!AllowUnalignedRead && (((long)message) & 7) == 0)
+            if(AllowUnalignedRead || (((long)message) & 7) == 0)
             {
                 while (p64 < end)
                 { 
@@ -966,14 +966,14 @@ namespace SpookilySharp
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
             Justification = "More readable with the repeated blocks of the mixing.")]
-        private static unsafe void Short(void* message, long length, ref ulong hash1, ref ulong hash2)
+        private static unsafe void Short(void* message, long length, ref ulong hash1, ref ulong hash2, bool skipTest)
         {
             ulong* p64;
-            if(!AllowUnalignedRead && length != 0 && (((long)message) & 7) != 0)
+            if(!skipTest && !AllowUnalignedRead && length != 0 && (((long)message) & 7) != 0)
             {
                 ulong* buf = stackalloc ulong[2 * NumVars];
                 MemCpy(buf, message, length);
-                Short(buf, length, ref hash1, ref hash2);
+                Short(buf, length, ref hash1, ref hash2, true);
                 return;
             }
             else
@@ -1319,7 +1319,7 @@ namespace SpookilySharp
 
                 ulong* end = p64 + ((length / BlockSize) * NumVars);
                 byte remainder = (byte)(length - ((byte*)end - ((byte*)p64)));
-                if(!AllowUnalignedRead && (((long)message) & 7) == 0)
+                if(AllowUnalignedRead || (((long)message) & 7) == 0)
                     while (p64 < end)
                     { 
                         h0  += p64[0];  h2  ^= h10; h11 ^= h0;  h0 =  h0 << 11  | h0 >>  -11; h11 += h1;
@@ -1416,7 +1416,7 @@ namespace SpookilySharp
                 hash1 = _state0;
                 hash2 = _state1;
                 fixed(void* ptr = _data)
-                    Short(ptr, _length, ref hash1, ref hash2);
+                    Short(ptr, _length, ref hash1, ref hash2, false);
                 return;
             }
             ulong h0 = _state0;
