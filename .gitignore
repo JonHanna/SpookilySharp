@@ -13,4 +13,4 @@ TestNuGet/packages/**/*
 *.sdps
 StyleCop.Cache
 StyleCopViolations.xml
-/SpookilySharp/*.Settings
+*.Settings
