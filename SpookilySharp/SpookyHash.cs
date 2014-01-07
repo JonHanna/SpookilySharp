@@ -1098,6 +1098,7 @@ namespace SpookilySharp
 
         /// <summary>Updates the in-progress hash generation with a single byte.</summary>
         /// <param name="message">The data to add to the hash.</param>
+        [SecuritySafeCritical]
         public unsafe void Update(byte message)
         {
             if(_remainder + 1 < BufSize)
@@ -1121,6 +1122,7 @@ namespace SpookilySharp
         /// <summary>Updates the in-progress hash generation with a single unsigned 16-bit integer.</summary>
         /// <param name="message">The data to add to the hash.</param>
         [CLSCompliant(false)]
+        [SecuritySafeCritical]
         public unsafe void Update(ushort message)
         {
             if((AllowUnalignedRead || (_remainder & 1) == 0) && _remainder + 2 < BufSize)
@@ -1151,6 +1153,7 @@ namespace SpookilySharp
         /// <summary>Updates the in-progress hash generation with a single unsigned 32-bit integer.</summary>
         /// <param name="message">The data to add to the hash.</param>
         [CLSCompliant(false)]
+        [SecuritySafeCritical]
         public unsafe void Update(uint message)
         {
             if((AllowUnalignedRead || (_remainder & 3) == 0) && _remainder + 4 < BufSize)
@@ -1174,6 +1177,7 @@ namespace SpookilySharp
         /// <summary>Updates the in-progress hash generation with a single unsigned 64-bit integer.</summary>
         /// <param name="message">The data to add to the hash.</param>
         [CLSCompliant(false)]
+        [SecuritySafeCritical]
         public unsafe void Update(ulong message)
         {
             if((AllowUnalignedRead || (_remainder & 7) == 0) && _remainder + 8 < BufSize)
@@ -1197,6 +1201,7 @@ namespace SpookilySharp
         /// <summary>Updates the in-progress hash generation with a single double-precision floating-point number.</summary>
         /// <param name="message">The data to add to the hash.</param>
         [CLSCompliant(false)]
+        [SecuritySafeCritical]
         public unsafe void Update(double message)
         {
             if((AllowUnalignedRead || (_remainder & 7) == 0) && _remainder + 8 < BufSize)
@@ -1213,6 +1218,7 @@ namespace SpookilySharp
         /// <summary>Updates the in-progress hash generation with a single single-precision floating-point number.</summary>
         /// <param name="message">The data to add to the hash.</param>
         [CLSCompliant(false)]
+        [SecuritySafeCritical]
         public unsafe void Update(float message)
         {
             if((AllowUnalignedRead || (_remainder & 3) == 0) && _remainder + 4 < BufSize)
