@@ -227,6 +227,7 @@ namespace SpookyHashTesting
                 ConfirmGood(EqualityComparer<SelfGood>.Default);
                 ConfirmBad(EqualityComparer<SelfBadFromGood>.Default);
                 ConfirmGood(EqualityComparer<SelfGoodFromBad>.Default);
+                ConfirmBad(EqualityComparer<string>.Default);
             }
         }
         private void ConfirmBad<T>(IEqualityComparer<T> cmp)

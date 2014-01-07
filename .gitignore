@@ -13,4 +13,3 @@ TestNuGet/packages/**/*
 *.sdps
 StyleCop.Cache
 StyleCopViolations.xml
-*.Settings
