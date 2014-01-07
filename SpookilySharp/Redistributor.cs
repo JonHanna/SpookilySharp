@@ -37,7 +37,7 @@ namespace SpookilySharp
             Justification = "More readable with the repeated blocks of the mixing.")]
         public static uint Rehash(this uint message, uint seed)
         {
-            // Fast-track equivalent of calling SpookyHash.Hash32 with a uint, with all paths not taken by such values
+            // Fast-path equivalent of calling SpookyHash.Hash32 with a uint, with all paths not taken by such values
             // removed, all paths that don't affect the output removed, and the remaining code folded into constants or
             // shorter expressions, where possible.
             ulong c = SpookyHash.SpookyConst + message;
@@ -104,7 +104,7 @@ namespace SpookilySharp
             Justification = "More readable with the repeated blocks of the mixing.")]
         public static ulong Rehash(this ulong message, ulong seed)
         {
-            // Fast-track equivalent of calling SpookyHash.Hash64 with a ulong, with all paths not taken by such values
+            // Fast-path equivalent of calling SpookyHash.Hash64 with a ulong, with all paths not taken by such values
             // removed, all paths that don't affect the output removed, and the remaining code folded into constants or
             // shorter expressions, where possible.
             ulong c = SpookyHash.SpookyConst + message;
