@@ -472,8 +472,7 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static unsafe HashCode128 SpookyHash128(this Stream stream, long seed0, long seed1)
         {
-            if(stream == null)
-                throw new ArgumentNullException("stream");
+            stream.CheckNotNull();
             var hash = new SpookyHash(seed0, seed1);
             var buffer = new byte[4096];
             fixed(void* ptr = buffer)

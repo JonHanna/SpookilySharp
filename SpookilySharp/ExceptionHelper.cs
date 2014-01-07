@@ -14,7 +14,7 @@
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
 using System;
-using System.Runtime.Remoting.Messaging;
+using System.IO;
 
 namespace SpookilySharp
 {
@@ -82,6 +82,11 @@ namespace SpookilySharp
         {
             if(message == null)
                 throw new ArgumentNullException("message");
+        }
+        public static void CheckNotNull(this Stream stream)
+        {
+            if(stream == null)
+                throw new ArgumentNullException("stream");
         }
     }
 }
