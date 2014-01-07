@@ -54,7 +54,7 @@ namespace SpookilySharp
         private class WellDistributedEqualityComparer<T> : IEqualityComparer<T>
         {
             private readonly IEqualityComparer<T> _cmp;
-            internal WellDistributedEqualityComparer(IEqualityComparer<T> comparer)
+            public WellDistributedEqualityComparer(IEqualityComparer<T> comparer)
             {
                 _cmp = comparer;
             }
@@ -74,7 +74,7 @@ namespace SpookilySharp
         /// Returns a version of <paramref name="comparer"/> that provides strong distribution of bits in its hash codes.
         /// </summary>
         /// <returns>An <see cref="IEqualityComparer{T}"/> based on <paramref name="comparer"/>, or
-        /// <paramref name="comparer"/> if its implementation of <see cref="IEqualityComparer{T}.GetHashCode(T)"/> is
+        /// <paramref name="comparer"/> if its implementation of <see cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/> is
         /// marked with <see cref="WellDistributedHashAttribute"/>, indicating it already provides a strong distribution.</returns>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> to improve.</param>
         /// <typeparam name="T">The type of objects compared by <paramref name="comparer"/>.</typeparam>
@@ -83,6 +83,8 @@ namespace SpookilySharp
         /// section of bits, e.g. with power-of-two hash tables.</remarks>
         public static IEqualityComparer<T> WellDistributed<T>(this IEqualityComparer<T> comparer)
         {
+            if(typeof(T) == typeof(string) && EqualityComparer<string>.Default.Equals(comparer))
+                return (IEqualityComparer<T>)new SpookyStringEqualityComparer();
             return IsGood<T>(comparer) ? comparer : new WellDistributedEqualityComparer<T>(comparer);
         }
 

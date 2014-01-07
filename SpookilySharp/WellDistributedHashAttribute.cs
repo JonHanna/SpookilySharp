@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace SpookilySharp
 {
-    /// <summary>Marks an implementation of <see cref="IEqualityComparer{T}.GetHashCode(T)"/> or an override of
+    /// <summary>Marks an implementation of <see cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/> or an override of
     /// <see cref="object.GetHashCode()"/> as being known to distribute bits well in its implementation of hash
     /// codes.</summary>
     /// <remarks>When such a method is used by an <see cref="IEqualityComparer{T}"/>, whether as the implementation of
