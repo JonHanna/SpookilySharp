@@ -14,6 +14,7 @@
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
 using System;
+using System.Runtime.Remoting.Messaging;
 
 namespace SpookilySharp
 {
@@ -76,6 +77,11 @@ namespace SpookilySharp
                 StartIndexOutOfRange();
             if(startIndex + length > message.Length)
                 PastStringBounds();
+        }
+        public static void CheckMessageNotNull<T>(T message) where T : class
+        {
+            if(message == null)
+                throw new ArgumentNullException("message");
         }
     }
 }

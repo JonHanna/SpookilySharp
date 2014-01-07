@@ -1040,8 +1040,7 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         public void Update(byte[] message)
         {
-            if(message == null)
-                throw new ArgumentNullException("message");
+            ExceptionHelper.CheckMessageNotNull(message);
             Update(message, 0, message.Length);
         }
 
@@ -1067,8 +1066,7 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         public void Update(char[] message)
         {
-            if(message == null)
-                throw new ArgumentNullException("message");
+            ExceptionHelper.CheckMessageNotNull(message);
             Update(message, 0, message.Length);
         }
 
@@ -1094,8 +1092,7 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         public void Update(string message)
         {
-            if(message == null)
-                throw new ArgumentNullException("message");
+            ExceptionHelper.CheckMessageNotNull(message);
             Update(message, 0, message.Length);
         }
 
