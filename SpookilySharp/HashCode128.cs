@@ -235,6 +235,7 @@ namespace SpookilySharp
         /// such as a hash table.</returns>
         /// <remarks>This code is the same as that which would have been returned by the 32-bit hashing
         /// methods.</remarks>
+        [WellDistributedHash] // ironically not really true if you create this struct any way other than as the result of a good hash operation in the first place.
         public override int GetHashCode()
         {
             return unchecked((int)_hash1);
