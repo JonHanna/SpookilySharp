@@ -404,7 +404,6 @@ namespace SpookilySharp
             }
             if(length >= 8)
             {
-                //Copy 64-bit chunks in 64-bit process, 32-bit chunks in 32-bit process. 
                 var dl = (long*)dest;
                 var sl = (long*)source;
                 long rem = length >> 3;
@@ -972,7 +971,7 @@ namespace SpookilySharp
         private ulong _state0, _state1, _state2, _state3, _state4, _state5,
             _state6, _state7, _state8, _state9, _state10, _state11;
         private long _length;
-        private byte _remainder;
+        private long _remainder;
 
         /// <summary>Initialises a new instance of the <see cref="SpookyHash"/> class with a default seed
         /// value.</summary>
@@ -1100,6 +1099,136 @@ namespace SpookilySharp
             Update(message, 0, message.Length);
         }
 
+        /// <summary>Updates the in-progress hash generation with a single byte.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        public unsafe void Update(byte message)
+        {
+            if(_remainder + 1 < BufSize)
+            {
+                fixed(ulong* uptr = _data)
+                    ((byte*)uptr)[_remainder++] = message;
+                ++_length;
+            }
+            else
+                Update(&message, 1);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single signed byte.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        [CLSCompliant(false)]
+        public void Update(sbyte message)
+        {
+            Update((byte)message);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single unsigned 16-bit integer.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        [CLSCompliant(false)]
+        public unsafe void Update(ushort message)
+        {
+            if((AllowUnalignedRead || (_remainder & 1) == 0) && _remainder + 2 < BufSize)
+            {
+                fixed(ulong* uptr = _data)
+                    *(ushort*)((byte*)uptr + _remainder) = message;
+                _length += 2;
+                _remainder += 2;
+            }
+            else
+                Update(&message, 2);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single signed 16-bit integer.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        public void Update(short message)
+        {
+            Update((ushort)message);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single character.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        public void Update(char message)
+        {
+            Update((ushort)message);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single unsigned 32-bit integer.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        [CLSCompliant(false)]
+        public unsafe void Update(uint message)
+        {
+            if((AllowUnalignedRead || (_remainder & 3) == 0) && _remainder + 4 < BufSize)
+            {
+                fixed(ulong* uptr = _data)
+                    *(uint*)((byte*)uptr + _remainder) = message;
+                _length += 4;
+                _remainder += 4;
+            }
+            else
+                Update(&message, 4);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single signed 32-bit integer.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        public void Update(int message)
+        {
+            Update((uint)message);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single unsigned 64-bit integer.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        [CLSCompliant(false)]
+        public unsafe void Update(ulong message)
+        {
+            if((AllowUnalignedRead || (_remainder & 7) == 0) && _remainder + 8 < BufSize)
+            {
+                fixed(ulong* uptr = _data)
+                    *(ulong*)((byte*)uptr + _remainder) = message;
+                _length += 8;
+                _remainder += 8;
+            }
+            else
+                Update(&message, 8);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single signed 64-bit integer.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        public void Update(long message)
+        {
+            Update((ulong)message);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single double-precision floating-point number.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        [CLSCompliant(false)]
+        public unsafe void Update(double message)
+        {
+            if((AllowUnalignedRead || (_remainder & 7) == 0) && _remainder + 8 < BufSize)
+            {
+                fixed(ulong* uptr = _data)
+                    *(double*)((byte*)uptr + _remainder) = message;
+                _length += 8;
+                _remainder += 8;
+            }
+            else
+                Update(&message, 8);
+        }
+
+        /// <summary>Updates the in-progress hash generation with a single single-precision floating-point number.</summary>
+        /// <param name="message">The data to add to the hash.</param>
+        [CLSCompliant(false)]
+        public unsafe void Update(float message)
+        {
+            if((AllowUnalignedRead || (_remainder & 3) == 0) && _remainder + 4 < BufSize)
+            {
+                fixed(ulong* uptr = _data)
+                    *(float*)((byte*)uptr + _remainder) = message;
+                _length += 4;
+                _remainder += 4;
+            }
+            else
+                Update(&message, 4);
+        }
+
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
         /// <param name="message">Pointer to the data to hash.</param>
         /// <param name="length">How many bytes to hash.</param>
@@ -1123,7 +1252,7 @@ namespace SpookilySharp
                 fixed(ulong* uptr = _data)
                     MemCpy(((byte*)uptr) + _remainder, message, length);
                 _length = length + _length;
-                _remainder = (byte)newLength;
+                _remainder = newLength;
                 return;
             }
             if (_length < BufSize)
@@ -1154,7 +1283,7 @@ namespace SpookilySharp
             {
                 if (_remainder != 0)
                 {
-                    byte prefix = (byte)(BufSize - _remainder);
+                    long prefix = BufSize - _remainder;
                     MemCpy((byte*)p64Fixed + _remainder, message, prefix);
 
                     h0  += p64Fixed[0];  h2  ^= h10; h11 ^= h0;  h0 =  h0 << 11  | h0 >>  -11; h11 += h1;
@@ -1305,7 +1434,7 @@ namespace SpookilySharp
             fixed(ulong* dataFixed = _data)
             {
                 ulong* data = dataFixed;
-                byte remainder = _remainder;
+                long remainder = _remainder;
                 if (remainder >= BlockSize)
                 {
                     h0 += data[0];   h2  ^= h10; h11 ^= h0;  h0 = h0   << 11 | h0  >> -11; h11 += h1;
@@ -1321,10 +1450,10 @@ namespace SpookilySharp
                     h10 += data[10]; h0  ^= h8;  h9  ^= h10; h10 = h10 << 22 | h10 >> -22; h9 += h11;
                     h11 += data[11]; h1  ^= h9;  h10 ^= h11; h11 = h11 << 46 | h11 >> -46; h10 += h0;
                     data += NumVars;
-                    remainder = (byte)(remainder - BlockSize);
+                    remainder = remainder - BlockSize;
                 }
                 MemZero(((byte*)data) + remainder, BlockSize - remainder);
-                *((byte*)data + BlockSize - 1) = remainder;
+                *((byte*)data + BlockSize - 1) = (byte)remainder;
                 h0 += data[0];  h1 += data[1];  h2  += data[2];  h3  += data[3];
                 h4 += data[4];  h5 += data[5];  h6  += data[6];  h7  += data[7];
                 h8 += data[8];  h9 += data[9];  h10 += data[10]; h11 += data[11];

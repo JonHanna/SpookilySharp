@@ -351,5 +351,126 @@ namespace SpookyHashTesting
             Assert.AreEqual(hash, fromZL.Final());
             Assert.AreEqual(hash.ToString(), fromZL.Final().ToString());
 	    }
+        [Test]
+        public unsafe void UpdateWithByte()
+        {
+            byte val = 42;
+            var sh = new SpookyHash();
+            sh.Update((byte)42);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 1);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithSByte()
+        {
+            sbyte val = 42;
+            var sh = new SpookyHash();
+            sh.Update((sbyte)42);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 1);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithShort()
+        {
+            short val = 42;
+            var sh = new SpookyHash();
+            sh.Update((short)42);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 2);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithUShort()
+        {
+            ushort val = 42;
+            var sh = new SpookyHash();
+            sh.Update((ushort)42);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 2);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithInt()
+        {
+            int val = 42;
+            var sh = new SpookyHash();
+            sh.Update(42);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 4);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithUInt()
+        {
+            uint val = 42;
+            var sh = new SpookyHash();
+            sh.Update(42u);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 4);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithChar()
+        {
+            char val = 'x';
+            var sh = new SpookyHash();
+            sh.Update('x');
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 2);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithLong()
+        {
+            long val = 42;
+            var sh = new SpookyHash();
+            sh.Update(42L);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 8);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithULong()
+        {
+            ulong val = 42;
+            var sh = new SpookyHash();
+            sh.Update(42UL);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 8);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithDouble()
+        {
+            double val = 42;
+            var sh = new SpookyHash();
+            sh.Update(42d);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 8);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        public unsafe void UpdateWithSingle()
+        {
+            float val = 42;
+            var sh = new SpookyHash();
+            sh.Update(42f);
+            var h = sh.Final();
+            sh = new SpookyHash();
+            sh.Update(&val, 4);
+            Assert.AreEqual(h, sh.Final());
+        }
 	}
 }
