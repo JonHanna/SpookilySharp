@@ -82,7 +82,7 @@ namespace SpookilySharp
         [SecurityCritical]
         public static HashCode128 Hash128(IntPtr message, long length, long seed1, long seed2)
         {
-            return Hash128(message, length, (long)seed1, (long)seed2);
+            return Hash128(message, length, (ulong)seed1, (ulong)seed2);
         }
 
         /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
