@@ -1,4 +1,4 @@
-// ExceptionHelper.cs
+﻿// ExceptionHelper.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -65,18 +65,21 @@ namespace SpookilySharp
         
         public static void CheckArrayIncNull<T>(T[] message, int startIndex, int length)
         {
-            if(message == null)
-                throw new ArgumentNullException("message");
+            CheckMessageNotNull(message);
             CheckArray(message, startIndex, length);
+        }
+        private static void CheckBounds(string message, int startIndex, int length)
+        {
+            int len = message.Length;
+            if(startIndex < 0 || startIndex > len)
+                StartIndexOutOfRange();
+            if(startIndex + length > len)
+                PastStringBounds();
         }
         public static void CheckString(string message, int startIndex, int length)
         {
-            if(message == null)
-                throw new ArgumentNullException("message");
-            if(startIndex < 0 || startIndex > message.Length)
-                StartIndexOutOfRange();
-            if(startIndex + length > message.Length)
-                PastStringBounds();
+            CheckMessageNotNull(message);
+            CheckBounds(message, startIndex, length);
         }
         public static void CheckMessageNotNull<T>(T message) where T : class
         {
