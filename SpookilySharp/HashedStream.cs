@@ -206,42 +206,42 @@ namespace SpookilySharp
             set { _backing.WriteTimeout = value; }
         }
 
-        /// <summary>Gets the current 128-bite hash of what has been written so far.</summary>
+        /// <summary>Gets the current 128-bit hash of what has been written so far.</summary>
         /// <value>The hash, so far.</value>
         public HashCode128 WriteHash
         {
             get { return _written.Final(); }
         }
 
-        /// <summary>Gets the current 64-bite hash of what has been written so far.</summary>
+        /// <summary>Gets the current 64-bit hash of what has been written so far.</summary>
         /// <value>The hash, so far.</value>
         public long WriteHash64
         {
             get { return WriteHash.Hash1; }
         }
 
-        /// <summary>Gets the current 32-bite hash of what has been written so far.</summary>
+        /// <summary>Gets the current 32-bit hash of what has been written so far.</summary>
         /// <value>The hash, so far.</value>
         public int WriteHash32
         {
             get { return (int)WriteHash.Hash1; }
         }
 
-        /// <summary>Gets the current 128-bite hash of what has been read so far.</summary>
+        /// <summary>Gets the current 128-bit hash of what has been read so far.</summary>
         /// <value>The hash, so far.</value>
         public HashCode128 ReadHash
         {
             get { return _read.Final(); }
         }
 
-        /// <summary>Gets the current 64-bite hash of what has been read so far.</summary>
+        /// <summary>Gets the current 64-bit hash of what has been read so far.</summary>
         /// <value>The hash, so far.</value>
         public long ReadHash64
         {
             get { return ReadHash.Hash1; }
         }
 
-        /// <summary>Gets the current 32-bite hash of what has been read so far.</summary>
+        /// <summary>Gets the current 32-bit hash of what has been read so far.</summary>
         /// <value>The hash, so far.</value>
         public int ReadHash32
         {
