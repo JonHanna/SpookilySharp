@@ -76,12 +76,12 @@ namespace SpookilySharp
         }
 
         /// <summary>Tries to parse a <see cref="HashCode128"/> from a string.</summary>
-        /// <returns><c>true</c>, if <paramref name="s"/> was converted successfully; otherwise <c>false</c>.</returns>
+        /// <returns><see langword="true"/>, if <paramref name="s"/> was converted successfully; otherwise <see langword="false"/>.</returns>
         /// <param name="s">A <see cref="string"/> containing the hash code to convert.</param>
         /// <param name="result">The 128-bit has code parsed from the string, or <see cref="HashCode128.Zero"/> if
         /// the parsing was unsuccessful.</param>
         /// <remarks>The value passed to <paramref name="s"/> must be a 16-digit hexadecimal number for this to succeed.
-        /// Leading, trailing and contained whitespace is allowed. A leading <c>0X</c> is permitted, but not required.
+        /// Leading, trailing and contained whitespace is allowed. A leading <c>0x</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "Mirrors BCL types.")]
@@ -185,7 +185,7 @@ namespace SpookilySharp
         /// <exception cref="FormatException"><paramref name="s"/> did not contain a 16-digit hexadecimal
         /// number.</exception> 
         /// <remarks>The value passed to <paramref name="s"/> must be a 16-digit hexadecimal number for this to succeed.
-        /// Leading, trailing and contained whitespace is allowed. A leading <c>0X</c> is permitted, but not required.
+        /// Leading, trailing and contained whitespace is allowed. A leading <c>0x</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
             Justification = "Mirrors BCL types.")]
@@ -201,8 +201,8 @@ namespace SpookilySharp
         /// <summary>Determines whether two <see cref="HashCode128"/> instances are equal.</summary>
         /// <param name="x">The first <see cref="HashCode128"/> instance to compare.</param>
         /// <param name="y">The second <see cref="HashCode128"/> instance to compare.</param>
-        /// <returns><c>true</c> if the two <see cref="HashCode128"/> instances are equal; otherwise,
-        /// <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the two <see cref="HashCode128"/> instances are equal; otherwise,
+        /// <see langword="false"/>.</returns>
         public static bool operator ==(HashCode128 x, HashCode128 y)
         {
             return x.Equals(y);
@@ -211,30 +211,22 @@ namespace SpookilySharp
         /// <summary>Determines whether two <see cref="HashCode128"/> instances are different.</summary>
         /// <param name="x">The first <see cref="HashCode128"/> instance to compare.</param>
         /// <param name="y">The second <see cref="HashCode128"/> instance to compare.</param>
-        /// <returns><c>true</c> if the two <see cref="HashCode128"/> instances are different; otherwise,
-        /// <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the two <see cref="HashCode128"/> instances are different; otherwise,
+        /// <see langword="false"/>.</returns>
         public static bool operator !=(HashCode128 x, HashCode128 y)
         {
             return !x.Equals(y);
         }
 
-        /// <summary>
-        /// Determines whether the specified <see cref="HashCode128"/> is equal to the current <see cref="HashCode128"/>.
-        /// </summary>
-        /// <param name="other">The <see cref="HashCode128"/> to compare with the current
-        /// <see cref="HashCode128"/>.</param>
-        /// <returns><c>true</c> if the specified <see cref="HashCode128"/> is equal to the current
-        /// <see cref="HashCode128"/>; otherwise, <c>false</c>.</returns>
+        /// <inheritdoc/>
+        /// <remarks>Considers itself equal to an equal <see cref="HashCode128"/> instance, and to nothing
+        /// else.</remarks>
         public bool Equals(HashCode128 other)
         {
             return _hash1 == other._hash1 && _hash2 == other._hash2;
         }
 
-        /// <summary>Serves as a hash function for a <see cref="SpookilySharp.HashCode128"/> object.</summary>
-        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures
-        /// such as a hash table.</returns>
-        /// <remarks>This code is the same as that which would have been returned by the 32-bit hashing
-        /// methods.</remarks>
+        /// <inheritdoc/>
         [WellDistributedHash] // ironically not really true if you create this struct any way other than as the result of a good hash operation in the first place.
         public override int GetHashCode()
         {
@@ -244,8 +236,8 @@ namespace SpookilySharp
         /// <summary>Determines whether the specified <see cref="object"/> is equal to the current
         /// <see cref="HashCode128"/>.</summary>
         /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="HashCode128"/>.</param>
-        /// <returns><c>true</c> if the specified <see cref="object"/> is a boxed <see cref="HashCode128"/> with the
-        /// same value as the current; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the specified <see cref="object"/> is a boxed <see cref="HashCode128"/> with the
+        /// same value as the current; otherwise, <see langword="false"/>.</returns>
         public override bool Equals(object obj)
         {
             if(obj is HashCode128)
