@@ -1,4 +1,4 @@
-// HashedStream.cs
+﻿// HashedStream.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -71,7 +71,7 @@ namespace SpookilySharp
         {
         }
 
-        /// <summary>Initialises a new instance of the <see cref="SpookilySharp.HashedStream"/> class.</summary>
+        /// <summary>Initialises a new instance of the <see cref="SpookilySharp.HashedStream"/> class with a default seed.</summary>
         /// <param name="stream">The stream to read.</param>
         public HashedStream(Stream stream)
         {
@@ -81,43 +81,38 @@ namespace SpookilySharp
             _written = new SpookyHash();
         }
 
-        /// <summary>Gets a value indicating whether this instance can read.</summary>
-        /// <value><c>true</c> if this instance can read; otherwise, <c>false</c>.</value>
+        /// <inheritdoc/>
         public override bool CanRead
         {
             get { return _backing.CanRead; }
         }
 
-        /// <summary>Gets a value indicating whether this instance can seek.</summary>
-        /// <value><c>true</c> if this instance can seek; otherwise, <c>false</c>.</value>
+        /// <inheritdoc/>
         public override bool CanSeek
         {
             get { return _backing.CanSeek; }
         }
 
-        /// <summary>Gets a value indicating whether this instance can timeout.</summary>
-        /// <value><c>true</c> if this instance can timeout; otherwise, <c>false</c>.</value>
+        /// <inheritdoc/>
         public override bool CanTimeout
         {
             get { return _backing.CanTimeout; }
         }
 
-        /// <summary>Gets a value indicating whether this instance can write.</summary>
-        /// <value><c>true</c> if this instance can write; otherwise, <c>false</c>.</value>
+        /// <inheritdoc/>
         public override bool CanWrite
         {
             get { return _backing.CanWrite; }
         }
 
-        /// <summary>Closes the stream.</summary>
+        /// <inheritdoc/>
         public override void Close()
         {
             base.Close();
             _backing.Close();
         }
 
-        /// <summary>Dispose the specified disposing.</summary>
-        /// <param name="disposing">If set to <c>true</c> disposing, otherwise finalising.</param>
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -125,21 +120,19 @@ namespace SpookilySharp
                 _backing.Dispose();
         }
 
-        /// <summary>Flush the stream.</summary>
+        /// <inheritdoc/>
         public override void Flush()
         {
             _backing.Flush();
         }
 
-        /// <summary>Gets the length of the stream.</summary>
-        /// <value>The length.</value>
+        /// <inheritdoc/>
         public override long Length
         {
             get { return _backing.Length; }
         }
 
-        /// <summary>Gets or sets the position within the stream.</summary>
-        /// <value>The position.</value>
+        /// <inheritdoc/>
         public override long Position
         {
             get
@@ -153,11 +146,7 @@ namespace SpookilySharp
             }
         }
 
-        /// <summary>Read the specified <paramref name="count"/> number of bytes, into <paramref name="buffer"/>, starting at <paramref name="offset"/>.</summary>
-        /// <param name="buffer">The array to read into.</param>
-        /// <param name="offset">The position within <paramref name="buffer"/> to copy bytes into.</param>
-        /// <param name="count">The maximum number of bytes to read.</param>
-        /// <returns>The number of bytes actually read.</returns>
+        /// <inheritdoc/>
         public override int Read(byte[] buffer, int offset, int count)
         {
             count = _backing.Read(buffer, offset, count);
@@ -165,8 +154,7 @@ namespace SpookilySharp
             return count;
         }
 
-        /// <summary>Reads a single byte.</summary>
-        /// <returns>The byte's value, or <c>-1</c> if at the end of the stream.</returns>
+        /// <inheritdoc/>
         public override int ReadByte()
         {
             int ret = _backing.ReadByte();
@@ -175,18 +163,14 @@ namespace SpookilySharp
             return ret;
         }
 
-        /// <summary>Gets or sets the read timeout.</summary>
-        /// <value>The read timeout.</value>
+        /// <inheritdoc/>
         public override int ReadTimeout
         {
             get { return _backing.ReadTimeout; }
             set { _backing.ReadTimeout = value; }
         }
 
-        /// <summary>Seek to a position within the stream.</summary>
-        /// <param name="offset">Offset to seek to.</param>
-        /// <param name="origin">Position from which to seek.</param>
-        /// <returns>The new position within the stream.</returns>
+        /// <inheritdoc/>
         public override long Seek(long offset, SeekOrigin origin)
         {
             long ret = _backing.Seek(offset, origin);
@@ -194,38 +178,28 @@ namespace SpookilySharp
             return ret;
         }
 
-        /// <summary>
-        /// Sets the length of the stream.
-        /// </summary>
-        /// <param name="value">The new length.</param>
+        /// <inheritdoc/>
         public override void SetLength(long value)
         {
             _backing.SetLength(value);
             _moved = true;
         }
 
-        /// <summary>
-        /// Write the specified <paramref name="count"/> of bytes from <paramref name="buffer"/>, starting from <paramref name="offset"/>, into the stream.
-        /// </summary>
-        /// <param name="buffer">Buffer to write from.</param>
-        /// <param name="offset">Offset within buffer, to write from.</param>
-        /// <param name="count">Number of bytes to write.</param>
+        /// <inheritdoc/>
         public override void Write(byte[] buffer, int offset, int count)
         {
             _backing.Write(buffer, offset, count);
             _written.Update(buffer, offset, count);
         }
 
-        /// <summary>Write a single byte into the stream.</summary>
-        /// <param name="value">The byte to write.</param>
+        /// <inheritdoc/>
         public override void WriteByte(byte value)
         {
             _backing.WriteByte(value);
             _written.Update(value);
         }
 
-        /// <summary>Gets or sets the write timeout.</summary>
-        /// <value>The write timeout.</value>
+        /// <inheritdoc/>
         public override int WriteTimeout
         {
             get { return _backing.WriteTimeout; }
