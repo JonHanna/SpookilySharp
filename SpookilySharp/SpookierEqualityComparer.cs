@@ -22,9 +22,7 @@ using System.Reflection;
 // Analysis disable MemberHidesStaticFromOuterClass
 namespace SpookilySharp
 {
-    /// <summary>
-    /// Improves the bit distribution of equality comparers.
-    /// </summary>
+    /// <summary>Improves the bit distribution of equality comparers.</summary>
     public static class SpookierEqualityComparers
     {
         // Note that this store is segregated by the type of the comparer interface
@@ -51,7 +49,7 @@ namespace SpookilySharp
             }
         }
 
-        private class WellDistributedEqualityComparer<T> : IEqualityComparer<T>
+        private sealed class WellDistributedEqualityComparer<T> : IEqualityComparer<T>
         {
             private readonly IEqualityComparer<T> _cmp;
             public WellDistributedEqualityComparer(IEqualityComparer<T> comparer)
