@@ -1,4 +1,4 @@
-﻿// WellDistributedHashAttributeTests.cs
+// WellDistributedHashAttributeTests.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
