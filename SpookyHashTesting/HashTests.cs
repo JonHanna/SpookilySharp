@@ -1,4 +1,4 @@
-// Test.cs
+﻿// Test.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -361,6 +361,15 @@ namespace SpookyHashTesting
             sh = new SpookyHash();
             sh.Update(&val, 1);
             Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update((byte)0);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new byte[200];
+            fixed(byte* ptr = arr)
+                sh.Update(ptr, 200);
+            Assert.AreEqual(h, sh.Final());
         }
         [Test]
         public unsafe void UpdateWithSByte()
@@ -371,6 +380,15 @@ namespace SpookyHashTesting
             var h = sh.Final();
             sh = new SpookyHash();
             sh.Update(&val, 1);
+            Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update((sbyte)0);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new sbyte[200];
+            fixed(sbyte* ptr = arr)
+                sh.Update(ptr, 200);
             Assert.AreEqual(h, sh.Final());
         }
         [Test]
@@ -383,6 +401,15 @@ namespace SpookyHashTesting
             sh = new SpookyHash();
             sh.Update(&val, 2);
             Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update((short)0);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new short[200];
+            fixed(short* ptr = arr)
+                sh.Update(ptr, 400);
+            Assert.AreEqual(h, sh.Final());
         }
         [Test]
         public unsafe void UpdateWithUShort()
@@ -393,6 +420,15 @@ namespace SpookyHashTesting
             var h = sh.Final();
             sh = new SpookyHash();
             sh.Update(&val, 2);
+            Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update((ushort)0);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new ushort[200];
+            fixed(ushort* ptr = arr)
+                sh.Update(ptr, 400);
             Assert.AreEqual(h, sh.Final());
         }
         [Test]
@@ -405,6 +441,15 @@ namespace SpookyHashTesting
             sh = new SpookyHash();
             sh.Update(&val, 4);
             Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update(0);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new int[200];
+            fixed(int* ptr = arr)
+                sh.Update(ptr, 800);
+            Assert.AreEqual(h, sh.Final());
         }
         [Test]
         public unsafe void UpdateWithUInt()
@@ -415,6 +460,15 @@ namespace SpookyHashTesting
             var h = sh.Final();
             sh = new SpookyHash();
             sh.Update(&val, 4);
+            Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update(0u);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new uint[200];
+            fixed(uint* ptr = arr)
+                sh.Update(ptr, 800);
             Assert.AreEqual(h, sh.Final());
         }
         [Test]
@@ -427,6 +481,15 @@ namespace SpookyHashTesting
             sh = new SpookyHash();
             sh.Update(&val, 2);
             Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update('\0');
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new char[200];
+            fixed(char* ptr = arr)
+                sh.Update(ptr, 400);
+            Assert.AreEqual(h, sh.Final());
         }
         [Test]
         public unsafe void UpdateWithLong()
@@ -437,6 +500,15 @@ namespace SpookyHashTesting
             var h = sh.Final();
             sh = new SpookyHash();
             sh.Update(&val, 8);
+            Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update(0L);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new long[200];
+            fixed(long* ptr = arr)
+                sh.Update(ptr, 1600);
             Assert.AreEqual(h, sh.Final());
         }
         [Test]
@@ -449,6 +521,15 @@ namespace SpookyHashTesting
             sh = new SpookyHash();
             sh.Update(&val, 8);
             Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update(0UL);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new ulong[200];
+            fixed(ulong* ptr = arr)
+                sh.Update(ptr, 1600);
+            Assert.AreEqual(h, sh.Final());
         }
         [Test]
         public unsafe void UpdateWithDouble()
@@ -459,6 +540,15 @@ namespace SpookyHashTesting
             var h = sh.Final();
             sh = new SpookyHash();
             sh.Update(&val, 8);
+            Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update(0d);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new double[200];
+            fixed(double* ptr = arr)
+                sh.Update(ptr, 1600);
             Assert.AreEqual(h, sh.Final());
         }
         [Test]
@@ -471,6 +561,105 @@ namespace SpookyHashTesting
             sh = new SpookyHash();
             sh.Update(&val, 4);
             Assert.AreEqual(h, sh.Final());
+            sh = new SpookyHash();
+            for(int i = 0; i != 200; ++i)
+                sh.Update(0f);
+            h = sh.Final();
+            sh = new SpookyHash();
+            var arr = new float[200];
+            fixed(float* ptr = arr)
+                sh.Update(ptr, 800);
+            Assert.AreEqual(h, sh.Final());
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullByteArrayUpdate()
+        {
+            new SpookyHash().Update((byte[])null);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullStringUpdate()
+        {
+            new SpookyHash().Update((string)null);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullCharArrayUpdate()
+        {
+            new SpookyHash().Update((char[])null);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullByteArrayWithLength()
+        {
+            new SpookyHash().Update((byte[])null, 0, 0);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullStringWithLength()
+        {
+            new SpookyHash().Update((string)null, 0, 0);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullCharArrayWithLength()
+        {
+            new SpookyHash().Update((char[])null, 0, 0);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeOffestChar()
+        {
+            new SpookyHash().Update(new char[0], -1, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeOffestByte()
+        {
+            new SpookyHash().Update(new byte[0], -1, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeOffestString()
+        {
+            new SpookyHash().Update("", -1, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ExcessiveOffestChar()
+        {
+            new SpookyHash().Update(new char[0], 40, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ExcessiveOffestByte()
+        {
+            new SpookyHash().Update(new byte[0], 40, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ExcessiveOffestString()
+        {
+            new SpookyHash().Update("", 40, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ExcessiveLengthChar()
+        {
+            new SpookyHash().Update(new char[0], 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ExcessiveLengthByte()
+        {
+            new SpookyHash().Update(new byte[0], 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void ExcessiveLengthString()
+        {
+            new SpookyHash().Update("", 0, 2);
         }
 	}
 }

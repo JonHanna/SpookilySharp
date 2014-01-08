@@ -1,4 +1,4 @@
-// EqualityComparerTests.cs
+﻿// EqualityComparerTests.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -72,6 +72,63 @@ namespace SpookyHashTesting
                     Assert.IsTrue(eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i)));
                 }
             }
+        }
+        [Test]
+        public void NullsAndReferencesCorrect()
+        {
+            var str = "abcdefg";
+            var arr = "abcdefg".ToCharArray();
+            char[] nulArr = null;
+            string nulStr = null; 
+            var eq = new SpookyStringEqualityComparer();
+            Assert.True(eq.Equals(arr, arr));
+            Assert.True(eq.Equals(nulStr, nulStr));
+            Assert.True(eq.Equals(nulStr, nulArr));
+            Assert.True(eq.Equals(nulArr, nulStr));
+            Assert.True(eq.Equals(nulArr, nulArr));
+            Assert.False(eq.Equals(arr, nulArr));
+            Assert.False(eq.Equals(nulArr, arr));
+            Assert.False(eq.Equals(arr, nulStr));
+            Assert.False(eq.Equals(nulStr, arr));
+            Assert.False(eq.Equals(nulStr, str));
+            Assert.False(eq.Equals(str, nulStr));
+            Assert.False(eq.Equals(str, nulArr));
+        }
+        [Test]
+        public void SelfEquals()
+        {
+            var eq = new SpookyStringEqualityComparer(42);
+            var eqX = new SpookyStringEqualityComparer(42);
+            Assert.True(object.Equals(eq, eqX));
+            var hset = new HashSet<SpookyStringEqualityComparer>();
+            hset.Add(new SpookyStringEqualityComparer());
+            Assert.True(hset.Add(eq));
+            Assert.False(hset.Add(eqX));
+        }
+        [Test]
+        public void NotEvenClose()
+        {
+            string x = "a";
+            string y = "It was the best of times, it was the worse of times";
+            var eq = new SpookyStringEqualityComparer();
+            Assert.False(eq.Equals(x, y));
+            Assert.False(eq.Equals(x, y.ToCharArray()));
+            Assert.False(eq.Equals(x.ToCharArray(), y));
+            Assert.False(eq.Equals(x.ToCharArray(), y.ToCharArray()));
+        }
+        [Test]
+        public void RollAlong()
+        {
+            var x = new char[65];
+            var y = new char[65];
+            var eq = new SpookyStringEqualityComparer();
+            for(int i = 0; i != x.Length; ++i)
+            {
+                x[i] = (char)(i + (int)'a');
+                Assert.False(eq.Equals(x, y));
+                y[i] = (char)(i + (int)'a');
+            }
+            Assert.True(eq.Equals(x, y));
         }
     }
 }

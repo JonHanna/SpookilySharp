@@ -63,6 +63,7 @@
     <Compile Include="HashTests.cs" />
     <Compile Include="IncrementalTest.cs" />
     <Compile Include="Hash128Tests.cs" />
+    <Compile Include="StreamTests.cs" />
     <Compile Include="WellDistributedHashAttributeTests.cs" />
   </ItemGroup>
   <ItemGroup>
