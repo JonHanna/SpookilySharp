@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Security;
 
 namespace SpookilySharp
@@ -251,20 +250,15 @@ namespace SpookilySharp
             return other != null && other._seed == _seed;
         }
 
-        /// <summary>Determines whether the specified <see cref="object"/> is equal to the current
-        /// <see cref="SpookyStringEqualityComparer"/>.</summary>
-        /// <param name="obj">The <see cref="object"/> to compare with the current
-        /// <see cref="SpookyStringEqualityComparer"/>.</param>
-        /// <returns><c>true</c> if the specified <see cref="object"/> is a <see cref="SpookyStringEqualityComparer"/>
-        /// equal to the current <see cref="SpookyStringEqualityComparer"/>; otherwise, <c>false</c>.</returns>
+        /// <inheritdoc/>
+        /// <remarks>Considers itself equal to an equal <see cref="SpookyStringEqualityComparer"/> instance, and to
+        /// nothing else.</remarks>
         public override bool Equals(object obj)
         {
             return Equals(obj as SpookyStringEqualityComparer);
         }
 
-        /// <summary>Serves as a hash function for a <see cref="SpookyStringEqualityComparer"/> object.</summary>
-        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures
-        /// such as a hash table.</returns>
+        /// <inheritdoc/>
         [WellDistributedHash]
         public override int GetHashCode()
         {
