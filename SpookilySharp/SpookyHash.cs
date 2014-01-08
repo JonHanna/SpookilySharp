@@ -1,4 +1,4 @@
-﻿// SpookyHash.cs
+// SpookyHash.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -22,6 +22,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Security;
+using System.Text.RegularExpressions;
 
 namespace SpookilySharp
 {
@@ -34,6 +35,9 @@ namespace SpookilySharp
         private const long BlockSize = NumVars * 8;
         private const long BufSize = 2 * BlockSize;
         private static readonly bool AllowUnalignedRead = AttemptDetectAllowUnalignedRead();
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "Many exceptions possible, all of them survivable.")]
+        [ExcludeFromCodeCoverage]
         private static bool AttemptDetectAllowUnalignedRead()
         {
             switch(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE"))
@@ -42,8 +46,20 @@ namespace SpookilySharp
                 case "AMD64": // Known to tolerate unaligned-reads well.
                     return true;
             }
-            return FindAlignSafetyFromUname();
+            // Analysis disable EmptyGeneralCatchClause
+            try
+            {
+                return FindAlignSafetyFromUname();
+            }
+            catch
+            {
+                return false;
+            }
         }
+        [SecuritySafeCritical]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "Many exceptions possible, all of them survivable.")]
+        [ExcludeFromCodeCoverage]
         private static bool FindAlignSafetyFromUname()
         {
             var startInfo = new ProcessStartInfo("uname", "-p");
@@ -75,7 +91,6 @@ namespace SpookilySharp
                     }
                 }
             }
-            // Analysis disable EmptyGeneralCatchClause
             catch
             {
                 // We don't care why we failed, as there are many possible reasons, and they all amount
@@ -105,9 +120,7 @@ namespace SpookilySharp
                             case "x64":
                                 return true; // Known to tolerate unaligned-reads well.
                             default:
-                                if(trimmed.Contains("i686") || trimmed.Contains("i386"))
-                                    return true;
-                                return false;
+                                return new Regex(@"i\d86").IsMatch(trimmed);
                         }
                     }
                 }
@@ -300,6 +313,7 @@ namespace SpookilySharp
             hash2 = h1;
         }
         [SecurityCritical]
+        [ExcludeFromCodeCoverage]
         private static unsafe void MemCpy32Aligned(void* dest, void* source, long length)
         {
             if(length >= 4)
@@ -383,6 +397,7 @@ namespace SpookilySharp
             }
         }
         [SecurityCritical]
+        [ExcludeFromCodeCoverage]
         private static unsafe void MemCpy16Aligned(void* dest, void* source, long length)
         {
             if(length >= sizeof(short))
@@ -451,6 +466,7 @@ namespace SpookilySharp
                 *(byte*)dest = *(byte*)source;
         }
         [SecurityCritical]
+        [ExcludeFromCodeCoverage]
         private static unsafe void MemCpyUnaligned(void* dest, void* source, long length)
         {
             var db = (byte*)dest;
@@ -510,6 +526,7 @@ namespace SpookilySharp
             }
         }
         [SecurityCritical]
+        [ExcludeFromCodeCoverage]
         private static unsafe void MemCpy(void* dest, void* source, long length)
         {
             if(!AllowUnalignedRead)
@@ -624,6 +641,7 @@ namespace SpookilySharp
             }
         }
         [SecurityCritical]
+        [ExcludeFromCodeCoverage]
         private static unsafe void MemZero32Aligned(void* dest, long length)
         {
             if(length >= 4)
@@ -704,6 +722,7 @@ namespace SpookilySharp
             }
         }
         [SecurityCritical]
+        [ExcludeFromCodeCoverage]
         private static unsafe void MemZero16Aligned(void* dest, long length)
         {
             if(length >= sizeof(short))
@@ -770,6 +789,7 @@ namespace SpookilySharp
                 *(byte*)dest = 0;
         }
         [SecurityCritical]
+        [ExcludeFromCodeCoverage]
         private static unsafe void MemZeroUnaligned(void* dest, long length)
         {
             var db = (byte*)dest;
@@ -828,6 +848,7 @@ namespace SpookilySharp
             }
         }
         [SecurityCritical]
+        [ExcludeFromCodeCoverage]
         private static unsafe void MemZero(void* dest, long length)
         {
             if(!AllowUnalignedRead)
