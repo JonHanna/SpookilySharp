@@ -49,6 +49,61 @@ namespace SpookilySharp
         /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
         /// <param name="message">Pointer to the first element to hash.</param>
         /// <param name="length">The size, in bytes, of the elements to hash.</param>
+        /// <param name="seed1">First 64 bits of the seed.</param>
+        /// <param name="seed2">Second 64 bits of the seed.</param>
+        /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
+        [CLSCompliant(false), SecurityCritical]
+        public static unsafe HashCode128 Hash128(UIntPtr message, long length, long seed1, long seed2)
+        {
+            return Hash128(message, length, (ulong)seed1, (ulong)seed2);
+        }
+
+        /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
+        /// <param name="message">Pointer to the first element to hash.</param>
+        /// <param name="length">The size, in bytes, of the elements to hash.</param>
+        /// <param name="seed1">First 64 bits of the seed.</param>
+        /// <param name="seed2">Second 64 bits of the seed.</param>
+        /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
+        [CLSCompliant(false), SecurityCritical]
+        public static unsafe HashCode128 Hash128(UIntPtr message, long length, ulong seed1, ulong seed2)
+        {
+            ulong hash1 = seed1;
+            ulong hash2 = seed2;
+            Hash128((void*)message, length, ref seed1, ref seed2);
+            return new HashCode128(hash1, hash2);
+        }
+
+        /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
+        /// <param name="message">Pointer to the first element to hash.</param>
+        /// <param name="length">The size, in bytes, of the elements to hash.</param>
+        /// <param name="seed1">First 64 bits of the seed.</param>
+        /// <param name="seed2">Second 64 bits of the seed.</param>
+        /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
+        [SecurityCritical]
+        public static HashCode128 Hash128(IntPtr message, long length, long seed1, long seed2)
+        {
+            return Hash128(message, length, (long)seed1, (long)seed2);
+        }
+
+        /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
+        /// <param name="message">Pointer to the first element to hash.</param>
+        /// <param name="length">The size, in bytes, of the elements to hash.</param>
+        /// <param name="seed1">First 64 bits of the seed.</param>
+        /// <param name="seed2">Second 64 bits of the seed.</param>
+        /// <remarks>This is not a CLS-compliant method, and is not accessible by some .NET languages.</remarks>
+        /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
+        [CLSCompliant(false), SecurityCritical]
+        public static unsafe HashCode128 Hash128(IntPtr message, long length, ulong seed1, ulong seed2)
+        {
+            ulong hash1 = seed1;
+            ulong hash2 = seed2;
+            Hash128((void*)message, length, ref hash1, ref hash2);
+            return new HashCode128(hash1, hash2);
+        }
+
+        /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
+        /// <param name="message">Pointer to the first element to hash.</param>
+        /// <param name="length">The size, in bytes, of the elements to hash.</param>
         /// <param name="hash1">Takes as input a seed value, returns as first output half of the hash.</param>
         /// <param name="hash2">Takes as input a seed value, returns as second output half of the hash.</param>
         /// <remarks>This is not a CLS-compliant method, and is not accessible by some .NET languages.</remarks>
