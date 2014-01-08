@@ -46,6 +46,7 @@ namespace SpookilySharp
                 case "AMD64": // Known to tolerate unaligned-reads well.
                     return true;
             }
+
             // Analysis disable EmptyGeneralCatchClause
             try
             {
@@ -129,6 +130,7 @@ namespace SpookilySharp
             {
                 // Again, just eat the exception.
             }
+
             // Analysis restore EmptyGeneralCatchClause
             return false;
         }
