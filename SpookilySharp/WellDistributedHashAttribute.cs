@@ -15,7 +15,8 @@
 
 using System;
 
-// Analysis disable once RedundantUsingDirective
+// Analysis disable once RedundantUsingDirective used by xml doc.
+// Analysis disable EmptyConstructor otherwise inherit en-US documentation.
 using System.Collections.Generic;
 
 namespace SpookilySharp
@@ -30,6 +31,10 @@ namespace SpookilySharp
     /// collisions.</remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public sealed class WellDistributedHashAttribute : Attribute
-    {        
+    {
+        /// <summary>Initialises a new instance of the <see cref="WellDistributedHashAttribute"/> class.</summary>
+        public WellDistributedHashAttribute()
+        {
+        }
     }
 }
