@@ -661,5 +661,32 @@ namespace SpookyHashTesting
         {
             new SpookyHash().Update("", 0, 2);
         }
+        [Test]
+        public unsafe void Hash128Overloads()
+        {
+            ulong seed1 = 238929482;
+            ulong seed2 = 19384920392;
+            string testString = "This is a test string";
+            ulong hash1 = seed1;
+            ulong hash2 = seed2;
+            fixed(void* ptr = testString)
+            {
+                long len = testString.Length * 2;
+                SpookyHash.Hash128(ptr, len, ref hash1, ref hash2);
+                HashCode128 hc = new HashCode128(hash1, hash2);
+                Assert.AreEqual(hc, SpookyHash.Hash128((UIntPtr)ptr, len, seed1, seed2));
+                Assert.AreEqual(hc, SpookyHash.Hash128((UIntPtr)ptr, len, (long)seed1, (long)seed2));
+                Assert.AreEqual(hc, SpookyHash.Hash128((IntPtr)ptr, len, seed1, seed2));
+                Assert.AreEqual(hc, SpookyHash.Hash128((IntPtr)ptr, len, (long)seed1, (long)seed2));
+            }
+            void* nP = null;
+            SpookyHash.Hash128(nP, 50, ref hash1, ref hash2);
+            Assert.AreEqual(0, hash1);
+            Assert.AreEqual(0, hash2);
+            Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(UIntPtr.Zero, 50, seed1, seed2));
+            Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(UIntPtr.Zero, 50, (long)seed1, (long)seed2));
+            Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, seed1, seed2));
+            Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, (long)seed1, (long)seed2));
+        }
 	}
 }

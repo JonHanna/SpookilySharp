@@ -33,7 +33,7 @@ namespace SpookilySharp
 
         public static void BadHashCode128Format()
         {
-            throw new FormatException("The string did not contain a 16-digit hexadecimal number.");
+            throw new FormatException("The string did not contain a 32-digit hexadecimal number.");
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage",

@@ -83,7 +83,7 @@ namespace SpookilySharp
         public static IEqualityComparer<T> WellDistributed<T>(this IEqualityComparer<T> comparer)
         {
             if(typeof(T) == typeof(string) && EqualityComparer<string>.Default.Equals(comparer))
-                return (IEqualityComparer<T>)new SpookyStringEqualityComparer();
+                return (IEqualityComparer<T>)(object)new SpookyStringEqualityComparer();
             return IsGood<T>(comparer) ? comparer : new WellDistributedEqualityComparer<T>(comparer);
         }
 

@@ -1,4 +1,4 @@
-// SpookyHash.cs
+﻿// SpookyHash.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -158,7 +158,7 @@ namespace SpookilySharp
         {
             ulong hash1 = seed1;
             ulong hash2 = seed2;
-            Hash128((void*)message, length, ref seed1, ref seed2);
+            Hash128((void*)message, length, ref hash1, ref hash2);
             return new HashCode128(hash1, hash2);
         }
 

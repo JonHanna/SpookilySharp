@@ -22,7 +22,7 @@ namespace SpookilySharp
 {
     /// <summary>An equality comparer for <see cref="string"/>s and <see cref="char"/> arrays that uses SpookyHash for
     /// its hash codes.</summary>
-    public class SpookyStringEqualityComparer
+    public sealed class SpookyStringEqualityComparer
         : IEqualityComparer<char[]>, IEqualityComparer<string>, IEquatable<SpookyStringEqualityComparer>
     {
         private readonly int _seed;

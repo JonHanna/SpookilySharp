@@ -80,7 +80,7 @@ namespace SpookilySharp
         /// <param name="s">A <see cref="string"/> containing the hash code to convert.</param>
         /// <param name="result">The 128-bit has code parsed from the string, or <see cref="HashCode128.Zero"/> if
         /// the parsing was unsuccessful.</param>
-        /// <remarks>The value passed to <paramref name="s"/> must be a 16-digit hexadecimal number for this to succeed.
+        /// <remarks>The value passed to <paramref name="s"/> must be a 32-digit hexadecimal number for this to succeed.
         /// Leading, trailing and contained whitespace is allowed. A leading <c>0x</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
@@ -98,7 +98,7 @@ namespace SpookilySharp
 
                 // parse as we go rather than trimming and using ulong.Parse() so we don't spend forever
                 // trimming a long string.
-                if(len >= 16)
+                if(len >= 32)
                 {
                     ulong first = 0;
                     int stringIndex;
@@ -130,11 +130,11 @@ namespace SpookilySharp
                                 default:
                                     goto fail;
                             }
-                            if(++idx == 8)
+                            if(++idx == 16)
                                 break;
                         }
                     }
-                    if(idx == 8)
+                    if(idx == 16)
                     {
                         ulong second = 0;
                         for(++stringIndex; stringIndex != len; ++stringIndex)
@@ -157,17 +157,15 @@ namespace SpookilySharp
                                     default:
                                         goto fail;
                                 }
-                                if(++idx == 16)
-                                    break;
+                                if(++idx == 32)
+                                {
+                                    for(++stringIndex; stringIndex != len; ++stringIndex)
+                                        if(!char.IsWhiteSpace(s[stringIndex]))
+                                            goto fail;
+                                    result = new HashCode128(first, second);
+                                    return true;
+                                }
                             }
-                        }
-                        if(idx == 16)
-                        {
-                            for(++stringIndex; stringIndex != len; ++stringIndex)
-                                if(!char.IsWhiteSpace(s[stringIndex]))
-                                    goto fail;
-                            result = new HashCode128(first, second);
-                            return true;
                         }
                     }
                 }
@@ -177,14 +175,14 @@ namespace SpookilySharp
             return false;
         }
 
-        /// <summary>Produces a <see cref="HashCode128"/> from a string containing a 16-digit hexadecimal number.
+        /// <summary>Produces a <see cref="HashCode128"/> from a string containing a 32-digit hexadecimal number.
         /// Leading and trailing whitespace is allowed.</summary>
         /// <param name="s">The <see cref="string"/> to parse.</param>
         /// <returns>The <see cref="HashCode128"/> represented by <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> was null.</exception>
-        /// <exception cref="FormatException"><paramref name="s"/> did not contain a 16-digit hexadecimal
+        /// <exception cref="FormatException"><paramref name="s"/> did not contain a 32-digit hexadecimal
         /// number.</exception> 
-        /// <remarks>The value passed to <paramref name="s"/> must be a 16-digit hexadecimal number for this to succeed.
+        /// <remarks>The value passed to <paramref name="s"/> must be a 32-digit hexadecimal number for this to succeed.
         /// Leading, trailing and contained whitespace is allowed. A leading <c>0x</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
@@ -246,12 +244,12 @@ namespace SpookilySharp
         }
 
         /// <summary>Returns a <see cref="string"/> that represents the current <see cref="HashCode128"/>.</summary>
-        /// <returns>A <see cref="string"/> that represents the hash code as a 16-digit hexadecimal number.</returns>
+        /// <returns>A <see cref="string"/> that represents the hash code as a 32-digit hexadecimal number.</returns>
         [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider",
             Justification = "Irrelevant to formatstring in question.")]
         public override string ToString()
         {
-            return _hash1.ToString("X8") + _hash2.ToString("X8");
+            return _hash1.ToString("X16") + _hash2.ToString("X16");
         }
     }    
 }
