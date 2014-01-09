@@ -1,4 +1,4 @@
-﻿// HasherTests.cs
+// HasherTests.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>

@@ -208,7 +208,7 @@ namespace SpookilySharp
 
         /// <summary>Gets the current 128-bit hash of what has been written so far.</summary>
         /// <value>The hash, so far.</value>
-        public HashCode128 WriteHash
+        public HashCode128 WriteHash128
         {
             get { return _written.Final(); }
         }
@@ -217,19 +217,19 @@ namespace SpookilySharp
         /// <value>The hash, so far.</value>
         public long WriteHash64
         {
-            get { return WriteHash.Hash1; }
+            get { return WriteHash128.Hash1; }
         }
 
         /// <summary>Gets the current 32-bit hash of what has been written so far.</summary>
         /// <value>The hash, so far.</value>
         public int WriteHash32
         {
-            get { return (int)WriteHash.Hash1; }
+            get { return (int)WriteHash128.Hash1; }
         }
 
         /// <summary>Gets the current 128-bit hash of what has been read so far.</summary>
         /// <value>The hash, so far.</value>
-        public HashCode128 ReadHash
+        public HashCode128 ReadHash128
         {
             get { return _read.Final(); }
         }
@@ -238,14 +238,14 @@ namespace SpookilySharp
         /// <value>The hash, so far.</value>
         public long ReadHash64
         {
-            get { return ReadHash.Hash1; }
+            get { return ReadHash128.Hash1; }
         }
 
         /// <summary>Gets the current 32-bit hash of what has been read so far.</summary>
         /// <value>The hash, so far.</value>
         public int ReadHash32
         {
-            get { return (int)ReadHash.Hash1; }
+            get { return (int)ReadHash128.Hash1; }
         }
 
         /// <summary>Gets a value indicating whether there had been an operation that moved the point being read from or written to.</summary>

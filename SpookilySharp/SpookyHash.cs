@@ -1415,8 +1415,8 @@ namespace SpookilySharp
             h8  += h10; h11 ^= h8;  h10 = h10 << 53 | h10 >> -53;
             h9  += h11; h0  ^= h9;
             h10 += h0;  h1  ^= h10; h0  = h0 << 54  | h0  >> -54;
-            hash1 = h0;
             hash2 = h1;
+            hash1 = h0;
         }
     }
 }
