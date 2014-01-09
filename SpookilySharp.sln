@@ -1,8 +1,7 @@
-﻿Microsoft Visual Studio Solution File, Format Version 11.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 # SharpDevelop 4.4
-# MonoDevelop 4.2.2
-# And yet I still end up having to hack bits by hand...
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpookilySharp", "SpookilySharp\SpookilySharp.csproj", "{B010C38D-0BC9-4859-9433-0890B03CF6BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpookyHashTesting", "SpookyHashTesting\SpookyHashTesting.csproj", "{D65EF837-D75E-4348-9487-4290AE3802E0}"

@@ -123,6 +123,12 @@ namespace SpookyHashTesting
 	    {
 	        Assert.AreEqual(0, ((string)null).SpookyHash32());
 	    }
+	    [Test]
+	    [ExpectedException(typeof(ArgumentNullException))]
+	    public unsafe void NullPointerUpdate()
+	    {
+	        new SpookyHash().Update((void*)null, 42);
+	    }
 	    private const string MediumLengthString = @"                0x6bf50919,0x70de1d26,0xa2b37298,0x35bc5fbf,0x8223b279,0x5bcb315e,0x53fe88a1,0xf9f1a233,
 	            0xee193982,0x54f86f29,0xc8772d36,0x9ed60886,0x5f23d1da,0x1ed9f474,0xf2ef0c89,0x83ec01f9,
 	            0xf274736c,0x7e9ac0df,0xc7aed250,0xb1015811,0xe23470f5,0x48ac20c4,0xe2ab3cd5,0x608f8363,
@@ -352,232 +358,6 @@ namespace SpookyHashTesting
             Assert.AreEqual(hash.ToString(), fromZL.Final().ToString());
 	    }
         [Test]
-        public unsafe void UpdateWithByte()
-        {
-            byte val = 42;
-            var sh = new SpookyHash();
-            sh.Update((byte)42);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 1);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update((byte)0);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new byte[200];
-            fixed(byte* ptr = arr)
-                sh.Update(ptr, 200);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithSByte()
-        {
-            sbyte val = 42;
-            var sh = new SpookyHash();
-            sh.Update((sbyte)42);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 1);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update((sbyte)0);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new sbyte[200];
-            fixed(sbyte* ptr = arr)
-                sh.Update(ptr, 200);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithShort()
-        {
-            short val = 42;
-            var sh = new SpookyHash();
-            sh.Update((short)42);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 2);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update((short)0);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new short[200];
-            fixed(short* ptr = arr)
-                sh.Update(ptr, 400);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithUShort()
-        {
-            ushort val = 42;
-            var sh = new SpookyHash();
-            sh.Update((ushort)42);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 2);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update((ushort)0);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new ushort[200];
-            fixed(ushort* ptr = arr)
-                sh.Update(ptr, 400);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithInt()
-        {
-            int val = 42;
-            var sh = new SpookyHash();
-            sh.Update(42);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 4);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update(0);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new int[200];
-            fixed(int* ptr = arr)
-                sh.Update(ptr, 800);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithUInt()
-        {
-            uint val = 42;
-            var sh = new SpookyHash();
-            sh.Update(42u);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 4);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update(0u);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new uint[200];
-            fixed(uint* ptr = arr)
-                sh.Update(ptr, 800);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithChar()
-        {
-            char val = 'x';
-            var sh = new SpookyHash();
-            sh.Update('x');
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 2);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update('\0');
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new char[200];
-            fixed(char* ptr = arr)
-                sh.Update(ptr, 400);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithLong()
-        {
-            long val = 42;
-            var sh = new SpookyHash();
-            sh.Update(42L);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 8);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update(0L);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new long[200];
-            fixed(long* ptr = arr)
-                sh.Update(ptr, 1600);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithULong()
-        {
-            ulong val = 42;
-            var sh = new SpookyHash();
-            sh.Update(42UL);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 8);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update(0UL);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new ulong[200];
-            fixed(ulong* ptr = arr)
-                sh.Update(ptr, 1600);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithDouble()
-        {
-            double val = 42;
-            var sh = new SpookyHash();
-            sh.Update(42d);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 8);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update(0d);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new double[200];
-            fixed(double* ptr = arr)
-                sh.Update(ptr, 1600);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        public unsafe void UpdateWithSingle()
-        {
-            float val = 42;
-            var sh = new SpookyHash();
-            sh.Update(42f);
-            var h = sh.Final();
-            sh = new SpookyHash();
-            sh.Update(&val, 4);
-            Assert.AreEqual(h, sh.Final());
-            sh = new SpookyHash();
-            for(int i = 0; i != 200; ++i)
-                sh.Update(0f);
-            h = sh.Final();
-            sh = new SpookyHash();
-            var arr = new float[200];
-            fixed(float* ptr = arr)
-                sh.Update(ptr, 800);
-            Assert.AreEqual(h, sh.Final());
-        }
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void NullByteArrayUpdate()
-        {
-            new SpookyHash().Update((byte[])null);
-        }
-        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStringUpdate()
         {
@@ -590,52 +370,10 @@ namespace SpookyHashTesting
             new SpookyHash().Update((char[])null);
         }
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void NullByteArrayWithLength()
-        {
-            new SpookyHash().Update((byte[])null, 0, 0);
-        }
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void NullStringWithLength()
-        {
-            new SpookyHash().Update((string)null, 0, 0);
-        }
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void NullCharArrayWithLength()
-        {
-            new SpookyHash().Update((char[])null, 0, 0);
-        }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void NegativeOffestChar()
-        {
-            new SpookyHash().Update(new char[0], -1, 2);
-        }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void NegativeOffestByte()
-        {
-            new SpookyHash().Update(new byte[0], -1, 2);
-        }
-        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestString()
         {
             new SpookyHash().Update("", -1, 2);
-        }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void ExcessiveOffestChar()
-        {
-            new SpookyHash().Update(new char[0], 40, 2);
-        }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void ExcessiveOffestByte()
-        {
-            new SpookyHash().Update(new byte[0], 40, 2);
         }
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
@@ -645,24 +383,12 @@ namespace SpookyHashTesting
         }
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void ExcessiveLengthChar()
-        {
-            new SpookyHash().Update(new char[0], 0, 2);
-        }
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ExcessiveLengthByte()
-        {
-            new SpookyHash().Update(new byte[0], 0, 2);
-        }
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthString()
         {
             new SpookyHash().Update("", 0, 2);
         }
         [Test]
-        public unsafe void Hash128Overloads()
+        public unsafe void Hash128PtrOverloads()
         {
             ulong seed1 = 238929482;
             ulong seed2 = 19384920392;
@@ -687,6 +413,44 @@ namespace SpookyHashTesting
             Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(UIntPtr.Zero, 50, (long)seed1, (long)seed2));
             Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, seed1, seed2));
             Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, (long)seed1, (long)seed2));
+        }
+        [Test]
+        public unsafe void Hash64PtrOverloads()
+        {
+            ulong seed = 238929482;
+            string testString = "This is a test string";
+            fixed(void* ptr = testString)
+            {
+                long len = testString.Length * 2;
+                var hc = SpookyHash.Hash64(ptr, len, seed);
+                Assert.AreEqual(hc, SpookyHash.Hash64((UIntPtr)ptr, len, seed));
+                Assert.AreEqual((long)hc, SpookyHash.Hash64((UIntPtr)ptr, len, (long)seed));
+                Assert.AreEqual(hc, SpookyHash.Hash64((IntPtr)ptr, len, seed));
+                Assert.AreEqual((long)hc, SpookyHash.Hash64((IntPtr)ptr, len, (long)seed));
+            }
+            Assert.AreEqual(0, SpookyHash.Hash64(UIntPtr.Zero, 50, seed));
+            Assert.AreEqual(0, SpookyHash.Hash64(UIntPtr.Zero, 50, (long)seed));
+            Assert.AreEqual(0, SpookyHash.Hash64(IntPtr.Zero, 50, seed));
+            Assert.AreEqual(0, SpookyHash.Hash64(IntPtr.Zero, 50, (long)seed));
+        }
+        [Test]
+        public unsafe void Hash32PtrOverloads()
+        {
+            uint seed = 238929482;
+            string testString = "This is a test string";
+            fixed(void* ptr = testString)
+            {
+                int len = testString.Length * 2;
+                var hc = SpookyHash.Hash32(ptr, len, seed);
+                Assert.AreEqual(hc, SpookyHash.Hash32((UIntPtr)ptr, len, seed));
+                Assert.AreEqual((int)hc, SpookyHash.Hash32((UIntPtr)ptr, len, (int)seed));
+                Assert.AreEqual(hc, SpookyHash.Hash32((IntPtr)ptr, len, seed));
+                Assert.AreEqual((int)hc, SpookyHash.Hash32((IntPtr)ptr, len, (int)seed));
+            }
+            Assert.AreEqual(0, SpookyHash.Hash32(UIntPtr.Zero, 50, seed));
+            Assert.AreEqual(0, SpookyHash.Hash32(UIntPtr.Zero, 50, (int)seed));
+            Assert.AreEqual(0, SpookyHash.Hash32(IntPtr.Zero, 50, seed));
+            Assert.AreEqual(0, SpookyHash.Hash32(IntPtr.Zero, 50, (int)seed));
         }
 	}
 }

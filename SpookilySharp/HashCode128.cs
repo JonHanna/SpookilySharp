@@ -83,8 +83,6 @@ namespace SpookilySharp
         /// <remarks>The value passed to <paramref name="s"/> must be a 32-digit hexadecimal number for this to succeed.
         /// Leading, trailing and contained whitespace is allowed. A leading <c>0x</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
-            Justification = "Mirrors BCL types.")]
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
             Justification = "More readable with multiple case statements.")]
@@ -185,8 +183,6 @@ namespace SpookilySharp
         /// <remarks>The value passed to <paramref name="s"/> must be a 32-digit hexadecimal number for this to succeed.
         /// Leading, trailing and contained whitespace is allowed. A leading <c>0x</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly",
-            Justification = "Mirrors BCL types.")]
         public static HashCode128 Parse(string s)
         {
             ExceptionHelper.CheckNotNullS(s);

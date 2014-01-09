@@ -68,7 +68,7 @@ namespace SpookilySharp
             CheckMessageNotNull(message);
             CheckArray(message, startIndex, length);
         }
-        private static void CheckBounds(string message, int startIndex, int length)
+        public static void CheckBounds(string message, int startIndex, int length)
         {
             int len = message.Length;
             if(startIndex < 0 || startIndex > len)

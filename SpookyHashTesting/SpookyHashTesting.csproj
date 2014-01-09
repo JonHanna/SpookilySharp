@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
     <ProjectGuid>{D65EF837-D75E-4348-9487-4290AE3802E0}</ProjectGuid>
@@ -56,11 +56,20 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Overloads.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Overloads.generated.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EqualityComparerTests.cs" />
+    <Compile Include="HasherTests.cs" />
     <Compile Include="HashTests.cs" />
+    <Compile Include="Overloads.generated.cs">
+      <DependentUpon>Overloads.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="IncrementalTest.cs" />
     <Compile Include="Hash128Tests.cs" />
     <Compile Include="StreamTests.cs" />

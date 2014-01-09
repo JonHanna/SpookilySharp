@@ -28,7 +28,7 @@ namespace SpookilySharp
 {
     /// <summary>Provides an implementation of SpookyHash, either incrementally or (by static methods) in a single
     /// operation.</summary>
-    public class SpookyHash
+    public sealed partial class SpookyHash
     {
         internal const ulong SpookyConst = 0xDEADBEEFDEADBEEF;
         private const int NumVars = 12;
@@ -138,64 +138,12 @@ namespace SpookilySharp
         /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
         /// <param name="message">Pointer to the first element to hash.</param>
         /// <param name="length">The size, in bytes, of the elements to hash.</param>
-        /// <param name="seed1">First 64 bits of the seed.</param>
-        /// <param name="seed2">Second 64 bits of the seed.</param>
-        /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
-        [CLSCompliant(false), SecurityCritical]
-        public static unsafe HashCode128 Hash128(UIntPtr message, long length, long seed1, long seed2)
-        {
-            return Hash128(message, length, (ulong)seed1, (ulong)seed2);
-        }
-
-        /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
-        /// <param name="message">Pointer to the first element to hash.</param>
-        /// <param name="length">The size, in bytes, of the elements to hash.</param>
-        /// <param name="seed1">First 64 bits of the seed.</param>
-        /// <param name="seed2">Second 64 bits of the seed.</param>
-        /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
-        [CLSCompliant(false), SecurityCritical]
-        public static unsafe HashCode128 Hash128(UIntPtr message, long length, ulong seed1, ulong seed2)
-        {
-            ulong hash1 = seed1;
-            ulong hash2 = seed2;
-            Hash128((void*)message, length, ref hash1, ref hash2);
-            return new HashCode128(hash1, hash2);
-        }
-
-        /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
-        /// <param name="message">Pointer to the first element to hash.</param>
-        /// <param name="length">The size, in bytes, of the elements to hash.</param>
-        /// <param name="seed1">First 64 bits of the seed.</param>
-        /// <param name="seed2">Second 64 bits of the seed.</param>
-        /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
-        [SecurityCritical]
-        public static HashCode128 Hash128(IntPtr message, long length, long seed1, long seed2)
-        {
-            return Hash128(message, length, (ulong)seed1, (ulong)seed2);
-        }
-
-        /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
-        /// <param name="message">Pointer to the first element to hash.</param>
-        /// <param name="length">The size, in bytes, of the elements to hash.</param>
-        /// <param name="seed1">First 64 bits of the seed.</param>
-        /// <param name="seed2">Second 64 bits of the seed.</param>
-        /// <remarks>This is not a CLS-compliant method, and is not accessible by some .NET languages.</remarks>
-        /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
-        [CLSCompliant(false), SecurityCritical]
-        public static unsafe HashCode128 Hash128(IntPtr message, long length, ulong seed1, ulong seed2)
-        {
-            ulong hash1 = seed1;
-            ulong hash2 = seed2;
-            Hash128((void*)message, length, ref hash1, ref hash2);
-            return new HashCode128(hash1, hash2);
-        }
-
-        /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
-        /// <param name="message">Pointer to the first element to hash.</param>
-        /// <param name="length">The size, in bytes, of the elements to hash.</param>
         /// <param name="hash1">Takes as input a seed value, returns as first output half of the hash.</param>
         /// <param name="hash2">Takes as input a seed value, returns as second output half of the hash.</param>
         /// <remarks>This is not a CLS-compliant method, and is not accessible by some .NET languages.</remarks>
+        /// <exception cref="AccessViolationException">This is an unsafe method. If you attempt to read past the buffer
+        /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
+        /// may have incorrect results.</exception>
         [CLSCompliant(false), SecurityCritical]
         [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference",
             Justification = "Mirroring C++ interface")]
@@ -311,12 +259,12 @@ namespace SpookilySharp
             h8  += h10; h11 ^= h8;  h10 = h10 << 53 | h10 >> -53;
             h9  += h11; h0  ^= h9;
             h10 += h0;  h1  ^= h10; h0  = h0 << 54  | h0  >> -54;
-            hash1 = h0;
             hash2 = h1;
+            hash1 = h0;
         }
         [SecurityCritical]
         [ExcludeFromCodeCoverage]
-        private static unsafe void MemCpy32Aligned(void* dest, void* source, long length)
+        private static unsafe void MemCpy4ByteAligned(void* dest, void* source, long length)
         {
             if(length >= 4)
             {
@@ -400,7 +348,7 @@ namespace SpookilySharp
         }
         [SecurityCritical]
         [ExcludeFromCodeCoverage]
-        private static unsafe void MemCpy16Aligned(void* dest, void* source, long length)
+        private static unsafe void MemCpy2ByteAligned(void* dest, void* source, long length)
         {
             if(length >= sizeof(short))
             {
@@ -541,12 +489,12 @@ namespace SpookilySharp
                 }
                 if((alignTest & 3) != 0)
                 {
-                    MemCpy16Aligned(dest, source, length);
+                    MemCpy2ByteAligned(dest, source, length);
                     return;
                 }
                 if((alignTest & 7) != 0)
                 {
-                    MemCpy32Aligned(dest, source, length);
+                    MemCpy4ByteAligned(dest, source, length);
                     return;
                 }
             }
@@ -644,7 +592,7 @@ namespace SpookilySharp
         }
         [SecurityCritical]
         [ExcludeFromCodeCoverage]
-        private static unsafe void MemZero32Aligned(void* dest, long length)
+        private static unsafe void MemZero4ByteAligned(void* dest, long length)
         {
             if(length >= 4)
             {
@@ -725,7 +673,7 @@ namespace SpookilySharp
         }
         [SecurityCritical]
         [ExcludeFromCodeCoverage]
-        private static unsafe void MemZero16Aligned(void* dest, long length)
+        private static unsafe void MemZero2ByteAligned(void* dest, long length)
         {
             if(length >= sizeof(short))
             {
@@ -863,12 +811,12 @@ namespace SpookilySharp
                 }
                 if((alignTest & 3) != 0)
                 {
-                    MemZero16Aligned(dest, length);
+                    MemZero2ByteAligned(dest, length);
                     return;
                 }
                 if((alignTest & 7) != 0)
                 {
-                    MemZero32Aligned(dest, length);
+                    MemZero4ByteAligned(dest, length);
                     return;
                 }
             }
@@ -967,12 +915,14 @@ namespace SpookilySharp
         /// <param name="message">Pointer to the first element to hash.</param>
         /// <param name="length">The size, in bytes, of the elements to hash.</param>
         /// <param name="seed">A seed for the hash.</param>
+        /// <exception cref="AccessViolationException">This is an unsafe method. If you attempt to read past the buffer
+        /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
+        /// may have incorrect results.</exception>
         [CLSCompliant(false), SecurityCritical]
         public static unsafe ulong Hash64(void* message, long length, ulong seed)
         {
-            ulong hash1 = seed;
-            Hash128(message, length, ref hash1, ref seed);
-            return hash1;
+            Hash128(message, length, ref seed, ref seed);
+            return seed;
         }
 
         /// <summary>Calculates a 32-bit SpookyHash for a message.</summary>
@@ -980,12 +930,13 @@ namespace SpookilySharp
         /// <param name="message">Pointer to the first element to hash.</param>
         /// <param name="length">The size, in bytes, of the elements to hash.</param>
         /// <param name="seed">A seed for the hash.</param>
+        /// <exception cref="AccessViolationException">This is an unsafe method. If you attempt to read past the buffer
+        /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
+        /// may have incorrect results.</exception>
         [CLSCompliant(false), SecurityCritical]
         public static unsafe uint Hash32(void* message, long length, uint seed)
         {
-            ulong hash1 = seed, hash2 = seed;
-            Hash128(message, length, ref hash1, ref hash2);
-            return (uint)hash1;
+            return (uint)Hash64(message, length, seed);
         }
         [SecurityCritical]
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
@@ -1116,8 +1067,8 @@ namespace SpookilySharp
             d ^= c;  c = c << 32 | c >> -32;  d += c;
             a ^= d;  d = d << 25 | d >> -25;  a += d;
             b ^= a;  a = a << 63 | a >> -63;  b += a;
-            hash1 = a;
             hash2 = b;
+            hash1 = a;
         }
         private readonly ulong[] _data = new ulong[2 * NumVars];
         private ulong _state0, _state1, _state2, _state3, _state4, _state5,
@@ -1171,58 +1122,6 @@ namespace SpookilySharp
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
-        /// <param name="message">Bytes to hash.</param>
-        /// <param name="startIndex">Start index in the array, from which to hash.</param>
-        /// <param name="length">How many bytes to hash.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        [SecuritySafeCritical]
-        public unsafe void Update(byte[] message, int startIndex, int length)
-        {
-            ExceptionHelper.CheckArrayIncNull(message, startIndex, length);
-            fixed(byte* ptr = message)
-                Update(ptr + startIndex, length);
-        }
-
-        /// <summary>Updates the in-progress hash generation with more of the message.</summary>
-        /// <param name="message">Bytes to hash.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
-        public void Update(byte[] message)
-        {
-            ExceptionHelper.CheckMessageNotNull(message);
-            Update(message, 0, message.Length);
-        }
-
-        /// <summary>Updates the in-progress hash generation with more of the message.</summary>
-        /// <param name="message">Characters to hash.</param>
-        /// <param name="startIndex">Start index in the array, from which to hash.</param>
-        /// <param name="length">How many characters to hash.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        [SecuritySafeCritical]
-        public unsafe void Update(char[] message, int startIndex, int length)
-        {
-            ExceptionHelper.CheckArrayIncNull(message, startIndex, length);
-            fixed(char* ptr = message)
-                Update(ptr + startIndex, ((long)length) << 1);
-        }
-
-        /// <summary>Updates the in-progress hash generation with more of the message.</summary>
-        /// <param name="message">Characters to hash.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
-        public void Update(char[] message)
-        {
-            ExceptionHelper.CheckMessageNotNull(message);
-            Update(message, 0, message.Length);
-        }
-
-        /// <summary>Updates the in-progress hash generation with more of the message.</summary>
         /// <param name="message">String to hash.</param>
         /// <param name="startIndex">Start index in the string, from which to hash.</param>
         /// <param name="length">How many characters to hash.</param>
@@ -1248,146 +1147,13 @@ namespace SpookilySharp
             Update(message, 0, message.Length);
         }
 
-        /// <summary>Updates the in-progress hash generation with a single byte.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        [SecuritySafeCritical]
-        public unsafe void Update(byte message)
-        {
-            if(_remainder + 1 < BufSize)
-            {
-                fixed(ulong* uptr = _data)
-                    ((byte*)uptr)[_remainder++] = message;
-                ++_length;
-            }
-            else
-                Update(&message, 1);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single signed byte.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        [CLSCompliant(false)]
-        public void Update(sbyte message)
-        {
-            Update((byte)message);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single unsigned 16-bit integer.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        [CLSCompliant(false)]
-        [SecuritySafeCritical]
-        public unsafe void Update(ushort message)
-        {
-            if((AllowUnalignedRead || (_remainder & 1) == 0) && _remainder + 2 < BufSize)
-            {
-                fixed(ulong* uptr = _data)
-                    *(ushort*)((byte*)uptr + _remainder) = message;
-                _length += 2;
-                _remainder += 2;
-            }
-            else
-                Update(&message, 2);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single signed 16-bit integer.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        public void Update(short message)
-        {
-            Update((ushort)message);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single character.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        public void Update(char message)
-        {
-            Update((ushort)message);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single unsigned 32-bit integer.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        [CLSCompliant(false)]
-        [SecuritySafeCritical]
-        public unsafe void Update(uint message)
-        {
-            if((AllowUnalignedRead || (_remainder & 3) == 0) && _remainder + 4 < BufSize)
-            {
-                fixed(ulong* uptr = _data)
-                    *(uint*)((byte*)uptr + _remainder) = message;
-                _length += 4;
-                _remainder += 4;
-            }
-            else
-                Update(&message, 4);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single signed 32-bit integer.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        public void Update(int message)
-        {
-            Update((uint)message);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single unsigned 64-bit integer.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        [CLSCompliant(false)]
-        [SecuritySafeCritical]
-        public unsafe void Update(ulong message)
-        {
-            if((AllowUnalignedRead || (_remainder & 7) == 0) && _remainder + 8 < BufSize)
-            {
-                fixed(ulong* uptr = _data)
-                    *(ulong*)((byte*)uptr + _remainder) = message;
-                _length += 8;
-                _remainder += 8;
-            }
-            else
-                Update(&message, 8);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single signed 64-bit integer.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        public void Update(long message)
-        {
-            Update((ulong)message);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single double-precision floating-point number.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        [CLSCompliant(false)]
-        [SecuritySafeCritical]
-        public unsafe void Update(double message)
-        {
-            if((AllowUnalignedRead || (_remainder & 7) == 0) && _remainder + 8 < BufSize)
-            {
-                fixed(ulong* uptr = _data)
-                    *(double*)((byte*)uptr + _remainder) = message;
-                _length += 8;
-                _remainder += 8;
-            }
-            else
-                Update(&message, 8);
-        }
-
-        /// <summary>Updates the in-progress hash generation with a single single-precision floating-point number.</summary>
-        /// <param name="message">The data to add to the hash.</param>
-        [CLSCompliant(false)]
-        [SecuritySafeCritical]
-        public unsafe void Update(float message)
-        {
-            if((AllowUnalignedRead || (_remainder & 3) == 0) && _remainder + 4 < BufSize)
-            {
-                fixed(ulong* uptr = _data)
-                    *(float*)((byte*)uptr + _remainder) = message;
-                _length += 4;
-                _remainder += 4;
-            }
-            else
-                Update(&message, 4);
-        }
-
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
         /// <param name="message">Pointer to the data to hash.</param>
         /// <param name="length">How many bytes to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was a null pointer.</exception>
+        /// <exception cref="AccessViolationException">This is an unsafe method. If you attempt to read past the buffer
+        /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
+        /// may have incorrect results.</exception>
         [CLSCompliant(false), SecurityCritical]
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",

@@ -1,4 +1,4 @@
-// SpookyHasher.cs
+﻿// SpookyHasher.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -20,8 +20,55 @@ using System.Security;
 namespace SpookilySharp
 {
     /// <summary>Provides static extension methods for producing SpookyHashes of various types of object.</summary>
-    public static class SpookyHasher
+    public static partial class SpookyHasher
     {
+        [SecurityCritical]
+        private static unsafe HashCode128 SpookyHash128Unchecked(
+            string message, int startIndex, int length, ulong seed0, ulong seed1)
+        {
+            fixed(char* ptr = message)
+                SpookyHash.Hash128(ptr + startIndex, ((long)length) << 1, ref seed0, ref seed1);
+            return new HashCode128(seed0, seed1);
+        }
+
+        /// <summary>Produces an 128-bit SpookyHash of a <see cref="string"/>.</summary>
+        /// <returns>A <see cref="HashCode128"/> containing the 128-bit hash.</returns>
+        /// <param name="message">The <see cref="string"/> to hash.</param>
+        /// <param name="startIndex">The index from which to hash.</param>
+        /// <param name="length">The number of <see cref="char"/>s to hash.</param>
+        /// <param name="seed0">The first 64-bits of the seed value.</param>
+        /// <param name="seed1">The second 64-bits of the seed value.</param>
+        /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
+        /// than the length of the string.</exception>
+        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
+        /// than the length of the string.</exception>
+        [SecuritySafeCritical]
+        [CLSCompliant(false)]
+        public static HashCode128 SpookyHash128(this string message, int startIndex, int length, ulong seed0, ulong seed1)
+        {
+            if(message == null)
+                return default(HashCode128);
+            ExceptionHelper.CheckBounds(message, startIndex, length);
+            return unchecked(SpookyHash128Unchecked(message, startIndex, length, seed0, seed1));
+        }
+
+        /// <summary>Produces an 128-bit SpookyHash of a <see cref="string"/>.</summary>
+        /// <returns>A <see cref="HashCode128"/> containing the 128-bit hash.</returns>
+        /// <param name="message">The <see cref="string"/> to hash.</param>
+        /// <param name="startIndex">The index from which to hash.</param>
+        /// <param name="length">The number of <see cref="char"/>s to hash.</param>
+        /// <param name="seed0">The first 64-bits of the seed value.</param>
+        /// <param name="seed1">The second 64-bits of the seed value.</param>
+        /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
+        /// than the length of the string.</exception>
+        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
+        /// than the length of the string.</exception>
+        public static HashCode128 SpookyHash128(this string message, int startIndex, int length, long seed0, long seed1)
+        {
+            return unchecked(SpookyHash128(message, startIndex, length, (ulong)seed0, (ulong)seed1));
+        }
         /// <summary>Produces an 128-bit SpookyHash of a <see cref="string"/>.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the 128-bit hash.</returns>
         /// <param name="message">The <see cref="string"/> to hash.</param>
@@ -29,15 +76,30 @@ namespace SpookilySharp
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [SecuritySafeCritical]
-        public static unsafe HashCode128 SpookyHash128(this string message, long seed0, long seed1)
+        public static HashCode128 SpookyHash128(this string message, long seed0, long seed1)
+        {
+            return message == null
+                ? default(HashCode128)
+                : unchecked(SpookyHash128Unchecked(message, 0, message.Length, (ulong)seed0, (ulong)seed1));
+        }
+
+        /// <summary>Produces an 128-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
+        /// <returns>A <see cref="HashCode128"/> containing the 128-bit hash.</returns>
+        /// <param name="message">The <see cref="string"/> to hash.</param>
+        /// <param name="startIndex">The index from which to hash.</param>
+        /// <param name="length">The number of <see cref="char"/>s to hash.</param>
+        /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
+        /// than the length of the string.</exception>
+        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
+        /// than the length of the string.</exception>
+        [SecuritySafeCritical]
+        public static HashCode128 SpookyHash128(this string message, int startIndex, int length)
         {
             if(message == null)
                 return default(HashCode128);
-            ulong hash1 = (ulong)seed0;
-            ulong hash2 = (ulong)seed1;
-            fixed(char* ptr = message)
-                SpookyHash.Hash128(ptr, message.Length, ref hash1, ref hash2);
-            return new HashCode128(hash1, hash2);
+            ExceptionHelper.CheckBounds(message, startIndex, length);
+            return SpookyHash128Unchecked(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
         }
 
         /// <summary>Produces an 128-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
@@ -48,7 +110,53 @@ namespace SpookilySharp
         {
             return unchecked(SpookyHash128(message, (long)SpookyHash.SpookyConst, (long)SpookyHash.SpookyConst));
         }
+        
+        [SecurityCritical]
+        private static unsafe long SpookyHash64Unchecked(string message, int startIndex, int length, long seed)
+        {
+            fixed(char* ptr = message)
+                return unchecked((long)SpookyHash.Hash64(ptr + startIndex, ((long)length) << 1, (ulong)seed));
+        }
 
+        /// <summary>Produces a 64-bit SpookyHash of a <see cref="string"/>.</summary>
+        /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
+        /// <param name="message">The <see cref="string"/> to hash.</param>
+        /// <param name="seed">The 64-bit seed value.</param>
+        /// <param name="startIndex">The index from which to hash.</param>
+        /// <param name="length">The number of <see cref="char"/>s to hash.</param>
+        /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
+        /// than the length of the string.</exception>
+        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
+        /// than the length of the string.</exception>
+        [SecuritySafeCritical]
+        public static unsafe long SpookyHash64(this string message, int startIndex, int length, long seed)
+        {
+            if(message == null)
+                return 0L;
+            ExceptionHelper.CheckBounds(message, startIndex, length);
+            return SpookyHash64Unchecked(message, startIndex, length, seed);
+        }
+
+        /// <summary>Produces a 64-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
+        /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
+        /// <param name="message">The <see cref="string"/> to hash.</param>
+        /// <param name="startIndex">The index from which to hash.</param>
+        /// <param name="length">The number of <see cref="char"/>s to hash.</param>
+        /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
+        /// than the length of the string.</exception>
+        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
+        /// than the length of the string.</exception>
+        [SecuritySafeCritical]
+        public static unsafe long SpookyHash64(this string message, int startIndex, int length)
+        {
+            if(message == null)
+                return 0L;
+            ExceptionHelper.CheckBounds(message, startIndex, length);
+            return SpookyHash64Unchecked(message, 0, message.Length, unchecked((long)SpookyHash.SpookyConst));
+        }
+        
         /// <summary>Produces a 64-bit SpookyHash of a <see cref="string"/>.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The <see cref="string"/> to hash.</param>
@@ -57,11 +165,7 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static unsafe long SpookyHash64(this string message, long seed)
         {
-            if(message == null)
-                return 0L;
-            ulong hash = (ulong)seed;
-            fixed(char* ptr = message)
-                return (long)SpookyHash.Hash64(ptr, message.Length, hash);
+            return message == null ? 0L : SpookyHash64Unchecked(message, 0, message.Length, seed);
         }
 
         /// <summary>Produces a 64-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
@@ -70,396 +174,74 @@ namespace SpookilySharp
         /// <remarks>For a null string, the hash will be zero.</remarks>
         public static long SpookyHash64(this string message)
         {
-            return unchecked(SpookyHash64(message, (long)SpookyHash.SpookyConst));
+            return SpookyHash64(message, unchecked((long)SpookyHash.SpookyConst));
+        }
+        
+
+        [SecurityCritical]
+        private static int SpookyHash32Unchecked(string message, int startIndex, int length, uint seed)
+        {
+            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
         }
 
-        /// <summary>Produces a 32-bit SpookyHash of a <see cref="string"/>.</summary>
-        /// <returns>A <see cref="int"/> containing the 32-bit hash.</returns>
-        /// <param name="message">The <see cref="string"/> to hash.</param>
+        /// <summary>Produces a 32-bit SpookyHash of a <see cref="string"/>s.</summary>
+        /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
+        /// <param name="message">The string to hash.</param>
+        /// <param name="startIndex">The index from which to hash.</param>
+        /// <param name="length">The number of characters to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
+        /// than the length of the string.</exception>
+        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
+        /// than the length of the string.</exception>
         [SecuritySafeCritical]
-        public static unsafe int SpookyHash32(this string message, int seed)
+        public static int SpookyHash32(this string message, int startIndex, int length, int seed)
         {
             if(message == null)
                 return 0;
-            fixed(char* ptr = message)
-                return (int)SpookyHash.Hash32(ptr, ((long)message.Length) << 1, (uint)seed);
+            ExceptionHelper.CheckBounds(message, startIndex, length);
+            return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
 
         /// <summary>Produces a 32-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
-        /// <returns>A <see cref="int"/> containing the 32-bit hash.</returns>
-        /// <param name="message">The <see cref="string"/> to hash.</param>
+        /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
+        /// <param name="message">The string to hash.</param>
+        /// <param name="startIndex">The index from which to hash.</param>
+        /// <param name="length">The number of characters to hash.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
+        /// than the length of the string.</exception>
+        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
+        /// than the length of the string.</exception>
+        [SecuritySafeCritical]
+        public static int SpookyHash32(this string message, int startIndex, int length)
+        {
+            if(message == null)
+                return 0;
+            ExceptionHelper.CheckBounds(message, startIndex, length);
+            return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
+        }
+
+        /// <summary>Produces a 32-bit SpookyHash of a <see cref="string"/>.</summary>
+        /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
+        /// <param name="message">The string to hash.</param>
+        /// <param name="seed">The 32-bit seed value.</param>
+        /// <remarks>For a null string, the hash will be zero.</remarks>
+        [SecuritySafeCritical]
+        public static int SpookyHash32(this string message, int seed)
+        {
+            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
+        }
+
+        /// <summary>Produces a 32-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
+        /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
+        /// <param name="message">The string to hash.</param>
+        /// <remarks>For a null string, the hash will be zero.</remarks>
+        [SecuritySafeCritical]
         public static int SpookyHash32(this string message)
         {
-            return unchecked(SpookyHash32(message, (int)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces an 128-bit SpookyHash of an array of characters.</summary>
-        /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of characters to hash.</param>
-        /// <param name="seed0">The first 64-bits of the seed value.</param>
-        /// <param name="seed1">The second 64-bits of the seed value.</param>
-        /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        [SecuritySafeCritical]
-        public static unsafe HashCode128 SpookyHash128(
-            this char[] message, int startIndex, int length, long seed0, long seed1)
-        {
-            if(message == null)
-                return default(HashCode128);
-            ExceptionHelper.CheckArray(message, startIndex, length);
-            ulong hash1 = (ulong)seed0;
-            ulong hash2 = (ulong)seed1;
-            fixed(char* ptr = message)
-                SpookyHash.Hash128(ptr + startIndex, ((long)length) << 1, ref hash1, ref hash2);
-            return new HashCode128(hash1, hash2);
-        }
-
-        /// <summary>Produces an 128-bit SpookyHash of an array of characters, using a default seed.</summary>
-        /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of characters to hash.</param>
-        /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        public static HashCode128 SpookyHash128(this char[] message, int startIndex, int length)
-        {
-            return unchecked(SpookyHash128(
-                message,
-                startIndex,
-                length,
-                (long)SpookyHash.SpookyConst,
-                (long)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces a 64-bit SpookyHash of an array of characters.</summary>
-        /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of characters to hash.</param>
-        /// <param name="seed">The 64-bit seed value.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        [SecuritySafeCritical]
-        public static unsafe long SpookyHash64(this char[] message, int startIndex, int length, long seed)
-        {
-            if(message == null)
-                return 0;
-            ExceptionHelper.CheckArray(message, startIndex, length);
-            ulong hash = (ulong)seed;
-            fixed(char* ptr = message)
-                return (long)SpookyHash.Hash64(ptr + startIndex, ((long)length) << 1, hash);
-        }
-
-        /// <summary>Produces a 64-bit SpookyHash of an array of characters, with a default seed.</summary>
-        /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of characters to hash.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        public static long SpookyHash64(this char[] message, int startIndex, int length)
-        {
-            return unchecked(SpookyHash64(message, startIndex, length, (long)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces a 32-bit SpookyHash of an array of characters.</summary>
-        /// <returns>An <see cref="int"/> containing the 32-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of characters to hash.</param>
-        /// <param name="seed">The 64-bit seed value.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        [SecuritySafeCritical]
-        public static unsafe int SpookyHash32(this char[] message, int startIndex, int length, int seed)
-        {
-            if(message == null)
-                return 0;
-            ExceptionHelper.CheckArray(message, startIndex, length);
-            uint hash = (uint)seed;
-            fixed(char* ptr = message)
-                return (int)SpookyHash.Hash32(ptr + startIndex, ((long)length) << 1, hash);
-        }
-
-        /// <summary>Produces a 32-bit SpookyHash of an array of characters, with a default seed.</summary>
-        /// <returns>An <see cref="int"/> containing the 32-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of characters to hash.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        public static int SpookyHash32(this char[] message, int startIndex, int length)
-        {
-            return unchecked(SpookyHash32(message, startIndex, length, (int)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces an 128-bit SpookyHash of an array of characters.</summary>
-        /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="seed0">The first 64-bits of the seed value.</param>
-        /// <param name="seed1">The second 64-bits of the seed value.</param>
-        /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        public static HashCode128 SpookyHash128(this char[] message, long seed0, long seed1)
-        {
-            return SpookyHash128(message, 0, message.Length, seed0, seed1);
-        }
-
-        /// <summary>Produces an 128-bit SpookyHash of an array of characters, with a default seed.</summary>
-        /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        public static HashCode128 SpookyHash128(this char[] message)
-        {
-            return unchecked(SpookyHash128(
-                message,
-                0,
-                message.Length,
-                (long)SpookyHash.SpookyConst,
-                (long)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces a 64-bit SpookyHash of an array of characters.</summary>
-        /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="seed">The 64-bit seed value.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        public static long SpookyHash64(this char[] message, long seed)
-        {
-            return SpookyHash64(message, 0, 0, seed);
-        }
-
-        /// <summary>Produces a 64-bit SpookyHash of an array of characters, with a default seed.</summary>
-        /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        public static long SpookyHash64(this char[] message)
-        {
-            return unchecked(SpookyHash64(message, 0, message.Length, (long)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces a 32-bit SpookyHash of an array of characters.</summary>
-        /// <returns>An <see cref="int"/> containing the 32-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="seed">The 64-bit seed value.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        public static int SpookyHash32(this char[] message, int seed)
-        {
-            return SpookyHash32(message, 0, message.Length, seed);
-        }
-
-        /// <summary>Produces a 32-bit SpookyHash of an array of characters, with a default seed.</summary>
-        /// <returns>An <see cref="int"/> containing the 32-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        public static int SpookyHash32(this char[] message)
-        {
-            return unchecked(SpookyHash32(message, 0, message.Length, (int)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces an 128-bit SpookyHash of an array of bytes.</summary>
-        /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of bytes to hash.</param>
-        /// <param name="seed0">The first 64-bits of the seed value.</param>
-        /// <param name="seed1">The second 64-bits of the seed value.</param>
-        /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        [SecuritySafeCritical]
-        public static unsafe HashCode128 SpookyHash128(
-            this byte[] message, int startIndex, int length, long seed0, long seed1)
-        {
-            if(message == null)
-                return default(HashCode128);
-            ExceptionHelper.CheckArray(message, startIndex, length);
-            ulong hash1 = (ulong)seed0;
-            ulong hash2 = (ulong)seed1;
-            fixed(byte* ptr = message)
-                SpookyHash.Hash128(ptr + startIndex, length, ref hash1, ref hash2);
-            return new HashCode128(hash1, hash2);
-        }
-
-        /// <summary>Produces an 128-bit SpookyHash of an array of bytes, with a default seed.</summary>
-        /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of bytes to hash.</param>
-        /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        public static HashCode128 SpookyHash128(this byte[] message, int startIndex, int length)
-        {
-            return unchecked(SpookyHash128(
-                message,
-                startIndex,
-                length,
-                (long)SpookyHash.SpookyConst,
-                (long)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces a 64-bit SpookyHash of an array of bytes.</summary>
-        /// <returns>A <see cref="long"/> containing the two 64-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of bytes to hash.</param>
-        /// <param name="seed">The 64-bit seed value.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        [SecuritySafeCritical]
-        public static unsafe long SpookyHash64(this byte[] message, int startIndex, int length, long seed)
-        {
-            if(message == null)
-                return 0;
-            ExceptionHelper.CheckArray(message, startIndex, length);
-            ulong hash = (ulong)seed;
-            fixed(byte* ptr = message)
-                return (long)SpookyHash.Hash64(ptr + startIndex, length, hash);
-        }
-
-        /// <summary>Produces a 64-bit SpookyHash of an array of bytes, with a default seed.</summary>
-        /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of bytes to hash.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        public static long SpookyHash64(this byte[] message, int startIndex, int length)
-        {
-            return unchecked(SpookyHash64(message, startIndex, length, (long)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces a 32-bit SpookyHash of an array of bytes.</summary>
-        /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of bytes to hash.</param>
-        /// <param name="seed">The 32-bit seed value.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        [SecuritySafeCritical]
-        public static unsafe int SpookyHash32(this byte[] message, int startIndex, int length, int seed)
-        {
-            if(message == null)
-                return 0;
-            ExceptionHelper.CheckArray(message, startIndex, length);
-            uint hash = (uint)seed;
-            fixed(byte* ptr = message)
-                return (int)SpookyHash.Hash32(ptr + startIndex, length, hash);
-        }
-
-        /// <summary>Produces a 32-bit SpookyHash of an array of bytes, with a default seed.</summary>
-        /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="startIndex">The index from which to hash.</param>
-        /// <param name="length">The number of bytes to hash.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
-        /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
-        /// than the length of the array.</exception>
-        public static int SpookyHash32(this byte[] message, int startIndex, int length)
-        {
-            return unchecked(SpookyHash32(message, startIndex, length, (int)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces an 128-bit SpookyHash of an array of bytes.</summary>
-        /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="seed0">The first 64-bits of the seed value.</param>
-        /// <param name="seed1">The second 64-bits of the seed value.</param>
-        /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        public static HashCode128 SpookyHash128(this byte[] message, long seed0, long seed1)
-        {
-            return SpookyHash128(message, 0, message.Length, seed0, seed1);
-        }
-
-        /// <summary>Produces an 128-bit SpookyHash of an array of bytes, with a default seed.</summary>
-        /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        public static HashCode128 SpookyHash128(this byte[] message)
-        {
-            return unchecked(SpookyHash128(
-                message,
-                0,
-                message.Length,
-                (long)SpookyHash.SpookyConst,
-                (long)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces a 64-bit SpookyHash of an array of bytes.</summary>
-        /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="seed">The 64-bit seed value.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        public static long SpookyHash64(this byte[] message, long seed)
-        {
-            return SpookyHash64(message, 0, 0, seed);
-        }
-
-        /// <summary>Produces a 64-bit SpookyHash of an array of bytes, with a default seed.</summary>
-        /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        public static long SpookyHash64(this byte[] message)
-        {
-            return unchecked(SpookyHash64(message, 0, message.Length, (int)SpookyHash.SpookyConst));
-        }
-
-        /// <summary>Produces a 32-bit SpookyHash of an array of bytes.</summary>
-        /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <param name="seed">The 32-bit seed value.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        public static int SpookyHash32(this byte[] message, int seed)
-        {
-            return SpookyHash32(message, 0, message.Length, seed);
-        }
-
-        /// <summary>Produces a 32-bit SpookyHash of an array of bytes, with a default seed.</summary>
-        /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
-        /// <param name="message">The array to hash.</param>
-        /// <remarks>For a null array, the hash will be zero.</remarks>
-        public static int SpookyHash32(this byte[] message)
-        {
-            return unchecked(SpookyHash32(message, 0, message.Length, (int)SpookyHash.SpookyConst));
+            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
         }
 
         /// <summary>Produces an 128-bit SpookyHash of a stream.</summary>
