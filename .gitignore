@@ -13,3 +13,5 @@ TestNuGet/packages/**/*
 *.sdps
 StyleCop.Cache
 StyleCopViolations.xml
+/Documentation/*.shfbproj_*
+Help
