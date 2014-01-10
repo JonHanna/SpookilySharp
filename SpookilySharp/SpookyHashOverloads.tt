@@ -101,8 +101,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<<#=name#>> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 

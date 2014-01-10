@@ -79,8 +79,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<SByte> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -372,8 +376,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<UInt16> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -665,8 +673,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<UInt32> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -958,8 +970,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<UInt64> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -1247,8 +1263,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<Byte> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -1526,8 +1546,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<Char> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -1805,8 +1829,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<Int16> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -2084,8 +2112,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<Int32> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -2363,8 +2395,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<Int64> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -2642,8 +2678,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<Single> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
@@ -2921,8 +2961,12 @@ namespace SpookilySharp
             if(asArr != null)
                 UpdateUnchecked(asArr, 0, asArr.Length);
             else
-                foreach(var item in message)
-                    Update(item);
+                UpdateEnumerable(message);
+        }
+        private void UpdateEnumerable(IEnumerable<Double> message)
+        {
+            foreach(var item in message)
+                Update(item);
         }
     }
 
