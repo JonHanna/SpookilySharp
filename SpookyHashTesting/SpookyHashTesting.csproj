@@ -71,7 +71,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Overloads.generated.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EqualityComparerTests.cs" />
