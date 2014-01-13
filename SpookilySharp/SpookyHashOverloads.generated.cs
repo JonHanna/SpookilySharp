@@ -55,7 +55,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(SByte[] message, int startIndex, int length)
         {
             fixed(SByte* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(SByte));
+                Update(ptr + startIndex, length * sizeof(SByte));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -352,7 +352,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(UInt16[] message, int startIndex, int length)
         {
             fixed(UInt16* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(UInt16));
+                Update(ptr + startIndex, length * sizeof(UInt16));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -649,7 +649,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(UInt32[] message, int startIndex, int length)
         {
             fixed(UInt32* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(UInt32));
+                Update(ptr + startIndex, length * sizeof(UInt32));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -946,7 +946,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(UInt64[] message, int startIndex, int length)
         {
             fixed(UInt64* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(UInt64));
+                Update(ptr + startIndex, length * sizeof(UInt64));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -1241,7 +1241,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Byte[] message, int startIndex, int length)
         {
             fixed(Byte* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(Byte));
+                Update(ptr + startIndex, length * sizeof(Byte));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -1524,7 +1524,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Char[] message, int startIndex, int length)
         {
             fixed(Char* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(Char));
+                Update(ptr + startIndex, length * sizeof(Char));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -1807,7 +1807,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Int16[] message, int startIndex, int length)
         {
             fixed(Int16* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(Int16));
+                Update(ptr + startIndex, length * sizeof(Int16));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2090,7 +2090,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Int32[] message, int startIndex, int length)
         {
             fixed(Int32* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(Int32));
+                Update(ptr + startIndex, length * sizeof(Int32));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2373,7 +2373,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Int64[] message, int startIndex, int length)
         {
             fixed(Int64* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(Int64));
+                Update(ptr + startIndex, length * sizeof(Int64));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2656,7 +2656,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Single[] message, int startIndex, int length)
         {
             fixed(Single* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(Single));
+                Update(ptr + startIndex, length * sizeof(Single));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2939,7 +2939,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Double[] message, int startIndex, int length)
         {
             fixed(Double* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(Double));
+                Update(ptr + startIndex, length * sizeof(Double));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -3195,7 +3195,7 @@ namespace SpookilySharp
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe HashCode128 Hash128(UIntPtr message, long length, ulong seed1, ulong seed2)
+        public static unsafe HashCode128 Hash128(UIntPtr message, int length, ulong seed1, ulong seed2)
         {
             ulong hash1 = (ulong)seed1;
             ulong hash2 = (ulong)seed2;
@@ -3213,7 +3213,7 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe ulong Hash64(UIntPtr message, long length, ulong seed)
+        public static unsafe ulong Hash64(UIntPtr message, int length, ulong seed)
         {
             return unchecked((ulong)Hash64((void*)message, length, (ulong)seed));
         }
@@ -3228,7 +3228,7 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe uint Hash32(UIntPtr message, long length, uint seed)
+        public static unsafe uint Hash32(UIntPtr message, int length, uint seed)
         {
             return unchecked((uint)Hash64(message, length, (uint)seed));
         }
@@ -3240,7 +3240,7 @@ namespace SpookilySharp
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe HashCode128 Hash128(UIntPtr message, long length, long seed1, long seed2)
+        public static unsafe HashCode128 Hash128(UIntPtr message, int length, long seed1, long seed2)
         {
             ulong hash1 = (ulong)seed1;
             ulong hash2 = (ulong)seed2;
@@ -3258,7 +3258,7 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe long Hash64(UIntPtr message, long length, long seed)
+        public static unsafe long Hash64(UIntPtr message, int length, long seed)
         {
             return unchecked((long)Hash64((void*)message, length, (ulong)seed));
         }
@@ -3273,7 +3273,7 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe int Hash32(UIntPtr message, long length, int seed)
+        public static unsafe int Hash32(UIntPtr message, int length, int seed)
         {
             return unchecked((int)Hash64(message, length, (uint)seed));
         }
@@ -3285,7 +3285,7 @@ namespace SpookilySharp
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe HashCode128 Hash128(IntPtr message, long length, ulong seed1, ulong seed2)
+        public static unsafe HashCode128 Hash128(IntPtr message, int length, ulong seed1, ulong seed2)
         {
             ulong hash1 = (ulong)seed1;
             ulong hash2 = (ulong)seed2;
@@ -3303,7 +3303,7 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe ulong Hash64(IntPtr message, long length, ulong seed)
+        public static unsafe ulong Hash64(IntPtr message, int length, ulong seed)
         {
             return unchecked((ulong)Hash64((void*)message, length, (ulong)seed));
         }
@@ -3318,7 +3318,7 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe uint Hash32(IntPtr message, long length, uint seed)
+        public static unsafe uint Hash32(IntPtr message, int length, uint seed)
         {
             return unchecked((uint)Hash64(message, length, (uint)seed));
         }
@@ -3329,7 +3329,7 @@ namespace SpookilySharp
         /// <param name="seed2">Second 64 bits of the seed.</param>
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
         [SecurityCritical]
-        public static unsafe HashCode128 Hash128(IntPtr message, long length, long seed1, long seed2)
+        public static unsafe HashCode128 Hash128(IntPtr message, int length, long seed1, long seed2)
         {
             ulong hash1 = (ulong)seed1;
             ulong hash2 = (ulong)seed2;
@@ -3346,7 +3346,7 @@ namespace SpookilySharp
         /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
         /// may have incorrect results.</exception>
         [SecurityCritical]
-        public static unsafe long Hash64(IntPtr message, long length, long seed)
+        public static unsafe long Hash64(IntPtr message, int length, long seed)
         {
             return unchecked((long)Hash64((void*)message, length, (ulong)seed));
         }
@@ -3360,7 +3360,7 @@ namespace SpookilySharp
         /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
         /// may have incorrect results.</exception>
         [SecurityCritical]
-        public static unsafe int Hash32(IntPtr message, long length, int seed)
+        public static unsafe int Hash32(IntPtr message, int length, int seed)
         {
             return unchecked((int)Hash64(message, length, (uint)seed));
         }

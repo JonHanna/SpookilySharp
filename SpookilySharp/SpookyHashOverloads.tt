@@ -79,7 +79,7 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(<#=name#>[] message, int startIndex, int length)
         {
             fixed(<#=name#>* ptr = message)
-                Update(ptr + startIndex, ((long)length) * sizeof(<#=name#>));
+                Update(ptr + startIndex, length * sizeof(<#=name#>));
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -343,7 +343,7 @@ namespace SpookilySharp
         /// <param name="seed2">Second 64 bits of the seed.</param>
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns><#=clsAttr#>
         [SecurityCritical]
-        public static unsafe HashCode128 Hash128(<#=pPref#>IntPtr message, long length, <#=sPref#>long seed1, <#=sPref#>long seed2)
+        public static unsafe HashCode128 Hash128(<#=pPref#>IntPtr message, int length, <#=sPref#>long seed1, <#=sPref#>long seed2)
         {
             ulong hash1 = (ulong)seed1;
             ulong hash2 = (ulong)seed2;
@@ -360,7 +360,7 @@ namespace SpookilySharp
         /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
         /// may have incorrect results.</exception><#=clsAttr#>
         [SecurityCritical]
-        public static unsafe <#=sPref#>long Hash64(<#=pPref#>IntPtr message, long length, <#=sPref#>long seed)
+        public static unsafe <#=sPref#>long Hash64(<#=pPref#>IntPtr message, int length, <#=sPref#>long seed)
         {
             return unchecked((<#=sPref#>long)Hash64((void*)message, length, (ulong)seed));
         }
@@ -374,7 +374,7 @@ namespace SpookilySharp
         /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
         /// may have incorrect results.</exception><#=clsAttr#>
         [SecurityCritical]
-        public static unsafe <#=sPref#>int Hash32(<#=pPref#>IntPtr message, long length, <#=sPref#>int seed)
+        public static unsafe <#=sPref#>int Hash32(<#=pPref#>IntPtr message, int length, <#=sPref#>int seed)
         {
             return unchecked((<#=sPref#>int)Hash64(message, length, (uint)seed));
         }
