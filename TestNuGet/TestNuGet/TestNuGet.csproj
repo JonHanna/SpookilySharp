@@ -43,20 +43,19 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mnemosyne">
+      <HintPath>..\packages\Mnemosyne.1.0.0.1\lib\Mnemosyne.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="SpookilySharp">
-      <HintPath>..\packages\SpookilySharp.1.0.5118\lib\net451\SpookilySharp.dll</HintPath>
+      <HintPath>..\packages\SpookilySharp.1.1.5126\lib\net451\SpookilySharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\SpookyHashTesting\EqualityComparerTests.cs">
@@ -65,11 +64,20 @@
     <Compile Include="..\..\SpookyHashTesting\Hash128Tests.cs">
       <Link>Hash128Tests.cs</Link>
     </Compile>
+    <Compile Include="..\..\SpookyHashTesting\HasherTests.cs">
+      <Link>HasherTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\SpookyHashTesting\HashTests.cs">
       <Link>HashTests.cs</Link>
     </Compile>
     <Compile Include="..\..\SpookyHashTesting\IncrementalTest.cs">
       <Link>IncrementalTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\SpookyHashTesting\Overloads.generated.cs">
+      <Link>Overloads.generated.cs</Link>
+    </Compile>
+    <Compile Include="..\..\SpookyHashTesting\StreamTests.cs">
+      <Link>StreamTests.cs</Link>
     </Compile>
     <Compile Include="..\..\SpookyHashTesting\WellDistributedHashAttributeTests.cs">
       <Link>WellDistributedHashAttributeTests.cs</Link>

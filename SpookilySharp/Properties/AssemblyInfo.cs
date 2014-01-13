@@ -29,7 +29,7 @@ using System.Security;
 [assembly: AssemblyCopyright("© 2014 Jon Hanna")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.1.5126.*")]
 [assembly: CLSCompliant(true)]
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: ComVisible(false)]
