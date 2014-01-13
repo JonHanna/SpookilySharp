@@ -397,7 +397,7 @@ namespace SpookyHashTesting
             ulong hash2 = seed2;
             fixed(void* ptr = testString)
             {
-                long len = testString.Length * 2;
+                int len = testString.Length * 2;
                 SpookyHash.Hash128(ptr, len, ref hash1, ref hash2);
                 HashCode128 hc = new HashCode128(hash1, hash2);
                 Assert.AreEqual(hc, SpookyHash.Hash128((UIntPtr)ptr, len, seed1, seed2));
@@ -421,7 +421,7 @@ namespace SpookyHashTesting
             string testString = "This is a test string";
             fixed(void* ptr = testString)
             {
-                long len = testString.Length * 2;
+                int len = testString.Length * 2;
                 var hc = SpookyHash.Hash64(ptr, len, seed);
                 Assert.AreEqual(hc, SpookyHash.Hash64((UIntPtr)ptr, len, seed));
                 Assert.AreEqual((long)hc, SpookyHash.Hash64((UIntPtr)ptr, len, (long)seed));

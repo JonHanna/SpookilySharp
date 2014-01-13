@@ -27,7 +27,7 @@ namespace SpookilySharp
             string message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             fixed(char* ptr = message)
-                SpookyHash.Hash128(ptr + startIndex, ((long)length) << 1, ref seed0, ref seed1);
+                SpookyHash.Hash128(ptr + startIndex, length << 1, ref seed0, ref seed1);
             return new HashCode128(seed0, seed1);
         }
 
@@ -115,7 +115,7 @@ namespace SpookilySharp
         private static unsafe long SpookyHash64Unchecked(string message, int startIndex, int length, long seed)
         {
             fixed(char* ptr = message)
-                return unchecked((long)SpookyHash.Hash64(ptr + startIndex, ((long)length) << 1, (ulong)seed));
+                return unchecked((long)SpookyHash.Hash64(ptr + startIndex, length << 1, (ulong)seed));
         }
 
         /// <summary>Produces a 64-bit SpookyHash of a <see cref="string"/>.</summary>
