@@ -25,7 +25,7 @@ namespace SpookyHashTesting
     {
         private Stream GetStream()
         {
-            return new FileStream("../../packages/NUnit.2.6.3/lib/nunit.framework.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
+            return new FileStream("nunit.framework.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
         }
         [Test]
         public void StringExtension()
