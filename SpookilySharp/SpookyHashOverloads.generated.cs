@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security;
 
 namespace SpookilySharp
@@ -3195,6 +3196,8 @@ namespace SpookilySharp
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
         [CLSCompliant(false)]
         [SecurityCritical]
+        [SuppressMessage("Microsoft.Security", "CA2116:AptcaMethodsShouldOnlyCallAptcaMethods",
+            Justification = "Method already protected by SecurityCritical")]
         public static unsafe HashCode128 Hash128(UIntPtr message, int length, ulong seed1, ulong seed2)
         {
             ulong hash1 = (ulong)seed1;
@@ -3240,6 +3243,8 @@ namespace SpookilySharp
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
         [CLSCompliant(false)]
         [SecurityCritical]
+        [SuppressMessage("Microsoft.Security", "CA2116:AptcaMethodsShouldOnlyCallAptcaMethods",
+            Justification = "Method already protected by SecurityCritical")]
         public static unsafe HashCode128 Hash128(UIntPtr message, int length, long seed1, long seed2)
         {
             ulong hash1 = (ulong)seed1;
@@ -3285,6 +3290,8 @@ namespace SpookilySharp
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
         [CLSCompliant(false)]
         [SecurityCritical]
+        [SuppressMessage("Microsoft.Security", "CA2116:AptcaMethodsShouldOnlyCallAptcaMethods",
+            Justification = "Method already protected by SecurityCritical")]
         public static unsafe HashCode128 Hash128(IntPtr message, int length, ulong seed1, ulong seed2)
         {
             ulong hash1 = (ulong)seed1;
@@ -3329,6 +3336,8 @@ namespace SpookilySharp
         /// <param name="seed2">Second 64 bits of the seed.</param>
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns>
         [SecurityCritical]
+        [SuppressMessage("Microsoft.Security", "CA2116:AptcaMethodsShouldOnlyCallAptcaMethods",
+            Justification = "Method already protected by SecurityCritical")]
         public static unsafe HashCode128 Hash128(IntPtr message, int length, long seed1, long seed2)
         {
             ulong hash1 = (ulong)seed1;

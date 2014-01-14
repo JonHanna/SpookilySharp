@@ -1,4 +1,4 @@
-// SpookyHash.cs
+﻿// SpookyHash.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -153,6 +153,8 @@ namespace SpookilySharp
             Justification = "More readable with the repeated blocks of the mixing.")]
         [SuppressMessage("Microsoft.StyleCop.CSharp.SpacingRules", "SA1025:CodeMustNotContainMultipleWhitespaceInARow",
             Justification = "More readable with the repeated blocks of the mixing.")]
+        [SuppressMessage("Microsoft.Security", "CA2116:AptcaMethodsShouldOnlyCallAptcaMethods",
+            Justification = "Method already protected by SecurityCritical")]
         public static unsafe void Hash128(void* message, int length, ref ulong hash1, ref ulong hash2)
         {
             if((int)message == 0)
@@ -653,6 +655,8 @@ namespace SpookilySharp
         /// <param name="hash1">The first half of the 128-bit hash.</param>
         /// <param name="hash2">The second half of the 128-bit hash.</param>
         [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", Justification = "Mirroring C++ interface")]
+        [SuppressMessage("Microsoft.Security", "CA2116:AptcaMethodsShouldOnlyCallAptcaMethods",
+            Justification = "Method already protected by SecurityCritical")]
         public void Final(out long hash1, out long hash2)
         {
             ulong uhash1, uhash2;

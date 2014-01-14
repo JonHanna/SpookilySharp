@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security;
 
 namespace SpookilySharp
@@ -343,6 +344,8 @@ namespace SpookilySharp
         /// <param name="seed2">Second 64 bits of the seed.</param>
         /// <returns><see cref="HashCode128"/> representing the 128-bit hash.</returns><#=clsAttr#>
         [SecurityCritical]
+        [SuppressMessage("Microsoft.Security", "CA2116:AptcaMethodsShouldOnlyCallAptcaMethods",
+            Justification = "Method already protected by SecurityCritical")]
         public static unsafe HashCode128 Hash128(<#=pPref#>IntPtr message, int length, <#=sPref#>long seed1, <#=sPref#>long seed2)
         {
             ulong hash1 = (ulong)seed1;

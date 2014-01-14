@@ -69,6 +69,7 @@ namespace SpookilySharp
         {
             return unchecked(SpookyHash128(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
+
         /// <summary>Produces an 128-bit SpookyHash of a <see cref="string"/>.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the 128-bit hash.</returns>
         /// <param name="message">The <see cref="string"/> to hash.</param>
@@ -121,9 +122,9 @@ namespace SpookilySharp
         /// <summary>Produces a 64-bit SpookyHash of a <see cref="string"/>.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The <see cref="string"/> to hash.</param>
-        /// <param name="seed">The 64-bit seed value.</param>
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="char"/>s to hash.</param>
+        /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
         /// than the length of the string.</exception>
@@ -176,7 +177,6 @@ namespace SpookilySharp
         {
             return SpookyHash64(message, unchecked((long)SpookyHash.SpookyConst));
         }
-        
 
         [SecurityCritical]
         private static int SpookyHash32Unchecked(string message, int startIndex, int length, uint seed)
@@ -262,6 +262,7 @@ namespace SpookilySharp
                     hash.Update(ptr, len);
             return hash.Final();
         }
+
         /// <summary>Produces an 128-bit SpookyHash of a stream.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
         /// <param name="stream">The stream to hash.</param>
@@ -289,7 +290,7 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public unsafe static ulong SpookyHash64(this Stream stream, ulong seed)
+        public static unsafe ulong SpookyHash64(this Stream stream, ulong seed)
         {
             stream.CheckNotNull();
             var hash = new SpookyHash(seed, seed);
