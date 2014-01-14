@@ -200,6 +200,9 @@ namespace SpookyHashTesting
 	            0xf300c914,0xed84478e,0x5b65009e,0x4764da16,0xaf8e07a2,0x4088dc2c,0x9a0cad41,0x2c3f179b,
 	            0xa67b83f7,0xf27eab09,0xdbe10e28,0xf04c911f,0xd1169f87,0x8e1e4976,0x17f57744,0xe4f5a33f,
 	            0x27c2e04b,0x0b7523bd,0x07305776,0xc6be7503,0x918fa7c9,0xaf2e2cd9,0x82046f8e,0xcc1c8250";
+	    // Note that these speed-comparison tests are not complete benchmarks. They are intended for use during
+	    // development as a quick sanity test to ensure that an attempted improvement has not had a strikingly
+	    // negative effect upon performance.
 	    [Test]
 	    [Ignore]
 	    public void TestNativeSpeed()
@@ -213,6 +216,23 @@ namespace SpookyHashTesting
 	    {
 	        for(int i = 0; i != 1000000; ++i)
 	            MediumLengthString.SpookyHash32();
+	    }
+	    private static IEnumerable<string> MediumLengthSequence()
+	    {
+	        var arr = MediumLengthString.Split('x');
+	        yield return arr[0];
+	        for(int i = 1; i != arr.Length; ++i)
+	        {
+	            yield return "x";
+	            yield return arr[i];
+	        }
+	    }
+	    [Test]
+	    public void SequenceOfStrings()
+	    {
+	        var sh = new SpookyHash();
+	        sh.Update(MediumLengthSequence());
+	        Assert.AreEqual(MediumLengthString.SpookyHash128(), sh.Final());
 	    }
 	    private static IEnumerable<uint> RandomUints(int num)
 	    {

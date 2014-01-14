@@ -19,6 +19,7 @@
 // permission is given by him to port the algorithm into other languages, as per here.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Security;
@@ -501,6 +502,27 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             Update(message, 0, message.Length);
+        }
+        
+        /// <summary>Updates the in-progress hash generation with each <see cref="string"/> in an sequence of strings
+        /// </summary>
+        /// <param name="message">The sequence of <see cref="string"/>s to hash.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
+        /// <remarks>It is acceptable for strings within the sequence to be <see langword="null"/>. They will affect the
+        /// hash produced. i.e. the sequence <c>{"a", "b", "c"}</c> will produce a different hash than
+        /// <c>{"a", null, "b", "c"}</c>. This is often useful, but if this is undesirable in a given case (you want the
+        /// same hash as the concatenation), then filter out <see langword="null"/> <see cref="string"/>s first.
+        /// </remarks>
+        [SecuritySafeCritical]
+        public unsafe void Update(IEnumerable<string> message)
+        {
+            ExceptionHelper.CheckMessageNotNull(message);
+            foreach(string item in message)
+                if(item == null)
+                    Update(SpookyConst);//Just to make sure we produce a different hash for this case.
+                else
+                    fixed(char* ptr = item)
+                        Update(ptr, item.Length << 1);
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
