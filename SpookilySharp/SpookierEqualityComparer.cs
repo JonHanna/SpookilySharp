@@ -82,7 +82,7 @@ namespace SpookilySharp
         /// section of bits, e.g. with power-of-two hash tables.</remarks>
         public static IEqualityComparer<T> WellDistributed<T>(this IEqualityComparer<T> comparer)
         {
-            if(typeof(T) == typeof(string) && EqualityComparer<string>.Default.Equals(comparer))
+            if(typeof(T) == typeof(string) && IntPtr.Size == 8 && EqualityComparer<string>.Default.Equals(comparer))
                 return (IEqualityComparer<T>)(object)new SpookyStringEqualityComparer();
             return IsGood<T>(comparer) ? comparer : new WellDistributedEqualityComparer<T>(comparer);
         }
