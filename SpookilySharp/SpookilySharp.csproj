@@ -27,8 +27,8 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>hackcraftPublic.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
     <SourceAnalysisOverrideSettingsFile>D:\SpookilySharp\SpookilySharp\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>

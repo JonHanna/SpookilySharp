@@ -50,7 +50,7 @@
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="SpookilySharp">
-      <HintPath>..\packages\SpookilySharp.1.1.5126\lib\net451\SpookilySharp.dll</HintPath>
+      <HintPath>..\packages\SpookilySharp.1.1.5127\lib\net451\SpookilySharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -82,6 +82,9 @@
     <Compile Include="..\..\SpookyHashTesting\WellDistributedHashAttributeTests.cs">
       <Link>WellDistributedHashAttributeTests.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
