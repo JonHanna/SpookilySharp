@@ -29,7 +29,16 @@ using System.Security;
 [assembly: AssemblyCopyright("© 2014 Jon Hanna")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("1.1.5126.*")]
+#if NET_35
+[assembly: AssemblyVersion("1.1.5126.40907")]
+#elif NET_40
+[assembly: AssemblyVersion("1.1.5126.40904")]
+#elif NET_45
+[assembly: AssemblyVersion("1.1.5126.40900")]
+#elif NET_451
+[assembly: AssemblyVersion("1.1.5126.40896")]
+#endif
+[assembly: AssemblyInformationalVersionAttribute("1.1.5127")]
 [assembly: CLSCompliant(true)]
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: ComVisible(false)]

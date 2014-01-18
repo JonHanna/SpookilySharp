@@ -34,12 +34,15 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == '4.5.1' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <DefineConstants>NET_451</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == '4.5' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DefineConstants>NET_45</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == '4.0' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DefineConstants>NET_40</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == '3.5' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
