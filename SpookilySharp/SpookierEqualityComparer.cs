@@ -50,6 +50,7 @@ namespace SpookilySharp
             }
         }
 
+        [Serializable]
         private sealed class WellDistributedEqualityComparer<T> : IEqualityComparer<T>
         {
             private readonly IEqualityComparer<T> _cmp;
