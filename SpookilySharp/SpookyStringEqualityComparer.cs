@@ -63,7 +63,7 @@ namespace SpookilySharp
         [WellDistributedHash]
         public int GetHashCode(char[] obj)
         {
-            return obj == null ? 0 : obj.SpookyHash32(_seed);
+            return obj == null ? 0 : SpookyHasher.SpookyHash32(obj, _seed);
         }
 
         /// <returns>The 32-bit signed SpookyHash hash code, or zero if the string is null.</returns>
@@ -72,7 +72,7 @@ namespace SpookilySharp
         [WellDistributedHash]
         public int GetHashCode(string obj)
         {
-            return obj == null ? 0 : obj.SpookyHash32(_seed);
+            return obj == null ? 0 : SpookyHasher.SpookyHash32(obj, _seed);
         }
 
         /// <summary>Returns true if the two arrays are identical.</summary>
@@ -263,7 +263,7 @@ namespace SpookilySharp
         [WellDistributedHash]
         public override int GetHashCode()
         {
-            return _seed.Rehash();
+            return Redistributor.Rehash(_seed);
         }
     }
 }

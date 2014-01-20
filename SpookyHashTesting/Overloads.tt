@@ -1,4 +1,4 @@
-<#@ template language="C#" #>
+﻿<#@ template language="C#" #>
 <#@ output extension=".generated.cs" #>
 <#
 // Overloads.tt
@@ -117,35 +117,35 @@ namespace SpookyHashTesting
             var sh = new SpookyHash();
             sh.Update(arr);
             var h = sh.Final();
-            Assert.AreEqual(h, arr.SpookyHash128());
-            Assert.AreEqual(h, arr.SpookyHash128(0, 200, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(h, unchecked(arr.SpookyHash128(0, 200, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(h, arr.SpookyHash128(0, 200));
-            var hSlice = arr.SpookyHash128(50, 100, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF);
+            Assert.AreEqual(h, SpookyHasher.SpookyHash128(arr));
+            Assert.AreEqual(h, SpookyHasher.SpookyHash128(arr, 0, 200, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
+            Assert.AreEqual(h, unchecked(SpookyHasher.SpookyHash128(arr, 0, 200, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
+            Assert.AreEqual(h, SpookyHasher.SpookyHash128(arr, 0, 200));
+            var hSlice = SpookyHasher.SpookyHash128(arr, 50, 100, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF);
             Assert.AreNotEqual(h, hSlice);
-            Assert.AreEqual(hSlice, unchecked(arr.SpookyHash128(50, 100, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
-            long lHash = arr.SpookyHash64(0, 200, unchecked((long)0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(lHash, arr.SpookyHash64(unchecked((long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(lHash, arr.SpookyHash64(0, 200));
-            Assert.AreEqual(lHash, arr.SpookyHash64());
-            int hash = arr.SpookyHash32(0, 200, unchecked((int)0xDEADBEEF));
-            Assert.AreEqual(hash, arr.SpookyHash32(unchecked((int)0xDEADBEEF)));
-            Assert.AreEqual(hash, arr.SpookyHash32(0, 200));
-            Assert.AreEqual(hash, arr.SpookyHash32());
+            Assert.AreEqual(hSlice, unchecked(SpookyHasher.SpookyHash128(arr, 50, 100, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
+            long lHash = SpookyHasher.SpookyHash64(arr, 0, 200, unchecked((long)0xDEADBEEFDEADBEEF));
+            Assert.AreEqual(lHash, SpookyHasher.SpookyHash64(arr, unchecked((long)0xDEADBEEFDEADBEEF)));
+            Assert.AreEqual(lHash, SpookyHasher.SpookyHash64(arr, 0, 200));
+            Assert.AreEqual(lHash, SpookyHasher.SpookyHash64(arr));
+            int hash = SpookyHasher.SpookyHash32(arr, 0, 200, unchecked((int)0xDEADBEEF));
+            Assert.AreEqual(hash, SpookyHasher.SpookyHash32(arr, unchecked((int)0xDEADBEEF)));
+            Assert.AreEqual(hash, SpookyHasher.SpookyHash32(arr, 0, 200));
+            Assert.AreEqual(hash, SpookyHasher.SpookyHash32(arr));
             arr = null;
-            Assert.AreEqual(HashCode128.Zero, arr.SpookyHash128());
-            Assert.AreEqual(HashCode128.Zero, arr.SpookyHash128(0, 200, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(HashCode128.Zero, unchecked(arr.SpookyHash128(0, 200, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(HashCode128.Zero, arr.SpookyHash128(0, 200));
-            Assert.AreEqual(HashCode128.Zero, arr.SpookyHash128(50, 100, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(0, arr.SpookyHash64(0, 200, unchecked((long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(0, arr.SpookyHash64(unchecked((long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(0, arr.SpookyHash64(0, 200));
-            Assert.AreEqual(0, arr.SpookyHash64());
-            Assert.AreEqual(0, arr.SpookyHash32(0, 200, unchecked((int)0xDEADBEEF)));
-            Assert.AreEqual(0, arr.SpookyHash32(unchecked((int)0xDEADBEEF)));
-            Assert.AreEqual(0, arr.SpookyHash32(0, 200));
-            Assert.AreEqual(0, arr.SpookyHash32());
+            Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(arr));
+            Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(arr, 0, 200, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
+            Assert.AreEqual(HashCode128.Zero, unchecked(SpookyHasher.SpookyHash128(arr, 0, 200, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
+            Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(arr, 0, 200));
+            Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(arr, 50, 100, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
+            Assert.AreEqual(0, SpookyHasher.SpookyHash64(arr, 0, 200, unchecked((long)0xDEADBEEFDEADBEEF)));
+            Assert.AreEqual(0, SpookyHasher.SpookyHash64(arr, unchecked((long)0xDEADBEEFDEADBEEF)));
+            Assert.AreEqual(0, SpookyHasher.SpookyHash64(arr, 0, 200));
+            Assert.AreEqual(0, SpookyHasher.SpookyHash64(arr));
+            Assert.AreEqual(0, SpookyHasher.SpookyHash32(arr, 0, 200, unchecked((int)0xDEADBEEF)));
+            Assert.AreEqual(0, SpookyHasher.SpookyHash32(arr, unchecked((int)0xDEADBEEF)));
+            Assert.AreEqual(0, SpookyHasher.SpookyHash32(arr, 0, 200));
+            Assert.AreEqual(0, SpookyHasher.SpookyHash32(arr));
         }
         <#foreach(int size in new []{32, 64, 128})
         {
@@ -155,19 +155,19 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest<#=size#><#=name#>()
         {
-            (new <#=name#>[0]).SpookyHash<#=size#>(-1, 2);
+            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], -1, 2);
         }
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest<#=size#><#=name#>()
         {
-            (new <#=name#>[0]).SpookyHash<#=size#>(40, 2);
+            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], 40, 2);
         }
         [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength<#=size#><#=name#>()
         {
-            (new <#=name#>[0]).SpookyHash<#=size#>(0, 2);
+            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], 0, 2);
         }
         <#}#>
     }

@@ -66,7 +66,7 @@ namespace SpookilySharp
             public int GetHashCode(T obj)
             {
                 // Analysis disable once CompareNonConstrainedGenericWithNull
-                return obj == null ? 0 : _cmp.GetHashCode(obj).Rehash();
+                return obj == null ? 0 : Redistributor.Rehash(_cmp.GetHashCode(obj));
             }
         }
 
@@ -81,7 +81,11 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall risk of collision (indeed, will
         /// make it slightly worse), it can help when uses of hash codes are particularly sensitive to collisions in the one
         /// section of bits, e.g. with power-of-two hash tables.</remarks>
-        public static IEqualityComparer<T> WellDistributed<T>(this IEqualityComparer<T> comparer)
+        public static IEqualityComparer<T> WellDistributed<T>(
+#if !NET_20 && !NET_30
+            this
+#endif
+            IEqualityComparer<T> comparer)
         {
             if(IntPtr.Size == 8 && typeof(T) == typeof(string) && EqualityComparer<string>.Default.Equals(comparer))
                 return (IEqualityComparer<T>)(object)new SpookyStringEqualityComparer();

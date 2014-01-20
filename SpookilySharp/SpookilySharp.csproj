@@ -48,6 +48,14 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <DefineConstants>NET_35</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == '3.0' ">
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <DefineConstants>NET_30</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == '2.0' ">
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <DefineConstants>NET_20</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
@@ -86,6 +94,18 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|3.5' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|3.0' ">
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|3.0' ">
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|2.0' ">
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|2.0' ">
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mnemosyne">

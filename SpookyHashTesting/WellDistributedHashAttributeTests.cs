@@ -1,4 +1,4 @@
-// WellDistributedHashAttributeTests.cs
+﻿// WellDistributedHashAttributeTests.cs
 //
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
@@ -232,11 +232,11 @@ namespace SpookyHashTesting
         }
         private void ConfirmBad<T>(IEqualityComparer<T> cmp)
         {
-            Assert.AreNotSame(cmp, cmp.WellDistributed());
+            Assert.AreNotSame(cmp, SpookierEqualityComparers.WellDistributed(cmp));
         }
         private void ConfirmGood<T>(IEqualityComparer<T> cmp)
         {
-            Assert.AreSame(cmp, cmp.WellDistributed());
+            Assert.AreSame(cmp, SpookierEqualityComparers.WellDistributed(cmp));
         }
     }
 }

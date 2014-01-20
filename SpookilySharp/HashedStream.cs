@@ -35,7 +35,7 @@ namespace SpookilySharp
         [CLSCompliant(false)]
         public HashedStream(Stream stream, ulong readSeed0, ulong readSeed1, ulong writeSeed0, ulong writeSeed1)
         {
-            stream.CheckNotNull();
+            ExceptionHelper.CheckNotNull(stream);
             _backing = stream;
             _read = new SpookyHash(readSeed0, readSeed1);
             _written = new SpookyHash(writeSeed0, writeSeed1);
@@ -75,7 +75,7 @@ namespace SpookilySharp
         /// <param name="stream">The stream to read.</param>
         public HashedStream(Stream stream)
         {
-            stream.CheckNotNull();
+            ExceptionHelper.CheckNotNull(stream);
             _backing = stream;
             _read = new SpookyHash();
             _written = new SpookyHash();

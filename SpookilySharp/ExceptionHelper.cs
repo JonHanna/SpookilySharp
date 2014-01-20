@@ -86,7 +86,7 @@ namespace SpookilySharp
             if(message == null)
                 throw new ArgumentNullException("message");
         }
-        public static void CheckNotNull(this Stream stream)
+        public static void CheckNotNull(Stream stream)
         {
             if(stream == null)
                 throw new ArgumentNullException("stream");

@@ -45,7 +45,11 @@ namespace SpookilySharp
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
         [CLSCompliant(false)]
-        public static HashCode128 SpookyHash128(this string message, int startIndex, int length, ulong seed0, ulong seed1)
+        public static HashCode128 SpookyHash128(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
                 return default(HashCode128);
@@ -65,7 +69,11 @@ namespace SpookilySharp
         /// than the length of the string.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
-        public static HashCode128 SpookyHash128(this string message, int startIndex, int length, long seed0, long seed1)
+        public static HashCode128 SpookyHash128(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, int startIndex, int length, long seed0, long seed1)
         {
             return unchecked(SpookyHash128(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -77,7 +85,11 @@ namespace SpookilySharp
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this string message, long seed0, long seed1)
+        public static HashCode128 SpookyHash128(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, long seed0, long seed1)
         {
             return message == null
                 ? default(HashCode128)
@@ -95,7 +107,11 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this string message, int startIndex, int length)
+        public static HashCode128 SpookyHash128(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, int startIndex, int length)
         {
             if(message == null)
                 return default(HashCode128);
@@ -107,7 +123,11 @@ namespace SpookilySharp
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
         /// <param name="message">The <see cref="string"/> to hash.</param>
         /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        public static HashCode128 SpookyHash128(this string message)
+        public static HashCode128 SpookyHash128(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message)
         {
             return unchecked(SpookyHash128(message, (long)SpookyHash.SpookyConst, (long)SpookyHash.SpookyConst));
         }
@@ -131,7 +151,11 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
-        public static unsafe long SpookyHash64(this string message, int startIndex, int length, long seed)
+        public static unsafe long SpookyHash64(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, int startIndex, int length, long seed)
         {
             if(message == null)
                 return 0L;
@@ -150,7 +174,11 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
-        public static unsafe long SpookyHash64(this string message, int startIndex, int length)
+        public static unsafe long SpookyHash64(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, int startIndex, int length)
         {
             if(message == null)
                 return 0L;
@@ -164,7 +192,11 @@ namespace SpookilySharp
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static unsafe long SpookyHash64(this string message, long seed)
+        public static unsafe long SpookyHash64(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, long seed)
         {
             return message == null ? 0L : SpookyHash64Unchecked(message, 0, message.Length, seed);
         }
@@ -173,7 +205,11 @@ namespace SpookilySharp
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The <see cref="string"/> to hash.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
-        public static long SpookyHash64(this string message)
+        public static long SpookyHash64(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message)
         {
             return SpookyHash64(message, unchecked((long)SpookyHash.SpookyConst));
         }
@@ -196,7 +232,11 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this string message, int startIndex, int length, int seed)
+        public static int SpookyHash32(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, int startIndex, int length, int seed)
         {
             if(message == null)
                 return 0;
@@ -215,7 +255,11 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this string message, int startIndex, int length)
+        public static int SpookyHash32(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, int startIndex, int length)
         {
             if(message == null)
                 return 0;
@@ -229,7 +273,11 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this string message, int seed)
+        public static int SpookyHash32(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message, int seed)
         {
             return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
         }
@@ -239,7 +287,11 @@ namespace SpookilySharp
         /// <param name="message">The string to hash.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this string message)
+        public static int SpookyHash32(
+#if !NET_20 && !NET_30
+            this
+#endif
+            string message)
         {
             return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
         }
@@ -252,9 +304,13 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [SecuritySafeCritical]
         [CLSCompliant(false)]
-        public static unsafe HashCode128 SpookyHash128(this Stream stream, ulong seed0, ulong seed1)
+        public static unsafe HashCode128 SpookyHash128(
+#if !NET_20 && !NET_30
+            this
+#endif
+            Stream stream, ulong seed0, ulong seed1)
         {
-            stream.CheckNotNull();
+            ExceptionHelper.CheckNotNull(stream);
             var hash = new SpookyHash(seed0, seed1);
             var buffer = new byte[4096];
             fixed(void* ptr = buffer)
@@ -269,7 +325,11 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
-        public static unsafe HashCode128 SpookyHash128(this Stream stream, long seed0, long seed1)
+        public static unsafe HashCode128 SpookyHash128(
+#if !NET_20 && !NET_30
+            this
+#endif
+            Stream stream, long seed0, long seed1)
         {
             return unchecked(SpookyHash128(stream, (ulong)seed0, (ulong)seed1));
         }
@@ -278,7 +338,11 @@ namespace SpookilySharp
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
         /// <param name="stream">The stream to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
-        public static HashCode128 SpookyHash128(this Stream stream)
+        public static HashCode128 SpookyHash128(
+#if !NET_20 && !NET_30
+            this
+#endif
+            Stream stream)
         {
             return unchecked(SpookyHash128(stream, SpookyHash.SpookyConst, SpookyHash.SpookyConst));
         }
@@ -290,9 +354,13 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static unsafe ulong SpookyHash64(this Stream stream, ulong seed)
+        public static unsafe ulong SpookyHash64(
+#if !NET_20 && !NET_30
+            this
+#endif
+            Stream stream, ulong seed)
         {
-            stream.CheckNotNull();
+            ExceptionHelper.CheckNotNull(stream);
             var hash = new SpookyHash(seed, seed);
             var buffer = new byte[4096];
             fixed(void* ptr = buffer)
@@ -307,7 +375,11 @@ namespace SpookilySharp
         /// <param name="stream">The stream to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
-        public static long SpookyHash64(this Stream stream, long seed)
+        public static long SpookyHash64(
+#if !NET_20 && !NET_30
+            this
+#endif
+            Stream stream, long seed)
         {
             return unchecked((long)SpookyHash64(stream, (ulong)seed));
         }
@@ -316,7 +388,11 @@ namespace SpookilySharp
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="stream">The stream to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
-        public static long SpookyHash64(this Stream stream)
+        public static long SpookyHash64(
+#if !NET_20 && !NET_30
+            this
+#endif
+            Stream stream)
         {
             return unchecked(SpookyHash64(stream, (long)SpookyHash.SpookyConst));
         }
@@ -327,7 +403,11 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
-        public static uint SpookyHash32(this Stream stream, uint seed)
+        public static uint SpookyHash32(
+#if !NET_20 && !NET_30
+            this
+#endif
+            Stream stream, uint seed)
         {
             return unchecked((uint)SpookyHash64(stream, (ulong)seed));
         }
@@ -337,7 +417,11 @@ namespace SpookilySharp
         /// <param name="stream">The stream to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
-        public static int SpookyHash32(this Stream stream, int seed)
+        public static int SpookyHash32(
+#if !NET_20 && !NET_30
+            this
+#endif
+            Stream stream, int seed)
         {
             return unchecked((int)SpookyHash64(stream, (ulong)(uint)seed));
         }
@@ -346,7 +430,11 @@ namespace SpookilySharp
         /// <returns>An <see cref="int"/> containing the 32-bit hash.</returns>
         /// <param name="stream">The stream to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
-        public static int SpookyHash32(this Stream stream)
+        public static int SpookyHash32(
+#if !NET_20 && !NET_30
+            this
+#endif
+            Stream stream)
         {
             return unchecked(SpookyHash32(stream, (int)(uint)SpookyHash.SpookyConst));
         }

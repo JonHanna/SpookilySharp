@@ -13,7 +13,7 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
-#if NET_35
+#if NET_20 || NET_30 || NET_35
 using System;
 
 namespace SpookilySharp

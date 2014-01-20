@@ -35,7 +35,11 @@ namespace SpookilySharp
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
             Justification = "More readable with the repeated blocks of the mixing.")]
-        public static uint Rehash(this uint message, uint seed)
+        public static uint Rehash(
+#if !NET_20 && !NET_30
+            this
+#endif
+            uint message, uint seed)
         {
             // Fast-path equivalent of calling SpookyHash.Hash32 with a uint, with all paths not taken by such values
             // removed, all paths that don't affect the output removed, and the remaining code folded into constants or
@@ -63,9 +67,13 @@ namespace SpookilySharp
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
         [CLSCompliant(false)]
-        public static uint Rehash(this uint message)
+        public static uint Rehash(
+#if !NET_20 && !NET_30
+            this
+#endif
+            uint message)
         {
-            return message.Rehash(0xDEADBEEF);
+            return Rehash(message, 0xDEADBEEF);
         }
 
         /// <summary>Mixes the bits of a signed 32-bit integer.</summary>
@@ -75,7 +83,11 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
-        public static int Rehash(this int message, int seed)
+        public static int Rehash(
+#if !NET_20 && !NET_30
+            this
+#endif
+            int message, int seed)
         {
             return unchecked((int)Rehash((uint)message, (uint)seed));
         }
@@ -86,9 +98,13 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
-        public static int Rehash(this int message)
+        public static int Rehash(
+#if !NET_20 && !NET_30
+            this
+#endif
+            int message)
         {
-            return unchecked(message.Rehash((int)0xDEADBEEF));
+            return unchecked(Rehash(message, (int)0xDEADBEEF));
         }
 
         /// <summary>Mixes the bits of an unsigned 64-bit integer.</summary>
@@ -102,7 +118,11 @@ namespace SpookilySharp
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
             Justification = "More readable with the repeated blocks of the mixing.")]
-        public static ulong Rehash(this ulong message, ulong seed)
+        public static ulong Rehash(
+#if !NET_20 && !NET_30
+            this
+#endif
+            ulong message, ulong seed)
         {
             // Fast-path equivalent of calling SpookyHash.Hash64 with a ulong, with all paths not taken by such values
             // removed, all paths that don't affect the output removed, and the remaining code folded into constants or
@@ -131,9 +151,13 @@ namespace SpookilySharp
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
         [CLSCompliant(false)]
-        public static ulong Rehash(this ulong message)
+        public static ulong Rehash(
+#if !NET_20 && !NET_30
+            this
+#endif
+            ulong message)
         {
-            return unchecked(message.Rehash(SpookyHash.SpookyConst));
+            return unchecked(Rehash(message, SpookyHash.SpookyConst));
         }
 
         /// <summary>Mixes the bits of a signed 64-bit integer.</summary>
@@ -143,7 +167,11 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
-        public static long Rehash(this long message, long seed)
+        public static long Rehash(
+#if !NET_20 && !NET_30
+            this
+#endif
+            long message, long seed)
         {
             return unchecked((long)Rehash((ulong)message, (ulong)seed));
         }
@@ -154,9 +182,13 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
-        public static long Rehash(this long message)
+        public static long Rehash(
+#if !NET_20 && !NET_30
+            this
+#endif
+            long message)
         {
-            return unchecked(message.Rehash((long)SpookyHash.SpookyConst));
+            return unchecked(Rehash(message, (long)SpookyHash.SpookyConst));
         }
     }
 }

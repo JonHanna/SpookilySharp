@@ -184,13 +184,13 @@ namespace SpookyHashTesting
             HashCode128 hash;
             using(var hs = new HashedStream(GetFileStream()))
             {
-                hash = hs.SpookyHash128();
+                hash = SpookyHasher.SpookyHash128(hs);
                 Assert.AreEqual(hash, hs.ReadHash128);
             }
             using(var fs = GetFileStream())
-                Assert.AreEqual(hash, fs.SpookyHash128(0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
+                Assert.AreEqual(hash, SpookyHasher.SpookyHash128(fs, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
             using(var fs = GetFileStream())
-                Assert.AreEqual(hash, unchecked(fs.SpookyHash128((long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
+                Assert.AreEqual(hash, unchecked(SpookyHasher.SpookyHash128(fs, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
         }
         [Test]
         public void HashExternal64()
@@ -198,54 +198,54 @@ namespace SpookyHashTesting
             long hash;
             using(var hs = new HashedStream(GetFileStream()))
             {
-                hash = hs.SpookyHash64();
+                hash = SpookyHasher.SpookyHash64(hs);
                 Assert.AreEqual(hash, hs.ReadHash64);
             }
             using(var fs = GetFileStream())
-                Assert.AreEqual((ulong)hash, fs.SpookyHash64(0xDEADBEEFDEADBEEF));
+                Assert.AreEqual((ulong)hash, SpookyHasher.SpookyHash64(fs, 0xDEADBEEFDEADBEEF));
             using(var fs = GetFileStream())
-                Assert.AreEqual(hash, unchecked(fs.SpookyHash64((long)0xDEADBEEFDEADBEEF)));
+                Assert.AreEqual(hash, unchecked(SpookyHasher.SpookyHash64(fs, (long)0xDEADBEEFDEADBEEF)));
         }
         [Test]
         public void HashExternal32()
         {
             int hash;
             using(var fs = GetFileStream())
-                hash = fs.SpookyHash32();
+                hash = SpookyHasher.SpookyHash32(fs);
             using(var fs = GetFileStream())
-                Assert.AreEqual(hash, unchecked(fs.SpookyHash32((int)0xDEADBEEF)));
+                Assert.AreEqual(hash, SpookyHasher.SpookyHash32(fs, unchecked((int)0xDEADBEEF)));
             using(var fs = GetFileStream())
-                Assert.AreEqual(hash, (int)fs.SpookyHash32(0xDEADBEEF));
+                Assert.AreEqual(hash, unchecked(SpookyHasher.SpookyHash32(fs, (int)0xDEADBEEF)));
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStream128()
         {
-            ((Stream)null).SpookyHash128();
+            SpookyHasher.SpookyHash128(((Stream)null));
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStreamS128()
         {
-            ((Stream)null).SpookyHash128(1L, 1L);
+            SpookyHasher.SpookyHash128(((Stream)null), 1L, 1L);
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStream64()
         {
-            ((Stream)null).SpookyHash64();
+            SpookyHasher.SpookyHash64(((Stream)null));
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStream32()
         {
-            ((Stream)null).SpookyHash32();
+            SpookyHasher.SpookyHash32(((Stream)null));
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStreamU32()
         {
-            ((Stream)null).SpookyHash32(1U);
+            SpookyHasher.SpookyHash32(((Stream)null), 1U);
         }
     }
 }
