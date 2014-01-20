@@ -17,7 +17,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using SpookilySharp;
 using NUnit.Framework;
 
@@ -376,6 +378,20 @@ namespace SpookyHashTesting
             Assert.AreEqual(hash, fromL.Final());
             Assert.AreEqual(hash, fromZL.Final());
             Assert.AreEqual(hash.ToString(), fromZL.Final().ToString());
+	    }
+	    [Test]
+	    public void Serialize()
+	    {
+	        var sh = new SpookyHash();
+	        sh.Update(MediumLengthString);
+	        using(MemoryStream ms = new MemoryStream())
+	        {
+	            BinaryFormatter bf = new BinaryFormatter();
+	            bf.Serialize(ms, sh);
+	            ms.Seek(0, SeekOrigin.Begin);
+	            var shCopy = (SpookyHash)bf.Deserialize(ms);
+	            Assert.AreEqual(sh.Final(), shCopy.Final());
+	        }
 	    }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]

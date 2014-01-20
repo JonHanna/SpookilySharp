@@ -22,7 +22,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using System.Security;
+#if NET_20 || NET_30 || NET_35
+using System.Security.Permissions;
+#endif
 using System.Text.RegularExpressions;
 using Mnemosyne;
 
@@ -30,7 +34,8 @@ namespace SpookilySharp
 {
     /// <summary>Provides an implementation of SpookyHash, either incrementally or (by static methods) in a single
     /// operation.</summary>
-    public sealed partial class SpookyHash
+    [Serializable]
+    public sealed partial class SpookyHash : ISerializable
     {
         internal const ulong SpookyConst = 0xDEADBEEFDEADBEEF;
         private const int NumVars = 12;
@@ -439,6 +444,25 @@ namespace SpookilySharp
             : this(SpookyConst, SpookyConst)
         {
         }
+        
+        private SpookyHash(SerializationInfo info, StreamingContext context)
+        {
+            _data = (ulong[])info.GetValue("d", typeof(ulong[]));
+            _state0 = info.GetUInt64("s0");
+            _state1 = info.GetUInt64("s1");
+            _state2 = info.GetUInt64("s2");
+            _state3 = info.GetUInt64("s3");
+            _state4 = info.GetUInt64("s4");
+            _state5 = info.GetUInt64("s5");
+            _state6 = info.GetUInt64("s6");
+            _state7 = info.GetUInt64("s7");
+            _state8 = info.GetUInt64("s8");
+            _state9 = info.GetUInt64("s9");
+            _state10 = info.GetUInt64("s10");
+            _state11 = info.GetUInt64("s11");
+            _length = info.GetInt32("l");
+            _remainder = info.GetInt32("r");
+        }
 
         /// <summary>Initialises a new instance of the <see cref="SpookyHash"/> class.</summary>
         /// <param name="seed1">First half of a 128-bit seed for the hash.</param>
@@ -797,6 +821,29 @@ namespace SpookilySharp
             h10 += h0;  h1  ^= h10; h0  = h0 << 54  | h0  >> -54;
             hash2 = h1;
             hash1 = h0;
+        }
+#if NET_20 || NET_30 || NET_35
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+#else
+        [SecurityCritical]
+#endif
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("d", _data);
+            info.AddValue("s0", _state0);
+            info.AddValue("s1", _state1);
+            info.AddValue("s2", _state2);
+            info.AddValue("s3", _state3);
+            info.AddValue("s4", _state4);
+            info.AddValue("s5", _state5);
+            info.AddValue("s6", _state6);
+            info.AddValue("s7", _state7);
+            info.AddValue("s8", _state8);
+            info.AddValue("s9", _state9);
+            info.AddValue("s10", _state10);
+            info.AddValue("s11", _state11);
+            info.AddValue("l", _length);
+            info.AddValue("r", _remainder);
         }
     }
 }

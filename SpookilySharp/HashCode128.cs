@@ -19,6 +19,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace SpookilySharp
 {
     /// <summary>Represents a 128-bit hash code.</summary>
+    [Serializable]
     public struct HashCode128 : IEquatable<HashCode128>
     {
         /// <summary>A <see cref="HashCode128"/> that is all-zero. This is the same as the default value.</summary>

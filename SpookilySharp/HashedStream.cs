@@ -19,6 +19,7 @@ using System.IO;
 namespace SpookilySharp
 {
     /// <summary>Wraps a stream, and maintains a hash of the bytes written to and from it.</summary>
+    [Serializable]
     public class HashedStream : Stream
     {
         private readonly Stream _backing;
