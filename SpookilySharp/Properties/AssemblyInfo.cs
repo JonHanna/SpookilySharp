@@ -29,7 +29,11 @@ using System.Security;
 [assembly: AssemblyCopyright("© 2014 Jon Hanna")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-#if NET_35
+#if NET_20
+[assembly: AssemblyVersion("1.1.5126.40902")]
+#elif NET_30
+[assembly: AssemblyVersion("1.1.5126.40903")]
+#elif NET_35
 [assembly: AssemblyVersion("1.1.5126.40907")]
 #elif NET_40
 [assembly: AssemblyVersion("1.1.5126.40904")]
