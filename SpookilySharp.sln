@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpookilySharp", "SpookilySharp\SpookilySharp.csproj", "{B010C38D-0BC9-4859-9433-0890B03CF6BE}"
@@ -9,16 +9,22 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|2.0 = Debug|2.0
 		Release|2.0 = Release|2.0
+        Signing|2.0 = Signing|2.0
 		Debug|3.0 = Debug|3.0
 		Release|3.0 = Release|3.0
+        Signing|3.0 = Signing|3.0
 		Debug|3.5 = Debug|3.5
 		Release|3.5 = Release|3.5
+        Signing|3.5 = Signing|3.5
 		Debug|4.0 = Debug|4.0
 		Release|4.0 = Release|4.0
+        Signing|4.0 = Signing|4.0
 		Debug|4.5 = Debug|4.5
 		Release|4.5 = Release|4.5
+        Signing|4.5 = Signing|4.5
 		Debug|4.5.1 = Debug|4.5.1
 		Release|4.5.1 = Release|4.5.1
+        Signing|4.5.1 = Signing|4.5.1
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|2.0.ActiveCfg = Debug|2.0
@@ -45,6 +51,18 @@ Global
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|4.5.1.Build.0 = Release|4.5.1
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|4.5.ActiveCfg = Release|4.5
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|4.5.Build.0 = Release|4.5
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|2.0.ActiveCfg = Signing|2.0
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|2.0.Build.0 = Signing|2.0
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|3.0.ActiveCfg = Signing|3.0
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|3.0.Build.0 = Signing|3.0
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|3.5.ActiveCfg = Signing|3.5
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|3.5.Build.0 = Signing|3.5
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|4.0.ActiveCfg = Signing|4.0
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|4.0.Build.0 = Signing|4.0
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|4.5.1.ActiveCfg = Signing|4.5.1
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|4.5.1.Build.0 = Signing|4.5.1
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|4.5.ActiveCfg = Signing|4.5
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|4.5.Build.0 = Signing|4.5
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|2.0.ActiveCfg = Debug|4.5
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|2.0.Build.0 = Debug|4.5
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|3.0.ActiveCfg = Debug|4.5
@@ -69,6 +87,18 @@ Global
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|4.5.1.Build.0 = Release|4.5.1
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|4.5.ActiveCfg = Release|4.5
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|4.5.Build.0 = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|2.0.ActiveCfg = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|2.0.Build.0 = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|3.0.ActiveCfg = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|3.0.Build.0 = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|3.5.ActiveCfg = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|3.5.Build.0 = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|4.0.ActiveCfg = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|4.0.Build.0 = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|4.5.1.ActiveCfg = Release|4.5.1
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|4.5.1.Build.0 = Release|4.5.1
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|4.5.ActiveCfg = Release|4.5
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|4.5.Build.0 = Release|4.5
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = SpookilySharp\SpookilySharp.csproj

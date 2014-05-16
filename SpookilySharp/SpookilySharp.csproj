@@ -27,8 +27,6 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
     <SourceAnalysisOverrideSettingsFile>D:\SpookilySharp\SpookilySharp\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>
@@ -64,12 +62,19 @@
     <RunCodeAnalysis>True</RunCodeAnalysis>
     <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Usage#CA2233</CodeAnalysisRules>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' or '$(Configuration)' == 'Signing' ">
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <CodeAnalysisRules>-Microsoft.Performance#CA1822;-Microsoft.Usage#CA2233</CodeAnalysisRules>
+  </PropertyGroup>
+  <PropertyGroup Condition = " '$(Configuration)' == 'Debug' or '$(Configuration)' == 'Release' ">
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition = " '$(Configuration)' == 'Signing' ">
+    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mnemosyne">
