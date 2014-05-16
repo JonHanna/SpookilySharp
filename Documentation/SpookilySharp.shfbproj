@@ -35,8 +35,8 @@
     <HelpTitle>Spookily Sharp</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\SpookilySharp\bin\Release\4.5.1\SpookilySharp.dll" />
-      <DocumentationSource sourceFile="..\SpookilySharp\bin\Release\4.5.1\SpookilySharp.xml" />
+      <DocumentationSource sourceFile="..\SpookilySharp\bin\Signing\4.5.1\SpookilySharp.dll" />
+      <DocumentationSource sourceFile="..\SpookilySharp\bin\Signing\4.5.1\SpookilySharp.xml" />
     </DocumentationSources>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, SealedProtected</VisibleItems>
     <ComponentConfigurations />
