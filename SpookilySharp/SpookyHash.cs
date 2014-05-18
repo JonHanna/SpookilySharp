@@ -543,7 +543,7 @@ namespace SpookilySharp
             ExceptionHelper.CheckMessageNotNull(message);
             foreach(string item in message)
                 if(item == null)
-                    Update(SpookyConst);//Just to make sure we produce a different hash for this case.
+                    Update(SpookyConst); // Just to make sure we produce a different hash for this case.
                 else
                     fixed(char* ptr = item)
                         Update(ptr, item.Length << 1);
