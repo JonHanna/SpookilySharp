@@ -528,7 +528,7 @@ namespace SpookilySharp
             Update(message, 0, message.Length);
         }
         
-        /// <summary>Updates the in-progress hash generation with each <see cref="string"/> in an sequence of strings
+        /// <summary>Updates the in-progress hash generation with each <see cref="string"/> in an sequence of strings.
         /// </summary>
         /// <param name="message">The sequence of <see cref="string"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
