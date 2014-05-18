@@ -2,13 +2,6 @@
   <GlobalSettings>
     <StringProperty Name="Culture">en-GB</StringProperty>
   </GlobalSettings>
-  <Parsers>
-    <Parser ParserId="StyleCop.CSharp.CsParser">
-      <ParserSettings>
-        <BooleanProperty Name="AnalyzeGeneratedFiles">True</BooleanProperty>
-      </ParserSettings>
-    </Parser>
-  </Parsers>
   <Analyzers>
     <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
       <Rules>
