@@ -113,6 +113,11 @@
       <LastGenOutput>SpookyHashOverloads.generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <StyleCopAdditionalAddinPaths Include="..\packages\StyleCopPlus.MSBuild.4.7.49.0\tools">
+        <Visible>false</Visible>
+    </StyleCopAdditionalAddinPaths>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <MonoDevelop>
