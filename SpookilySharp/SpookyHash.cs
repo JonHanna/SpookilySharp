@@ -187,7 +187,7 @@ namespace SpookilySharp
             if(AllowUnalignedRead || (((long)message) & 7) == 0)
             {
                 while (p64 < end)
-                { 
+                {
                     h0 += p64[0];    h2 ^= h10;   h11 ^= h0;   h0 =   h0 << 11 | h0 >> -11;   h11 += h1;
                     h1 += p64[1];    h3 ^= h11;   h0 ^= h1;    h1 =   h1 << 32 | h1 >> 32;    h0 += h2;
                     h2 += p64[2];    h4 ^= h0;    h1 ^= h2;    h2 =   h2 << 43 | h2 >> -43;   h1 += h3;
@@ -207,7 +207,7 @@ namespace SpookilySharp
                 while (p64 < end)
                 {
                     Memory.Copy(buf, p64, BlockSize);
-                    
+
                     h0 += buf[0];    h2 ^= h10;   h11 ^= h0;   h0 =   h0 << 11 | h0 >> -11;   h11 += h1;
                     h1 += buf[1];    h3 ^= h11;   h0 ^= h1;    h1 =   h1 << 32 | h1 >> 32;    h0 += h2;
                     h2 += buf[2];    h4 ^= h0;    h1 ^= h2;    h2 =   h2 << 43 | h2 >> -43;   h1 += h3;
@@ -304,6 +304,11 @@ namespace SpookilySharp
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
             Justification = "More readable with the repeated blocks of the mixing.")]
+        [SuppressMessage("StyleCopPlus.StyleCopPlusRules",
+            "SP2101:MethodMustNotContainMoreLinesThan",
+            Justification = "One of the two main methods of the algorithm (this is a fastpath version); "
+            + "inherenly large, and won't break into calls into other methods as this would gain little, "
+            + "and cause a mild performance hit.")]
         private static unsafe void Short(void* message, int length, ref ulong hash1, ref ulong hash2, bool skipTest)
         {
             ulong* p64;
@@ -444,7 +449,7 @@ namespace SpookilySharp
             : this(SpookyConst, SpookyConst)
         {
         }
-        
+
         private SpookyHash(SerializationInfo info, StreamingContext context)
         {
             _data = (ulong[])info.GetValue("d", typeof(ulong[]));
@@ -527,7 +532,7 @@ namespace SpookilySharp
             ExceptionHelper.CheckMessageNotNull(message);
             Update(message, 0, message.Length);
         }
-        
+
         /// <summary>Updates the in-progress hash generation with each <see cref="string"/> in an sequence of strings.
         /// </summary>
         /// <param name="message">The sequence of <see cref="string"/>s to hash.</param>
@@ -562,6 +567,10 @@ namespace SpookilySharp
             Justification = "More readable with the repeated blocks of the mixing.")]
         [SuppressMessage("Microsoft.StyleCop.CSharp.SpacingRules", "SA1025:CodeMustNotContainMultipleWhitespaceInARow",
             Justification = "More readable with the repeated blocks of the mixing.")]
+        [SuppressMessage("StyleCopPlus.StyleCopPlusRules",
+            "SP2101:MethodMustNotContainMoreLinesThan",
+            Justification = "One of the two main methods of the algorithm; inherenly large, and won't break into calls"
+            + "into other methods as this would gain little, and cause a mild performance hit.")]
         public unsafe void Update(void* message, int length)
         {
             if((int)message == 0)
@@ -644,7 +653,7 @@ namespace SpookilySharp
                 byte remainder = (byte)(length - ((byte*)end - ((byte*)p64)));
                 if(AllowUnalignedRead || (((long)message) & 7) == 0)
                     while (p64 < end)
-                    { 
+                    {
                         h0  += p64[0];  h2  ^= h10; h11 ^= h0;  h0 =  h0 << 11  | h0 >>  -11; h11 += h1;
                         h1  += p64[1];  h3  ^= h11; h0  ^= h1;  h1 =  h1 << 32  | h1 >>  -32; h0  += h2;
                         h2  += p64[2];  h4  ^= h0;  h1  ^= h2;  h2 =  h2 << 43  | h2 >>  -43; h1  += h3;

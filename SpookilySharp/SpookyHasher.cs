@@ -131,7 +131,7 @@ namespace SpookilySharp
         {
             return unchecked(SpookyHash128(message, (long)SpookyHash.SpookyConst, (long)SpookyHash.SpookyConst));
         }
-        
+
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(string message, int startIndex, int length, long seed)
         {
@@ -185,7 +185,7 @@ namespace SpookilySharp
             ExceptionHelper.CheckBounds(message, startIndex, length);
             return SpookyHash64Unchecked(message, 0, message.Length, unchecked((long)SpookyHash.SpookyConst));
         }
-        
+
         /// <summary>Produces a 64-bit SpookyHash of a <see cref="string"/>.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The <see cref="string"/> to hash.</param>
@@ -293,7 +293,11 @@ namespace SpookilySharp
 #endif
             string message)
         {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
+            return message == null ? 0 : unchecked(SpookyHash32Unchecked(
+                message,
+                0,
+                message.Length,
+                (uint)SpookyHash.SpookyConst));
         }
 
         /// <summary>Produces an 128-bit SpookyHash of a stream.</summary>

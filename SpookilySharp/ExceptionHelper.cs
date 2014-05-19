@@ -26,7 +26,7 @@ namespace SpookilySharp
                 throw new ArgumentNullException(name);
         }
 
-        public static void CheckNotNullS(string arg)
+        public static void CheckNotNullString(string arg)
         {
             CheckNotNull(arg, "s");
         }
@@ -44,17 +44,17 @@ namespace SpookilySharp
             // Analysis disable once NotResolvedInText
             throw new ArgumentOutOfRangeException("startIndex");
         }
-        
+
         private static void PastArrayBounds()
         {
             throw new ArgumentException("Attempt to read beyond the end of the array.");
         }
-        
+
         private static void PastStringBounds()
         {
             throw new ArgumentException("Attempt to read beyond the end of the string.");
         }
-        
+
         public static void CheckArray<T>(T[] message, int startIndex, int length)
         {
             if(startIndex < 0 || startIndex > message.Length)
@@ -62,7 +62,7 @@ namespace SpookilySharp
             if(startIndex + length > message.Length)
                 PastArrayBounds();
         }
-        
+
         public static void CheckArrayIncNull<T>(T[] message, int startIndex, int length)
         {
             CheckMessageNotNull(message);

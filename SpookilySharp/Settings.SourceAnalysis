@@ -100,6 +100,11 @@
             <BooleanProperty Name="Enabled">False</BooleanProperty>
           </RuleSettings>
         </Rule>
+        <Rule Name="ElementMustNotBeOnSingleLine">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
+          </RuleSettings>
+        </Rule>
       </Rules>
       <AnalyzerSettings />
     </Analyzer>
@@ -177,6 +182,38 @@
         </Rule>
       </Rules>
       <AnalyzerSettings />
+    </Analyzer>
+    <Analyzer AnalyzerId="StyleCopPlus.StyleCopPlusRules">
+      <Rules>
+        <Rule Name="ElementMustNotBeOnSingleLine">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">True</BooleanProperty>
+          </RuleSettings>
+        </Rule>
+      </Rules>
+      <AnalyzerSettings>
+        <StringProperty Name="AdvancedNaming_Words">U X Y</StringProperty>
+        <StringProperty Name="AdvancedNaming_EnglishOnly">None</StringProperty>
+        <StringProperty Name="AdvancedNaming_CheckLength">6</StringProperty>
+        <StringProperty Name="AdvancedNaming_ProtectedInstanceField">_$(aaBb)</StringProperty>
+        <StringProperty Name="SP2001_Mode">Spaces:False</StringProperty>
+        <StringProperty Name="AdvancedNaming_PrivateInstanceField">_$(aaBb)</StringProperty>
+        <StringProperty Name="SP2002_Mode">NotEmpty</StringProperty>
+        <StringProperty Name="SP2100_Limit">120:4</StringProperty>
+        <StringProperty Name="AdvancedNaming_PrivateStaticField">_$(aaBb):$(AaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_PublicInstanceField">_$(aaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_InternalInstanceField">_$(aaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_ProtectedStaticField">$(AaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_InternalStaticField">_$(aaBb):$(AaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_ProtectedConst">$(AaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_PrivateConst">$(AaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_InternalConst">$(AaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_BlockAt">All</StringProperty>
+        <StringProperty Name="AdvancedNaming_ClassInternal">$(AaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_StructInternal">$(AaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_MethodPrivateEventHandler">$(AaBb):$(AaBb)_$(AaBb)</StringProperty>
+        <StringProperty Name="AdvancedNaming_MethodProtectedEventHandler">$(AaBb):$(AaBb)_$(AaBb)</StringProperty>
+      </AnalyzerSettings>
     </Analyzer>
   </Analyzers>
 </StyleCopSettings>

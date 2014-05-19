@@ -55,8 +55,10 @@ namespace SpookilySharp
 
         /// <summary>Initialises a new instance of the <see cref="SpookilySharp.HashedStream"/> class.</summary>
         /// <param name="stream">The stream to read.</param>
-        /// <param name="seed0">The first 64 bits of the seed for both the hash of contents read and the hash of the contents written.</param>
-        /// <param name="seed1">The second 64 bits of the seed for both the hash of contents read and the hash of the contents written.</param>
+        /// <param name="seed0">The first 64 bits of the seed for both the hash of contents read and the hash of the
+        /// contents written.</param>
+        /// <param name="seed1">The second 64 bits of the seed for both the hash of contents read and the hash of the
+        /// contents written.</param>
         [CLSCompliant(false)]
         public HashedStream(Stream stream, ulong seed0, ulong seed1)
             : this(stream, seed0, seed1, seed0, seed1)
@@ -65,14 +67,17 @@ namespace SpookilySharp
 
         /// <summary>Initialises a new instance of the <see cref="SpookilySharp.HashedStream"/> class.</summary>
         /// <param name="stream">The stream to read.</param>
-        /// <param name="seed0">The first 64 bits of the seed for both the hash of contents read and the hash of the contents written.</param>
-        /// <param name="seed1">The second 64 bits of the seed for both the hash of contents read and the hash of the contents written.</param>
+        /// <param name="seed0">The first 64 bits of the seed for both the hash of contents read and the hash of the
+        /// contents written.</param>
+        /// <param name="seed1">The second 64 bits of the seed for both the hash of contents read and the hash of the
+        /// contents written.</param>
         public HashedStream(Stream stream, long seed0, long seed1)
             : this(stream, (ulong)seed0, (ulong)seed1)
         {
         }
 
-        /// <summary>Initialises a new instance of the <see cref="SpookilySharp.HashedStream"/> class with a default seed.</summary>
+        /// <summary>Initialises a new instance of the <see cref="SpookilySharp.HashedStream"/> class with a default
+        /// seed.</summary>
         /// <param name="stream">The stream to read.</param>
         public HashedStream(Stream stream)
         {
@@ -249,9 +254,13 @@ namespace SpookilySharp
             get { return (int)ReadHash128.Hash1; }
         }
 
-        /// <summary>Gets a value indicating whether there had been an operation that moved the point being read from or written to.</summary>
+        /// <summary>Gets a value indicating whether there had been an operation that moved the point being read from or
+        /// written to.</summary>
         /// <value><see langword="true"/> if was moved; otherwise, <see langword="false"/>.</value>
-        /// <remarks>Operations such as <see cref="SetLength"/> or setting properties such as <see cref="Position"/> will mean that while the hashes will remain correct hashes of the values written and read, they may not correspond with e.g. the hash obtained by hashing the contents of a file the stream is backed by, etc.</remarks>
+        /// <remarks>Operations such as <see cref="SetLength"/> or setting properties such as <see cref="Position"/>
+        /// will mean that while the hashes will remain correct hashes of the values written and read, they may not
+        /// correspond with e.g. the hash obtained by hashing the contents of a file the stream is backed by,
+        /// etc.</remarks>
         public bool WasMoved
         {
             get { return _moved; }

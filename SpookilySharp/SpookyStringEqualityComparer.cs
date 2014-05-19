@@ -48,8 +48,8 @@ namespace SpookilySharp
 
         /// <summary>Initialises a new instance of the <see cref="SpookyStringEqualityComparer"/> class with a default
         /// or randomised seed.</summary>
-        /// <param name="randomizeSeed">If set to <see langword="true"/> the seed is taken from the number of milliseconds the
-        /// system has been up, otherwise the default seed is used.</param>
+        /// <param name="randomizeSeed">If set to <see langword="true"/> the seed is taken from the number of
+        /// milliseconds the system has been up, otherwise the default seed is used.</param>
         /// <remarks>This is useful in reducing Hash DoS attacks, though different instances of the comparer will not
         /// operate together, as each will produce a different hash code.</remarks>
         public SpookyStringEqualityComparer(bool randomizeSeed)
@@ -242,8 +242,8 @@ namespace SpookilySharp
         /// <see cref="SpookyStringEqualityComparer"/>.</summary>
         /// <param name="other">The <see cref="SpookyStringEqualityComparer"/> to compare with the current
         /// <see cref="SpookilySharp.SpookyStringEqualityComparer"/>.</param>
-        /// <returns><see langword="true"/> if the specified <see cref="SpookyStringEqualityComparer"/> is equal to the current
-        /// <see cref="SpookyStringEqualityComparer"/>; otherwise, <see langword="false"/>.</returns>
+        /// <returns><see langword="true"/> if the specified <see cref="SpookyStringEqualityComparer"/> is equal to the
+        /// current <see cref="SpookyStringEqualityComparer"/>; otherwise, <see langword="false"/>.</returns>
         /// <remarks>Two instances of <see cref="SpookyStringEqualityComparer"/> are considered equal if they have the
         /// same seed, and as such can be depended upon to produce the same hash codes for the same input.</remarks>
         public bool Equals(SpookyStringEqualityComparer other)

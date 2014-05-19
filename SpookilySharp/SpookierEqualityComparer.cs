@@ -36,7 +36,7 @@ namespace SpookilySharp
             // Note: Hashtable is documented as thread-safe for single-writer, multiple-reader.
             // Dictionary<TKey, TValue> as implemented in both .NET and Mono is safe for that when
             // both key and value types are capable of atomic read or write , but not documented as such,
-            // so we play it safe.            
+            // so we play it safe.
             // Analysis disable once StaticFieldInGenericType
             private static readonly Hashtable Store = new Hashtable();
             public static bool? KnownQuality(Type type)
@@ -71,16 +71,18 @@ namespace SpookilySharp
         }
 
         /// <summary>
-        /// Returns a version of <paramref name="comparer"/> that provides strong distribution of bits in its hash codes.
+        /// Returns a version of <paramref name="comparer"/> that provides strong distribution of bits in its hash
+        /// codes.
         /// </summary>
         /// <returns>An <see cref="IEqualityComparer{T}"/> based on <paramref name="comparer"/>, or
-        /// <paramref name="comparer"/> if its implementation of <see cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/> is
-        /// marked with <see cref="WellDistributedHashAttribute"/>, indicating it already provides a strong distribution.</returns>
+        /// <paramref name="comparer"/> if its implementation of
+        /// <see cref="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)"/> is marked with
+        /// <see cref="WellDistributedHashAttribute"/>, indicating it already provides a strong distribution.</returns>
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> to improve.</param>
         /// <typeparam name="T">The type of objects compared by <paramref name="comparer"/>.</typeparam>
-        /// <remarks>This cannot improve the overall risk of collision (indeed, will
-        /// make it slightly worse), it can help when uses of hash codes are particularly sensitive to collisions in the one
-        /// section of bits, e.g. with power-of-two hash tables.</remarks>
+        /// <remarks>This cannot improve the overall risk of collision (indeed, will make it slightly worse), it can
+        /// help when uses of hash codes are particularly sensitive to collisions in the one section of bits, e.g. with
+        /// power-of-two hash tables.</remarks>
         public static IEqualityComparer<T> WellDistributed<T>(
 #if !NET_20 && !NET_30
             this

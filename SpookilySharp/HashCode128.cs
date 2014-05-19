@@ -77,7 +77,8 @@ namespace SpookilySharp
         }
 
         /// <summary>Tries to parse a <see cref="HashCode128"/> from a string.</summary>
-        /// <returns><see langword="true"/>, if <paramref name="s"/> was converted successfully; otherwise <see langword="false"/>.</returns>
+        /// <returns><see langword="true"/>, if <paramref name="s"/> was converted successfully; otherwise
+        /// <see langword="false"/>.</returns>
         /// <param name="s">A <see cref="string"/> containing the hash code to convert.</param>
         /// <param name="result">The 128-bit has code parsed from the string, or <see cref="HashCode128.Zero"/> if
         /// the parsing was unsuccessful.</param>
@@ -180,13 +181,13 @@ namespace SpookilySharp
         /// <returns>The <see cref="HashCode128"/> represented by <paramref name="s"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="s"/> was null.</exception>
         /// <exception cref="FormatException"><paramref name="s"/> did not contain a 32-digit hexadecimal
-        /// number.</exception> 
+        /// number.</exception>
         /// <remarks>The value passed to <paramref name="s"/> must be a 32-digit hexadecimal number for this to succeed.
         /// Leading, trailing and contained whitespace is allowed. A leading <c>0x</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
         public static HashCode128 Parse(string s)
         {
-            ExceptionHelper.CheckNotNullS(s);
+            ExceptionHelper.CheckNotNullString(s);
             HashCode128 ret;
             if(!TryParse(s, out ret))
                 ExceptionHelper.BadHashCode128Format();
@@ -222,7 +223,8 @@ namespace SpookilySharp
         }
 
         /// <inheritdoc/>
-        [WellDistributedHash] // ironically not really true if you create this struct any way other than as the result of a good hash operation in the first place.
+        [WellDistributedHash] // ironically not really true if you create this struct any way other than as the result
+                              // of a good hash operation in the first place.
         public override int GetHashCode()
         {
             return unchecked((int)_hash1);
@@ -231,8 +233,8 @@ namespace SpookilySharp
         /// <summary>Determines whether the specified <see cref="object"/> is equal to the current
         /// <see cref="HashCode128"/>.</summary>
         /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="HashCode128"/>.</param>
-        /// <returns><see langword="true"/> if the specified <see cref="object"/> is a boxed <see cref="HashCode128"/> with the
-        /// same value as the current; otherwise, <see langword="false"/>.</returns>
+        /// <returns><see langword="true"/> if the specified <see cref="object"/> is a boxed <see cref="HashCode128"/>
+        /// with the same value as the current; otherwise, <see langword="false"/>.</returns>
         public override bool Equals(object obj)
         {
             if(obj is HashCode128)
@@ -248,5 +250,5 @@ namespace SpookilySharp
         {
             return _hash1.ToString("X16") + _hash2.ToString("X16");
         }
-    }    
+    }
 }
