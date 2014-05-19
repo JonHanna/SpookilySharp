@@ -14,6 +14,7 @@
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Security;
 
@@ -45,6 +46,12 @@ namespace SpookilySharp
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
         [CLSCompliant(false)]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static HashCode128 SpookyHash128(
 #if !NET_20 && !NET_30
             this
@@ -69,6 +76,12 @@ namespace SpookilySharp
         /// than the length of the string.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static HashCode128 SpookyHash128(
 #if !NET_20 && !NET_30
             this
@@ -85,6 +98,12 @@ namespace SpookilySharp
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null string, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [SecuritySafeCritical]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static HashCode128 SpookyHash128(
 #if !NET_20 && !NET_30
             this
@@ -106,6 +125,12 @@ namespace SpookilySharp
         /// than the length of the string.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         [SecuritySafeCritical]
         public static HashCode128 SpookyHash128(
 #if !NET_20 && !NET_30
@@ -151,6 +176,12 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static unsafe long SpookyHash64(
 #if !NET_20 && !NET_30
             this
@@ -174,6 +205,12 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static unsafe long SpookyHash64(
 #if !NET_20 && !NET_30
             this
@@ -192,6 +229,12 @@ namespace SpookilySharp
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
         [SecuritySafeCritical]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static unsafe long SpookyHash64(
 #if !NET_20 && !NET_30
             this
@@ -232,6 +275,12 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static int SpookyHash32(
 #if !NET_20 && !NET_30
             this
@@ -255,6 +304,12 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the string.</exception>
         [SecuritySafeCritical]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static int SpookyHash32(
 #if !NET_20 && !NET_30
             this
@@ -273,6 +328,12 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null string, the hash will be zero.</remarks>
         [SecuritySafeCritical]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static int SpookyHash32(
 #if !NET_20 && !NET_30
             this
@@ -308,6 +369,12 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [SecuritySafeCritical]
         [CLSCompliant(false)]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static unsafe HashCode128 SpookyHash128(
 #if !NET_20 && !NET_30
             this
@@ -329,6 +396,12 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static unsafe HashCode128 SpookyHash128(
 #if !NET_20 && !NET_30
             this
@@ -358,6 +431,12 @@ namespace SpookilySharp
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static unsafe ulong SpookyHash64(
 #if !NET_20 && !NET_30
             this
@@ -379,6 +458,12 @@ namespace SpookilySharp
         /// <param name="stream">The stream to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static long SpookyHash64(
 #if !NET_20 && !NET_30
             this
@@ -407,6 +492,12 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static uint SpookyHash32(
 #if !NET_20 && !NET_30
             this
@@ -421,6 +512,12 @@ namespace SpookilySharp
         /// <param name="stream">The stream to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static int SpookyHash32(
 #if !NET_20 && !NET_30
             this

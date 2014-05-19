@@ -35,6 +35,12 @@ namespace SpookilySharp
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
             Justification = "More readable with the repeated blocks of the mixing.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static uint Rehash(
 #if !NET_20 && !NET_30
             this
@@ -83,6 +89,12 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static int Rehash(
 #if !NET_20 && !NET_30
             this
@@ -118,6 +130,12 @@ namespace SpookilySharp
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
             Justification = "More readable with the repeated blocks of the mixing.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static ulong Rehash(
 #if !NET_20 && !NET_30
             this
@@ -167,6 +185,12 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1118:ParameterMustNotSpanMultipleLines",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
+        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
+            "SA1115:ParameterMustFollowComma",
+            Justification = "Necessary to allow conditional compilation of extension methods.")]
         public static long Rehash(
 #if !NET_20 && !NET_30
             this
