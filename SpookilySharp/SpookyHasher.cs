@@ -56,7 +56,11 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            string message, int startIndex, int length, ulong seed0, ulong seed1)
+            string message,
+            int startIndex,
+            int length,
+            ulong seed0,
+            ulong seed1)
         {
             if(message == null)
                 return default(HashCode128);
@@ -86,7 +90,11 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            string message, int startIndex, int length, long seed0, long seed1)
+            string message,
+            int startIndex,
+            int length,
+            long seed0,
+            long seed1)
         {
             return unchecked(SpookyHash128(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -108,7 +116,9 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            string message, long seed0, long seed1)
+            string message,
+            long seed0,
+            long seed1)
         {
             return message == null
                 ? default(HashCode128)
@@ -136,7 +146,9 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            string message, int startIndex, int length)
+            string message,
+            int startIndex,
+            int length)
         {
             if(message == null)
                 return default(HashCode128);
@@ -186,7 +198,10 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            string message, int startIndex, int length, long seed)
+            string message,
+            int startIndex,
+            int length,
+            long seed)
         {
             if(message == null)
                 return 0L;
@@ -215,7 +230,9 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            string message, int startIndex, int length)
+            string message,
+            int startIndex,
+            int length)
         {
             if(message == null)
                 return 0L;
@@ -285,7 +302,10 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            string message, int startIndex, int length, int seed)
+            string message,
+            int startIndex,
+            int length,
+            int seed)
         {
             if(message == null)
                 return 0;
@@ -314,7 +334,9 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            string message, int startIndex, int length)
+            string message,
+            int startIndex,
+            int length)
         {
             if(message == null)
                 return 0;
@@ -379,7 +401,9 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            Stream stream, ulong seed0, ulong seed1)
+            Stream stream,
+            ulong seed0,
+            ulong seed1)
         {
             ExceptionHelper.CheckNotNull(stream);
             var hash = new SpookyHash(seed0, seed1);
@@ -406,7 +430,9 @@ namespace SpookilySharp
 #if !NET_20 && !NET_30
             this
 #endif
-            Stream stream, long seed0, long seed1)
+            Stream stream,
+            long seed0,
+            long seed1)
         {
             return unchecked(SpookyHash128(stream, (ulong)seed0, (ulong)seed1));
         }
