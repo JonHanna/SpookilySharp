@@ -14,9 +14,9 @@
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using SpookilySharp;
-using System.Collections.Generic;
 
 namespace SpookyHashTesting
 {
@@ -67,7 +67,8 @@ namespace SpookyHashTesting
                 for(int i = 0; i <= source.Length; ++i)
                 {
                     Assert.IsTrue(eq.Equals(source.Substring(0, i), source.Substring(0, i)));
-                    Assert.IsTrue(eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i).ToCharArray()));
+                    Assert.IsTrue(
+                        eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i).ToCharArray()));
                     Assert.IsTrue(eq.Equals(source.Substring(0, i), source.Substring(0, i).ToCharArray()));
                     Assert.IsTrue(eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i)));
                 }
@@ -79,7 +80,7 @@ namespace SpookyHashTesting
             var str = "abcdefg";
             var arr = "abcdefg".ToCharArray();
             char[] nulArr = null;
-            string nulStr = null; 
+            string nulStr = null;
             var eq = new SpookyStringEqualityComparer();
             Assert.True(eq.Equals(arr, arr));
             Assert.True(eq.Equals(nulStr, nulStr));

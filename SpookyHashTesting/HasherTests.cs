@@ -40,25 +40,60 @@ namespace SpookyHashTesting
             int len = testString.Length;
             Assert.AreEqual(h, SpookyHasher.SpookyHash128(testString));
             Assert.AreEqual(h, SpookyHasher.SpookyHash128(testString, 0, len, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(h, unchecked(SpookyHasher.SpookyHash128(testString, 0, len, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
+            Assert.AreEqual(
+                h,
+                unchecked(SpookyHasher.SpookyHash128(
+                    testString,
+                    0,
+                    len,
+                    (long)0xDEADBEEFDEADBEEF,
+                    (long)0xDEADBEEFDEADBEEF)));
             Assert.AreEqual(h, SpookyHasher.SpookyHash128(testString, 0, len));
-            var hSlice = SpookyHasher.SpookyHash128(testString, 50, 100, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF);
-            Assert.AreNotEqual(h, hSlice);
-            Assert.AreEqual(hSlice, unchecked(SpookyHasher.SpookyHash128(testString, 50, 100, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
-            long lHash = SpookyHasher.SpookyHash64(testString, 0, len, unchecked((long)0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(lHash, SpookyHasher.SpookyHash64(testString, unchecked((long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(lHash, SpookyHasher.SpookyHash64(testString, 0, len));
-            Assert.AreEqual(lHash, SpookyHasher.SpookyHash64(testString));
+            var hashSlice = SpookyHasher.SpookyHash128(testString, 50, 100, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF);
+            Assert.AreNotEqual(h, hashSlice);
+            Assert.AreEqual(
+                hashSlice,
+                unchecked(SpookyHasher.SpookyHash128(
+                    testString,
+                    50,
+                    100,
+                    (long)0xDEADBEEFDEADBEEF,
+                    (long)0xDEADBEEFDEADBEEF)));
+            long longHash = SpookyHasher.SpookyHash64(testString, 0, len, unchecked((long)0xDEADBEEFDEADBEEF));
+            Assert.AreEqual(longHash, SpookyHasher.SpookyHash64(testString, unchecked((long)0xDEADBEEFDEADBEEF)));
+            Assert.AreEqual(longHash, SpookyHasher.SpookyHash64(testString, 0, len));
+            Assert.AreEqual(longHash, SpookyHasher.SpookyHash64(testString));
             int hash = SpookyHasher.SpookyHash32(testString, 0, len, unchecked((int)0xDEADBEEF));
             Assert.AreEqual(hash, SpookyHasher.SpookyHash32(testString, unchecked((int)0xDEADBEEF)));
             Assert.AreEqual(hash, SpookyHasher.SpookyHash32(testString, 0, len));
             Assert.AreEqual(hash, SpookyHasher.SpookyHash32(testString));
             testString = null;
             Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(testString));
-            Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(testString, 0, 200, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(HashCode128.Zero, unchecked(SpookyHasher.SpookyHash128(testString, 0, 200, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
+            Assert.AreEqual(
+                HashCode128.Zero,
+                SpookyHasher.SpookyHash128(
+                    testString,
+                    0,
+                    200,
+                    0xDEADBEEFDEADBEEF,
+                    0xDEADBEEFDEADBEEF));
+            Assert.AreEqual(
+                HashCode128.Zero,
+                unchecked(SpookyHasher.SpookyHash128(
+                    testString,
+                    0,
+                    200,
+                    (long)0xDEADBEEFDEADBEEF,
+                    (long)0xDEADBEEFDEADBEEF)));
             Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(testString, 0, 200));
-            Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(testString, 50, 100, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
+            Assert.AreEqual(
+                HashCode128.Zero,
+                SpookyHasher.SpookyHash128(
+                    testString,
+                    50,
+                    100,
+                    0xDEADBEEFDEADBEEF,
+                    0xDEADBEEFDEADBEEF));
             Assert.AreEqual(0, SpookyHasher.SpookyHash64(testString, 0, 200, unchecked((long)0xDEADBEEFDEADBEEF)));
             Assert.AreEqual(0, SpookyHasher.SpookyHash64(testString, unchecked((long)0xDEADBEEFDEADBEEF)));
             Assert.AreEqual(0, SpookyHasher.SpookyHash64(testString, 0, 200));

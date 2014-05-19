@@ -65,13 +65,13 @@ namespace SpookyHashTesting
             FileStream fs;
             MemoryStream ms;
             GetStreams(out fs, out ms);
-            var hsIn = new HashedStream(fs);
-            var hsOut = new HashedStream(ms);
-            WriteOut(hsIn, hsOut);
-            Assert.False(hsIn.WasMoved);
-            Assert.True(hsIn.ReadHash128 == hsOut.WriteHash128);
-            Assert.True(hsIn.ReadHash32 == hsOut.WriteHash32);
-            Assert.True(hsIn.ReadHash64 == hsOut.WriteHash64);
+            var hashIn = new HashedStream(fs);
+            var hashOut = new HashedStream(ms);
+            WriteOut(hashIn, hashOut);
+            Assert.False(hashIn.WasMoved);
+            Assert.True(hashIn.ReadHash128 == hashOut.WriteHash128);
+            Assert.True(hashIn.ReadHash32 == hashOut.WriteHash32);
+            Assert.True(hashIn.ReadHash64 == hashOut.WriteHash64);
         }
         [Test]
         public void ULongConst()
@@ -79,13 +79,13 @@ namespace SpookyHashTesting
             FileStream fs;
             MemoryStream ms;
             GetStreams(out fs, out ms);
-            var hsIn = new HashedStream(fs, 42UL, 53UL);
-            var hsOut = new HashedStream(ms, 42UL, 53UL);
-            WriteOut(hsIn, hsOut);
-            Assert.False(hsIn.WasMoved);
-            Assert.True(hsIn.ReadHash128 == hsOut.WriteHash128);
-            Assert.True(hsIn.ReadHash32 == hsOut.WriteHash32);
-            Assert.True(hsIn.ReadHash64 == hsOut.WriteHash64);
+            var hashIn = new HashedStream(fs, 42UL, 53UL);
+            var hashOut = new HashedStream(ms, 42UL, 53UL);
+            WriteOut(hashIn, hashOut);
+            Assert.False(hashIn.WasMoved);
+            Assert.True(hashIn.ReadHash128 == hashOut.WriteHash128);
+            Assert.True(hashIn.ReadHash32 == hashOut.WriteHash32);
+            Assert.True(hashIn.ReadHash64 == hashOut.WriteHash64);
         }
         [Test]
         public void LongConst()
@@ -93,13 +93,13 @@ namespace SpookyHashTesting
             FileStream fs;
             MemoryStream ms;
             GetStreams(out fs, out ms);
-            var hsIn = new HashedStream(fs, 42L, 53L);
-            var hsOut = new HashedStream(ms, 42L, 53L);
-            WriteOut(hsIn, hsOut);
-            Assert.False(hsIn.WasMoved);
-            Assert.True(hsIn.ReadHash128 == hsOut.WriteHash128);
-            Assert.True(hsIn.ReadHash32 == hsOut.WriteHash32);
-            Assert.True(hsIn.ReadHash64 == hsOut.WriteHash64);
+            var hashIn = new HashedStream(fs, 42L, 53L);
+            var hashOut = new HashedStream(ms, 42L, 53L);
+            WriteOut(hashIn, hashOut);
+            Assert.False(hashIn.WasMoved);
+            Assert.True(hashIn.ReadHash128 == hashOut.WriteHash128);
+            Assert.True(hashIn.ReadHash32 == hashOut.WriteHash32);
+            Assert.True(hashIn.ReadHash64 == hashOut.WriteHash64);
         }
         [Test]
         public void LongDiffConst()
@@ -107,43 +107,43 @@ namespace SpookyHashTesting
             FileStream fs;
             MemoryStream ms;
             GetStreams(out fs, out ms);
-            var hsIn = new HashedStream(fs, 42L, 53L, 23L, 34L);
-            var hsOut = new HashedStream(ms, 42L, 53L, 23L, 34L);
-            WriteOut(hsIn, hsOut);
-            Assert.False(hsIn.WasMoved);
-            Assert.False(hsIn.ReadHash128 == hsOut.WriteHash128);
-            Assert.False(hsIn.ReadHash32 == hsOut.WriteHash32);
-            Assert.False(hsIn.ReadHash64 == hsOut.WriteHash64);
+            var hashIn = new HashedStream(fs, 42L, 53L, 23L, 34L);
+            var hashOut = new HashedStream(ms, 42L, 53L, 23L, 34L);
+            WriteOut(hashIn, hashOut);
+            Assert.False(hashIn.WasMoved);
+            Assert.False(hashIn.ReadHash128 == hashOut.WriteHash128);
+            Assert.False(hashIn.ReadHash32 == hashOut.WriteHash32);
+            Assert.False(hashIn.ReadHash64 == hashOut.WriteHash64);
         }
         [Test]
         public void MoveStream()
         {
-            using(var hsOut = new HashedStream(new MemoryStream()))
-            using(var tw = new StreamWriter(hsOut))
+            using(var hashOut = new HashedStream(new MemoryStream()))
+            using(var tw = new StreamWriter(hashOut))
             {
                 string asciiOnlyString = "Something or other";
                 tw.Write(asciiOnlyString);
                 tw.Flush();
-                Assert.AreEqual(asciiOnlyString.Length, hsOut.Length);
-                Assert.AreEqual(asciiOnlyString.Length, hsOut.Position);
-                Assert.IsTrue(hsOut.CanSeek);
-                hsOut.Seek(0, SeekOrigin.Begin);
-                Assert.IsTrue(hsOut.WasMoved);
+                Assert.AreEqual(asciiOnlyString.Length, hashOut.Length);
+                Assert.AreEqual(asciiOnlyString.Length, hashOut.Position);
+                Assert.IsTrue(hashOut.CanSeek);
+                hashOut.Seek(0, SeekOrigin.Begin);
+                Assert.IsTrue(hashOut.WasMoved);
             }
-            using(var hsOut = new HashedStream(new MemoryStream()))
-            using(var tw = new StreamWriter(hsOut))
+            using(var hashOut = new HashedStream(new MemoryStream()))
+            using(var tw = new StreamWriter(hashOut))
             {
                 tw.Write("Something or other");
-                hsOut.SetLength(0);
-                Assert.IsTrue(hsOut.WasMoved);
+                hashOut.SetLength(0);
+                Assert.IsTrue(hashOut.WasMoved);
             }
-            using(var hsOut = new HashedStream(new MemoryStream()))
-            using(var tw = new StreamWriter(hsOut))
+            using(var hashOut = new HashedStream(new MemoryStream()))
+            using(var tw = new StreamWriter(hashOut))
             {
                 tw.Write("Something or other");
-                Assert.IsTrue(hsOut.CanSeek);
-                hsOut.Position = 0;
-                Assert.IsTrue(hsOut.WasMoved);
+                Assert.IsTrue(hashOut.CanSeek);
+                hashOut.Position = 0;
+                Assert.IsTrue(hashOut.WasMoved);
             }
         }
         [Test]
@@ -190,7 +190,12 @@ namespace SpookyHashTesting
             using(var fs = GetFileStream())
                 Assert.AreEqual(hash, SpookyHasher.SpookyHash128(fs, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
             using(var fs = GetFileStream())
-                Assert.AreEqual(hash, unchecked(SpookyHasher.SpookyHash128(fs, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
+                Assert.AreEqual(
+                    hash,
+                    unchecked(SpookyHasher.SpookyHash128(
+                        fs,
+                        (long)0xDEADBEEFDEADBEEF,
+                        (long)0xDEADBEEFDEADBEEF)));
         }
         [Test]
         public void HashExternal64()
@@ -221,31 +226,31 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStream128()
         {
-            SpookyHasher.SpookyHash128(((Stream)null));
+            SpookyHasher.SpookyHash128((Stream)null);
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStreamS128()
         {
-            SpookyHasher.SpookyHash128(((Stream)null), 1L, 1L);
+            SpookyHasher.SpookyHash128((Stream)null, 1L, 1L);
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStream64()
         {
-            SpookyHasher.SpookyHash64(((Stream)null));
+            SpookyHasher.SpookyHash64((Stream)null);
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStream32()
         {
-            SpookyHasher.SpookyHash32(((Stream)null));
+            SpookyHasher.SpookyHash32((Stream)null);
         }
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullStreamU32()
         {
-            SpookyHasher.SpookyHash32(((Stream)null), 1U);
+            SpookyHasher.SpookyHash32((Stream)null, 1U);
         }
     }
 }

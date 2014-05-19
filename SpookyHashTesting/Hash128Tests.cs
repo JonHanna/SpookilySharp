@@ -105,7 +105,9 @@ namespace SpookyHashTesting
         [Test]
         public void ToStringTests()
         {
-            Assert.AreEqual(HashCode128.Parse("0123456789abcdef0123456789ABCDEF").ToString(), "0123456789ABCDEF0123456789ABCDEF");
+            Assert.AreEqual(
+                HashCode128.Parse("0123456789abcdef0123456789ABCDEF").ToString(),
+                "0123456789ABCDEF0123456789ABCDEF");
         }
         [Test]
         public void EqualsObj()
@@ -116,16 +118,20 @@ namespace SpookyHashTesting
             Assert.True(boxed.Equals(HashCode128.Parse("0123456789ABCDEF0123456789ABCDEF")));
             Assert.False(boxed.Equals(HashCode128.Zero));
             Assert.False(boxed.Equals("not a hash code"));
-            Assert.True(object.Equals(HashCode128.Parse("fed c b a9876543210 0123456789ABCDEF"), HashCode128.Parse("FE DCBA 98765 432 10 0123456789ABCD EF     ")));
+            Assert.True(object.Equals(
+                HashCode128.Parse("fed c b a9876543210 0123456789ABCDEF"),
+                HashCode128.Parse("FE DCBA 98765 432 10 0123456789ABCD EF     ")));
         }
         [Test]
         #pragma warning disable 1718 //Yes, I'm testing the obvious!
         public void EqualsOps()
         {
             Assert.True(HashCode128.Zero == HashCode128.Zero);
-            Assert.True(HashCode128.Parse("0123456789abcdef0123456789abcdef") == HashCode128.Parse("0123456789ABCDEF0123456789ABCDEF"));
+            Assert.True(HashCode128.Parse("0123456789abcdef0123456789abcdef")
+                == HashCode128.Parse("0123456789ABCDEF0123456789ABCDEF"));
             Assert.False(HashCode128.Zero != HashCode128.Zero);
-            Assert.False(HashCode128.Parse("0123456789abcdef0123456789abcdef") != HashCode128.Parse("0123456789ABCDEF0123456789ABCDEF"));
+            Assert.False(HashCode128.Parse("0123456789abcdef0123456789abcdef")
+                != HashCode128.Parse("0123456789ABCDEF0123456789ABCDEF"));
             Assert.True(HashCode128.Parse("0123456789abcdef0123456789abcdef") != HashCode128.Zero);
             Assert.False(HashCode128.Parse("0123456789abcdef0123456789abcdef") == HashCode128.Zero);
         }

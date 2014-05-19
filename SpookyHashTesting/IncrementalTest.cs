@@ -18,28 +18,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SpookilySharp;
 using NUnit.Framework;
+using SpookilySharp;
 
 namespace SpookyHashTesting
 {
-
     [TestFixture]
-    
     public class IncrementalTest
     {
-        private const int BUFSIZE = 1024;
+        private const int BufferSize = 1024;
         [Test]
         public unsafe void TestPieces()
         {
-            var bufArr = new byte[BUFSIZE];
-            for (int i=0; i<BUFSIZE; ++i)
+            var bufArr = new byte[BufferSize];
+            for (int i = 0; i < BufferSize; ++i)
             {
                 bufArr[i] = unchecked((byte)i);
             }
-            for (int i=0; i<BUFSIZE; ++i)
+            for (int i = 0; i < BufferSize; ++i)
             {
-                ulong a,b,c,d,seed1=1,seed2=2;
+                ulong a, b, c, d, seed1 = 1, seed2 = 2;
                 var state = new SpookyHash();
 
                 // all as one call
@@ -59,7 +57,7 @@ namespace SpookyHashTesting
                 Assert.AreEqual(a, c, "A-C mismatch at: " + i);
                 Assert.AreEqual(b, d, "B-D mismatch at: " + i);
 
-                for (int j=0; j<i; ++j)
+                for (int j = 0; j < i; ++j)
                 {
                     c = seed1;
                     d = seed2;

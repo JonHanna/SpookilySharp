@@ -34,6 +34,7 @@ namespace SpookyHashTesting
                 return 0;
             }
         }
+
         // What a lie! This of course is exactly the sort of class that should least
         // have this attribute applied, but it serves our testing puroses.
         private class Good : IEqualityComparer<int>
@@ -203,7 +204,8 @@ namespace SpookyHashTesting
         [Test]
         public void TestAttributeDetection()
         {
-            for(int i = 0; i != 3; ++i)//Repeat so we both find it by calculation and by lookup.
+            // Repeat so we both find it by calculation and by lookup.
+            for(int i = 0; i != 3; ++i)
             {
                 ConfirmBad(new Bad());
                 ConfirmGood(new Good());

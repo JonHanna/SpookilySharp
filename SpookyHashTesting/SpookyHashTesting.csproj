@@ -91,5 +91,26 @@
       <Name>SpookilySharp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <StyleCopAdditionalAddinPaths Include="..\packages\StyleCopPlus.MSBuild.4.7.49.0\tools">
+        <Visible>false</Visible>
+    </StyleCopAdditionalAddinPaths>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy inheritsSet="null" scope="text/x-csharp" />
+          <CSharpFormattingPolicy IndentSwitchBody="True" SimplePropertyFormatting="ForceNewLine" AutoPropertyFormatting="ForceOneLine" IndentPreprocessorDirectives="False" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" SimpleGetBlockFormatting="ForceOneLine" SimpleSetBlockFormatting="ForceOneLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeIndexerDeclarationBracket="False" BeforeDelegateDeclarationParentheses="False" AfterDelegateDeclarationParameterComma="True" NewParentheses="False" IfParentheses="False" WhileParentheses="False" ForParentheses="False" ForeachParentheses="False" CatchParentheses="False" SwitchParentheses="False" LockParentheses="False" UsingParentheses="False" SpaceAroundUnsafeArrowOperator="True" SpacesBeforeBrackets="False" BlankLinesBeforeUsings="1" BlankLinesAroundRegion="0" BlankLinesInsideRegion="0" MethodCallArgumentWrapping="WrapIfTooLong" NewLineAferMethodCallOpenParentheses="NewLine" MethodCallClosingParenthesesOnNewLine="SameLine" MethodDeclarationParameterWrapping="WrapIfTooLong" NewLineAferMethodDeclarationOpenParentheses="NewLine" MethodDeclarationClosingParenthesesOnNewLine="SameLine" AlignToFirstMethodDeclarationParameter="False" IndexerDeclarationParameterWrapping="WrapIfTooLong" NewLineAferIndexerDeclarationOpenBracket="NewLine" IndexerDeclarationClosingBracketOnNewLine="SameLine" AlignToFirstIndexerDeclarationParameter="False" IndexerArgumentWrapping="WrapIfTooLong" NewLineAferIndexerOpenBracket="NewLine" IndexerClosingBracketOnNewLine="SameLine" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <TextStylePolicy FileWidth="120" NoTabsAfterNonTabs="True" EolMarker="Unix" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
+          <TextStylePolicy inheritsSet="null" scope="application/xml" />
+          <XmlFormattingPolicy inheritsSet="Mono" inheritsScope="application/xml" scope="application/xml">
+            <DefaultFormat ContentIndentString="    " AttributesIndentString="    " />
+          </XmlFormattingPolicy>
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <Import Project="..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" />
 </Project>
