@@ -68,6 +68,15 @@ namespace SpookilySharp
                 // Analysis disable once CompareNonConstrainedGenericWithNull
                 return obj == null ? 0 : Redistributor.Rehash(_cmp.GetHashCode(obj));
             }
+            public override bool Equals(object obj)
+            {
+                var other = obj as WellDistributedEqualityComparer<T>;
+                return other != null && _cmp.Equals(other._cmp);
+            }
+            public override int GetHashCode()
+            {
+                return Redistributor.Rehash(_cmp.GetHashCode());
+            }
         }
 
         /// <summary>

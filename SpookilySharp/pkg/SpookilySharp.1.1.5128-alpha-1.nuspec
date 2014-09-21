@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>SpookilySharp</id>
-        <version>1.1.5128</version>
+        <version>1.1.5128-alpha-1</version>
         <title>Spookily Sharp</title>
         <authors>Jon Hanna</authors>
         <licenseUrl>http://joinup.ec.europa.eu/software/page/eupl/licence-eupl</licenseUrl>
@@ -10,6 +10,7 @@
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>A .NET/Mono implementation of Bob Jenkins’ SpookyHash version 2. Offers 32-, 64- and 128-bit hashes of strings, char and byte arrays, streams and any type of object represented by an array of simple types.</description>
         <summary>A .NET/Mono implementation of Bob Jenkins’ SpookyHash version 2. Offers 32-, 64- and 128-bit hashes.</summary>
+        <releaseNotes>WellDistributedEqualityComparer passes .Equals() calls back to wrapped comparer.</releaseNotes>
         <copyright>© 2014 Jon Hanna</copyright>
         <tags>SpookyHash hashcode hash hashing</tags>
         <dependencies>

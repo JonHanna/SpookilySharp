@@ -42,7 +42,7 @@ using System.Security;
 #elif NET_451
 [assembly: AssemblyVersion("1.1.5126.40896")]
 #endif
-[assembly: AssemblyInformationalVersionAttribute("1.1.5128")]
+[assembly: AssemblyInformationalVersionAttribute("1.1.5129-alpha")]
 [assembly: CLSCompliant(true)]
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: ComVisible(false)]
