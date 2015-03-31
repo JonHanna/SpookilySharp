@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ProjectGuid>{B010C38D-0BC9-4859-9433-0890B03CF6BE}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">4.5.1</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">Framework451</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>SpookilySharp</RootNamespace>
     <AssemblyName>SpookilySharp</AssemblyName>
@@ -30,27 +30,27 @@
     <SourceAnalysisOverrideSettingsFile>D:\SpookilySharp\SpookilySharp\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <Prefer32Bit>False</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == '4.5.1' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework451' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <DefineConstants>NET_451</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == '4.5' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework45' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>NET_45</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == '4.0' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework40' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefineConstants>NET_40</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == '3.5' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework35' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <DefineConstants>NET_35</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == '3.0' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework30' ">
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <DefineConstants>NET_30</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == '2.0' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework20' ">
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <DefineConstants>NET_20</DefineConstants>
   </PropertyGroup>
@@ -80,68 +80,68 @@
     <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|4.5.1' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework451' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|4.5.1' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework451' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|4.5.1' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework451' ">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|4.5' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework45' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|4.5' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework45' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|4.5' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework45' ">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|4.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework40' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|4.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework40' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|4.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework40' ">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|3.5' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework35' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|3.5' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework35' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|3.5' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework35' ">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|3.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework30' ">
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|3.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework30' ">
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|3.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework30' ">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|2.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework20' ">
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|2.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework20' ">
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|2.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework20' ">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>

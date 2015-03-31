@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ProjectGuid>{D65EF837-D75E-4348-9487-4290AE3802E0}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">4.5</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">Framework45</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>SpookyHashTesting</RootNamespace>
     <AssemblyName>SpookyHashTesting</AssemblyName>
@@ -27,10 +27,10 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == '4.5' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework45' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == '4.5.1' ">
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework451' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -44,16 +44,16 @@
     <DebugType>None</DebugType>
     <Optimize>True</Optimize>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|4.5' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework45' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|4.5' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework45' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|4.5.1' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework451' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|4.5.1' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework451' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
