@@ -28,11 +28,6 @@ namespace SpookyHashTesting
         {
             return new FileStream("nunit.framework.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
         }
-        private void GetStreams(out FileStream fs, out MemoryStream ms)
-        {
-            fs = GetFileStream();
-            ms = new MemoryStream();
-        }
         private void WriteOut(HashedStream inStr, HashedStream outStr)
         {
             Random rand = new Random();
@@ -62,9 +57,8 @@ namespace SpookyHashTesting
         [Test]
         public void DefaultConst()
         {
-            FileStream fs;
-            MemoryStream ms;
-            GetStreams(out fs, out ms);
+            var fs = GetFileStream();
+            var ms = Stream.Null;
             var hashIn = new HashedStream(fs);
             var hashOut = new HashedStream(ms);
             WriteOut(hashIn, hashOut);
@@ -76,9 +70,8 @@ namespace SpookyHashTesting
         [Test]
         public void ULongConst()
         {
-            FileStream fs;
-            MemoryStream ms;
-            GetStreams(out fs, out ms);
+            var fs = GetFileStream();
+            var ms = Stream.Null;
             var hashIn = new HashedStream(fs, 42UL, 53UL);
             var hashOut = new HashedStream(ms, 42UL, 53UL);
             WriteOut(hashIn, hashOut);
@@ -90,9 +83,8 @@ namespace SpookyHashTesting
         [Test]
         public void LongConst()
         {
-            FileStream fs;
-            MemoryStream ms;
-            GetStreams(out fs, out ms);
+            var fs = GetFileStream();
+            var ms = Stream.Null;
             var hashIn = new HashedStream(fs, 42L, 53L);
             var hashOut = new HashedStream(ms, 42L, 53L);
             WriteOut(hashIn, hashOut);
@@ -104,9 +96,8 @@ namespace SpookyHashTesting
         [Test]
         public void LongDiffConst()
         {
-            FileStream fs;
-            MemoryStream ms;
-            GetStreams(out fs, out ms);
+            var fs = GetFileStream();
+            var ms = Stream.Null;
             var hashIn = new HashedStream(fs, 42L, 53L, 23L, 34L);
             var hashOut = new HashedStream(ms, 42L, 53L, 23L, 34L);
             WriteOut(hashIn, hashOut);
