@@ -42,7 +42,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="SByte"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -107,8 +107,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -129,8 +129,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -149,8 +149,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="SByte"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -187,8 +187,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="SByte"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -207,8 +207,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="SByte"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -257,8 +257,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="SByte"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -277,8 +277,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="SByte"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -339,7 +339,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="UInt16"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -404,8 +404,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -426,8 +426,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -446,8 +446,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="UInt16"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -484,8 +484,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="UInt16"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -504,8 +504,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="UInt16"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -554,8 +554,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="UInt16"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -574,8 +574,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="UInt16"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -636,7 +636,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="UInt32"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -701,8 +701,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -723,8 +723,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -743,8 +743,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="UInt32"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -781,8 +781,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="UInt32"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -801,8 +801,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="UInt32"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -851,8 +851,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="UInt32"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -871,8 +871,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="UInt32"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -933,7 +933,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="UInt64"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -998,8 +998,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1020,8 +1020,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1040,8 +1040,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="UInt64"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1078,8 +1078,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="UInt64"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1098,8 +1098,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="UInt64"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1148,8 +1148,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="UInt64"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1168,8 +1168,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="UInt64"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1229,7 +1229,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="Byte"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         public void Update(Byte[] message, int startIndex, int length)
@@ -1291,8 +1291,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1312,8 +1312,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1332,8 +1332,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Byte"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1369,8 +1369,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Byte"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1388,8 +1388,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Byte"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1435,8 +1435,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Byte"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1454,8 +1454,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Byte"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1512,7 +1512,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="Char"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         public void Update(Char[] message, int startIndex, int length)
@@ -1574,8 +1574,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1595,8 +1595,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1615,8 +1615,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Char"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1652,8 +1652,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Char"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1671,8 +1671,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Char"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1718,8 +1718,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Char"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1737,8 +1737,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Char"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1795,7 +1795,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="Int16"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         public void Update(Int16[] message, int startIndex, int length)
@@ -1857,8 +1857,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1878,8 +1878,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -1898,8 +1898,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Int16"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1935,8 +1935,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Int16"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -1954,8 +1954,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Int16"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2001,8 +2001,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Int16"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2020,8 +2020,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Int16"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2078,7 +2078,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="Int32"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         public void Update(Int32[] message, int startIndex, int length)
@@ -2140,8 +2140,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2161,8 +2161,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -2181,8 +2181,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Int32"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2218,8 +2218,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Int32"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2237,8 +2237,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Int32"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2284,8 +2284,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Int32"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2303,8 +2303,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Int32"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2361,7 +2361,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="Int64"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         public void Update(Int64[] message, int startIndex, int length)
@@ -2423,8 +2423,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2444,8 +2444,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -2464,8 +2464,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Int64"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2501,8 +2501,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Int64"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2520,8 +2520,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Int64"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2567,8 +2567,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Int64"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2586,8 +2586,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Int64"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2644,7 +2644,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="Single"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         public void Update(Single[] message, int startIndex, int length)
@@ -2706,8 +2706,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2727,8 +2727,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -2747,8 +2747,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Single"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2784,8 +2784,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Single"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2803,8 +2803,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Single"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2850,8 +2850,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Single"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2869,8 +2869,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Single"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -2927,7 +2927,7 @@ namespace SpookilySharp
         /// <param name="length">How many <see cref="Double"/>s to hash.</param>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> was null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
-        /// than the length of the array.</exception>
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         public void Update(Double[] message, int startIndex, int length)
@@ -2989,8 +2989,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -3010,8 +3010,8 @@ namespace SpookilySharp
         /// <param name="seed0">The first 64-bits of the seed value.</param>
         /// <param name="seed1">The second 64-bits of the seed value.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
@@ -3030,8 +3030,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Double"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -3067,8 +3067,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Double"/>s to hash.</param>
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -3086,8 +3086,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Double"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -3133,8 +3133,8 @@ namespace SpookilySharp
         /// <param name="length">The number of <see cref="Double"/>s to hash.</param>
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
@@ -3152,8 +3152,8 @@ namespace SpookilySharp
         /// <param name="startIndex">The index from which to hash.</param>
         /// <param name="length">The number of <see cref="Double"/>s to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> was less than zero, or greater
-        /// than the length of the array.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than zero, or greater
+        /// than the length of the array, or <paramref name="length"/> is less than zero.</exception>
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]

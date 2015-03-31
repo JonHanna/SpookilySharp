@@ -427,7 +427,7 @@ namespace SpookyHashTesting
             new SpookyHash().Update("", 40, 2);
         }
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveLengthString()
         {
             new SpookyHash().Update("", 0, 2);

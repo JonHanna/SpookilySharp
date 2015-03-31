@@ -77,7 +77,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthSByte()
         {
-            new SpookyHash().Update(new SByte[0], 0, 2);
+            new SpookyHash().Update(new SByte[]{default(SByte)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthSByte()
+        {
+            new SpookyHash().Update(new SByte[0], 0, -2);
         }
     }
     [TestFixture]
@@ -139,7 +145,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32SByte()
         {
-            SpookyHasher.SpookyHash32(new SByte[0], 0, 2);
+            SpookyHasher.SpookyHash32(new SByte[]{default(SByte)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32SByte()
+        {
+            SpookyHasher.SpookyHash32(new SByte[0], 0, -2);
         }
         
         [Test]
@@ -158,7 +170,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64SByte()
         {
-            SpookyHasher.SpookyHash64(new SByte[0], 0, 2);
+            SpookyHasher.SpookyHash64(new SByte[]{default(SByte)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64SByte()
+        {
+            SpookyHasher.SpookyHash64(new SByte[0], 0, -2);
         }
         
         [Test]
@@ -177,7 +195,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128SByte()
         {
-            SpookyHasher.SpookyHash128(new SByte[0], 0, 2);
+            SpookyHasher.SpookyHash128(new SByte[]{default(SByte)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128SByte()
+        {
+            SpookyHasher.SpookyHash128(new SByte[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -239,7 +263,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthUInt16()
         {
-            new SpookyHash().Update(new UInt16[0], 0, 2);
+            new SpookyHash().Update(new UInt16[]{default(UInt16)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthUInt16()
+        {
+            new SpookyHash().Update(new UInt16[0], 0, -2);
         }
     }
     [TestFixture]
@@ -301,7 +331,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32UInt16()
         {
-            SpookyHasher.SpookyHash32(new UInt16[0], 0, 2);
+            SpookyHasher.SpookyHash32(new UInt16[]{default(UInt16)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32UInt16()
+        {
+            SpookyHasher.SpookyHash32(new UInt16[0], 0, -2);
         }
         
         [Test]
@@ -320,7 +356,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64UInt16()
         {
-            SpookyHasher.SpookyHash64(new UInt16[0], 0, 2);
+            SpookyHasher.SpookyHash64(new UInt16[]{default(UInt16)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64UInt16()
+        {
+            SpookyHasher.SpookyHash64(new UInt16[0], 0, -2);
         }
         
         [Test]
@@ -339,7 +381,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128UInt16()
         {
-            SpookyHasher.SpookyHash128(new UInt16[0], 0, 2);
+            SpookyHasher.SpookyHash128(new UInt16[]{default(UInt16)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128UInt16()
+        {
+            SpookyHasher.SpookyHash128(new UInt16[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -401,7 +449,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthUInt32()
         {
-            new SpookyHash().Update(new UInt32[0], 0, 2);
+            new SpookyHash().Update(new UInt32[]{default(UInt32)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthUInt32()
+        {
+            new SpookyHash().Update(new UInt32[0], 0, -2);
         }
     }
     [TestFixture]
@@ -463,7 +517,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32UInt32()
         {
-            SpookyHasher.SpookyHash32(new UInt32[0], 0, 2);
+            SpookyHasher.SpookyHash32(new UInt32[]{default(UInt32)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32UInt32()
+        {
+            SpookyHasher.SpookyHash32(new UInt32[0], 0, -2);
         }
         
         [Test]
@@ -482,7 +542,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64UInt32()
         {
-            SpookyHasher.SpookyHash64(new UInt32[0], 0, 2);
+            SpookyHasher.SpookyHash64(new UInt32[]{default(UInt32)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64UInt32()
+        {
+            SpookyHasher.SpookyHash64(new UInt32[0], 0, -2);
         }
         
         [Test]
@@ -501,7 +567,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128UInt32()
         {
-            SpookyHasher.SpookyHash128(new UInt32[0], 0, 2);
+            SpookyHasher.SpookyHash128(new UInt32[]{default(UInt32)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128UInt32()
+        {
+            SpookyHasher.SpookyHash128(new UInt32[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -563,7 +635,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthUInt64()
         {
-            new SpookyHash().Update(new UInt64[0], 0, 2);
+            new SpookyHash().Update(new UInt64[]{default(UInt64)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthUInt64()
+        {
+            new SpookyHash().Update(new UInt64[0], 0, -2);
         }
     }
     [TestFixture]
@@ -625,7 +703,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32UInt64()
         {
-            SpookyHasher.SpookyHash32(new UInt64[0], 0, 2);
+            SpookyHasher.SpookyHash32(new UInt64[]{default(UInt64)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32UInt64()
+        {
+            SpookyHasher.SpookyHash32(new UInt64[0], 0, -2);
         }
         
         [Test]
@@ -644,7 +728,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64UInt64()
         {
-            SpookyHasher.SpookyHash64(new UInt64[0], 0, 2);
+            SpookyHasher.SpookyHash64(new UInt64[]{default(UInt64)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64UInt64()
+        {
+            SpookyHasher.SpookyHash64(new UInt64[0], 0, -2);
         }
         
         [Test]
@@ -663,7 +753,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128UInt64()
         {
-            SpookyHasher.SpookyHash128(new UInt64[0], 0, 2);
+            SpookyHasher.SpookyHash128(new UInt64[]{default(UInt64)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128UInt64()
+        {
+            SpookyHasher.SpookyHash128(new UInt64[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -725,7 +821,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthByte()
         {
-            new SpookyHash().Update(new Byte[0], 0, 2);
+            new SpookyHash().Update(new Byte[]{default(Byte)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthByte()
+        {
+            new SpookyHash().Update(new Byte[0], 0, -2);
         }
     }
     [TestFixture]
@@ -787,7 +889,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Byte()
         {
-            SpookyHasher.SpookyHash32(new Byte[0], 0, 2);
+            SpookyHasher.SpookyHash32(new Byte[]{default(Byte)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32Byte()
+        {
+            SpookyHasher.SpookyHash32(new Byte[0], 0, -2);
         }
         
         [Test]
@@ -806,7 +914,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Byte()
         {
-            SpookyHasher.SpookyHash64(new Byte[0], 0, 2);
+            SpookyHasher.SpookyHash64(new Byte[]{default(Byte)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64Byte()
+        {
+            SpookyHasher.SpookyHash64(new Byte[0], 0, -2);
         }
         
         [Test]
@@ -825,7 +939,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Byte()
         {
-            SpookyHasher.SpookyHash128(new Byte[0], 0, 2);
+            SpookyHasher.SpookyHash128(new Byte[]{default(Byte)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128Byte()
+        {
+            SpookyHasher.SpookyHash128(new Byte[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -887,7 +1007,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthChar()
         {
-            new SpookyHash().Update(new Char[0], 0, 2);
+            new SpookyHash().Update(new Char[]{default(Char)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthChar()
+        {
+            new SpookyHash().Update(new Char[0], 0, -2);
         }
     }
     [TestFixture]
@@ -949,7 +1075,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Char()
         {
-            SpookyHasher.SpookyHash32(new Char[0], 0, 2);
+            SpookyHasher.SpookyHash32(new Char[]{default(Char)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32Char()
+        {
+            SpookyHasher.SpookyHash32(new Char[0], 0, -2);
         }
         
         [Test]
@@ -968,7 +1100,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Char()
         {
-            SpookyHasher.SpookyHash64(new Char[0], 0, 2);
+            SpookyHasher.SpookyHash64(new Char[]{default(Char)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64Char()
+        {
+            SpookyHasher.SpookyHash64(new Char[0], 0, -2);
         }
         
         [Test]
@@ -987,7 +1125,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Char()
         {
-            SpookyHasher.SpookyHash128(new Char[0], 0, 2);
+            SpookyHasher.SpookyHash128(new Char[]{default(Char)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128Char()
+        {
+            SpookyHasher.SpookyHash128(new Char[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -1049,7 +1193,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthInt16()
         {
-            new SpookyHash().Update(new Int16[0], 0, 2);
+            new SpookyHash().Update(new Int16[]{default(Int16)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthInt16()
+        {
+            new SpookyHash().Update(new Int16[0], 0, -2);
         }
     }
     [TestFixture]
@@ -1111,7 +1261,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Int16()
         {
-            SpookyHasher.SpookyHash32(new Int16[0], 0, 2);
+            SpookyHasher.SpookyHash32(new Int16[]{default(Int16)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32Int16()
+        {
+            SpookyHasher.SpookyHash32(new Int16[0], 0, -2);
         }
         
         [Test]
@@ -1130,7 +1286,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Int16()
         {
-            SpookyHasher.SpookyHash64(new Int16[0], 0, 2);
+            SpookyHasher.SpookyHash64(new Int16[]{default(Int16)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64Int16()
+        {
+            SpookyHasher.SpookyHash64(new Int16[0], 0, -2);
         }
         
         [Test]
@@ -1149,7 +1311,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Int16()
         {
-            SpookyHasher.SpookyHash128(new Int16[0], 0, 2);
+            SpookyHasher.SpookyHash128(new Int16[]{default(Int16)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128Int16()
+        {
+            SpookyHasher.SpookyHash128(new Int16[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -1211,7 +1379,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthInt32()
         {
-            new SpookyHash().Update(new Int32[0], 0, 2);
+            new SpookyHash().Update(new Int32[]{default(Int32)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthInt32()
+        {
+            new SpookyHash().Update(new Int32[0], 0, -2);
         }
     }
     [TestFixture]
@@ -1273,7 +1447,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Int32()
         {
-            SpookyHasher.SpookyHash32(new Int32[0], 0, 2);
+            SpookyHasher.SpookyHash32(new Int32[]{default(Int32)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32Int32()
+        {
+            SpookyHasher.SpookyHash32(new Int32[0], 0, -2);
         }
         
         [Test]
@@ -1292,7 +1472,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Int32()
         {
-            SpookyHasher.SpookyHash64(new Int32[0], 0, 2);
+            SpookyHasher.SpookyHash64(new Int32[]{default(Int32)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64Int32()
+        {
+            SpookyHasher.SpookyHash64(new Int32[0], 0, -2);
         }
         
         [Test]
@@ -1311,7 +1497,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Int32()
         {
-            SpookyHasher.SpookyHash128(new Int32[0], 0, 2);
+            SpookyHasher.SpookyHash128(new Int32[]{default(Int32)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128Int32()
+        {
+            SpookyHasher.SpookyHash128(new Int32[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -1373,7 +1565,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthInt64()
         {
-            new SpookyHash().Update(new Int64[0], 0, 2);
+            new SpookyHash().Update(new Int64[]{default(Int64)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthInt64()
+        {
+            new SpookyHash().Update(new Int64[0], 0, -2);
         }
     }
     [TestFixture]
@@ -1435,7 +1633,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Int64()
         {
-            SpookyHasher.SpookyHash32(new Int64[0], 0, 2);
+            SpookyHasher.SpookyHash32(new Int64[]{default(Int64)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32Int64()
+        {
+            SpookyHasher.SpookyHash32(new Int64[0], 0, -2);
         }
         
         [Test]
@@ -1454,7 +1658,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Int64()
         {
-            SpookyHasher.SpookyHash64(new Int64[0], 0, 2);
+            SpookyHasher.SpookyHash64(new Int64[]{default(Int64)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64Int64()
+        {
+            SpookyHasher.SpookyHash64(new Int64[0], 0, -2);
         }
         
         [Test]
@@ -1473,7 +1683,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Int64()
         {
-            SpookyHasher.SpookyHash128(new Int64[0], 0, 2);
+            SpookyHasher.SpookyHash128(new Int64[]{default(Int64)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128Int64()
+        {
+            SpookyHasher.SpookyHash128(new Int64[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -1535,7 +1751,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthSingle()
         {
-            new SpookyHash().Update(new Single[0], 0, 2);
+            new SpookyHash().Update(new Single[]{default(Single)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthSingle()
+        {
+            new SpookyHash().Update(new Single[0], 0, -2);
         }
     }
     [TestFixture]
@@ -1597,7 +1819,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Single()
         {
-            SpookyHasher.SpookyHash32(new Single[0], 0, 2);
+            SpookyHasher.SpookyHash32(new Single[]{default(Single)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32Single()
+        {
+            SpookyHasher.SpookyHash32(new Single[0], 0, -2);
         }
         
         [Test]
@@ -1616,7 +1844,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Single()
         {
-            SpookyHasher.SpookyHash64(new Single[0], 0, 2);
+            SpookyHasher.SpookyHash64(new Single[]{default(Single)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64Single()
+        {
+            SpookyHasher.SpookyHash64(new Single[0], 0, -2);
         }
         
         [Test]
@@ -1635,7 +1869,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Single()
         {
-            SpookyHasher.SpookyHash128(new Single[0], 0, 2);
+            SpookyHasher.SpookyHash128(new Single[]{default(Single)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128Single()
+        {
+            SpookyHasher.SpookyHash128(new Single[0], 0, -2);
         }
             }
 	[TestFixture]
@@ -1697,7 +1937,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthDouble()
         {
-            new SpookyHash().Update(new Double[0], 0, 2);
+            new SpookyHash().Update(new Double[]{default(Double)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLengthDouble()
+        {
+            new SpookyHash().Update(new Double[0], 0, -2);
         }
     }
     [TestFixture]
@@ -1759,7 +2005,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Double()
         {
-            SpookyHasher.SpookyHash32(new Double[0], 0, 2);
+            SpookyHasher.SpookyHash32(new Double[]{default(Double)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32Double()
+        {
+            SpookyHasher.SpookyHash32(new Double[0], 0, -2);
         }
         
         [Test]
@@ -1778,7 +2030,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Double()
         {
-            SpookyHasher.SpookyHash64(new Double[0], 0, 2);
+            SpookyHasher.SpookyHash64(new Double[]{default(Double)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64Double()
+        {
+            SpookyHasher.SpookyHash64(new Double[0], 0, -2);
         }
         
         [Test]
@@ -1797,7 +2055,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Double()
         {
-            SpookyHasher.SpookyHash128(new Double[0], 0, 2);
+            SpookyHasher.SpookyHash128(new Double[]{default(Double)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128Double()
+        {
+            SpookyHasher.SpookyHash128(new Double[0], 0, -2);
         }
             }
 }

@@ -45,6 +45,15 @@ namespace SpookilySharp
             throw new ArgumentOutOfRangeException("startIndex");
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage",
+            "CA2208:InstantiateArgumentExceptionsCorrectly",
+            Justification = "Helper method called by methods with such a parameter")]
+        private static void NegativeLength()
+        {
+            // Analysis disable once NotResolvedInText
+            throw new ArgumentOutOfRangeException("length");
+        }
+
         private static void PastArrayBounds()
         {
             throw new ArgumentException("Attempt to read beyond the end of the array.");
@@ -54,12 +63,25 @@ namespace SpookilySharp
         {
             throw new ArgumentException("Attempt to read beyond the end of the string.");
         }
+        
+        private static void CheckNotNegativeLength(int length)
+        {
+            if(length < 0)
+                NegativeLength();
+        }
+        
+        private static void CheckIndexInRange(int startIndex, int length)
+        {
+            if((uint)startIndex >= (uint)length)
+                StartIndexOutOfRange();
+        }
 
         public static void CheckArray<T>(T[] message, int startIndex, int length)
         {
-            if(startIndex < 0 || startIndex > message.Length)
-                StartIndexOutOfRange();
-            if(startIndex + length > message.Length)
+            CheckNotNegativeLength(length);
+            int len = message.Length;
+            CheckIndexInRange(startIndex, len);
+            if(startIndex + length > len)
                 PastArrayBounds();
         }
 
@@ -70,9 +92,9 @@ namespace SpookilySharp
         }
         public static void CheckBounds(string message, int startIndex, int length)
         {
+            CheckNotNegativeLength(length);
             int len = message.Length;
-            if(startIndex < 0 || startIndex > len)
-                StartIndexOutOfRange();
+            CheckIndexInRange(startIndex, len);
             if(startIndex + length > len)
                 PastStringBounds();
         }

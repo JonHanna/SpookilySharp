@@ -119,7 +119,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32String()
         {
-            SpookyHasher.SpookyHash32("", 0, 2);
+            SpookyHasher.SpookyHash32("a", 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength32String()
+        {
+            SpookyHasher.SpookyHash32("", 0, -3);
         }
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
@@ -137,7 +143,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64String()
         {
-            SpookyHasher.SpookyHash64("", 0, 2);
+            SpookyHasher.SpookyHash64("a", 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength64String()
+        {
+            SpookyHasher.SpookyHash64("", 0, -3);
         }
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
@@ -155,7 +167,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128String()
         {
-            SpookyHasher.SpookyHash128("", 0, 2);
+            SpookyHasher.SpookyHash128("a", 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength128String()
+        {
+            SpookyHasher.SpookyHash128("", 0, -3);
         }
     }
 }

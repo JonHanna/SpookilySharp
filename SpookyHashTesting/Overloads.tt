@@ -102,7 +102,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength<#=name#>()
         {
-            new SpookyHash().Update(new <#=name#>[0], 0, 2);
+            new SpookyHash().Update(new <#=name#>[]{default(<#=name#>)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength<#=name#>()
+        {
+            new SpookyHash().Update(new <#=name#>[0], 0, -2);
         }
     }
     [TestFixture]
@@ -167,7 +173,13 @@ namespace SpookyHashTesting
         [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength<#=size#><#=name#>()
         {
-            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], 0, 2);
+            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[]{default(<#=name#>)}, 0, 2);
+        }
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void NegativeLength<#=size#><#=name#>()
+        {
+            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], 0, -2);
         }
         <#}#>
     }
