@@ -838,6 +838,7 @@ namespace SpookilySharp
 #endif
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            ExceptionHelper.CheckNotNull(info, "info");
             info.AddValue("d", _data);
             info.AddValue("s0", _state0);
             info.AddValue("s1", _state1);
