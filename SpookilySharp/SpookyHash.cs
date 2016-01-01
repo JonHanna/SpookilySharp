@@ -78,24 +78,26 @@ namespace SpookilySharp
             startInfo.UseShellExecute = false;
             try
             {
-                var proc = new Process();
-                proc.StartInfo = startInfo;
-                proc.Start();
-                using(var output = proc.StandardOutput)
+                using (var proc = new Process())
                 {
-                    string line = output.ReadLine();
-                    if(line != null)
+                    proc.StartInfo = startInfo;
+                    proc.Start();
+                    using (var output = proc.StandardOutput)
                     {
-                        string trimmed = line.Trim();
-                        if(trimmed.Length != 0)
-                            switch(trimmed)
-                            {
-                                case "amd64":
-                                case "i386":
-                                case "x86_64":
-                                case "x64":
-                                    return true; // Known to tolerate unaligned-reads well.
-                            }
+                        string line = output.ReadLine();
+                        if (line != null)
+                        {
+                            string trimmed = line.Trim();
+                            if (trimmed.Length != 0)
+                                switch (trimmed)
+                                {
+                                    case "amd64":
+                                    case "i386":
+                                    case "x86_64":
+                                    case "x64":
+                                        return true; // Known to tolerate unaligned-reads well.
+                                }
+                        }
                     }
                 }
             }
@@ -107,28 +109,30 @@ namespace SpookilySharp
             startInfo.Arguments = "-m";
             try
             {
-                var proc = new Process();
-                proc.StartInfo = startInfo;
-                proc.Start();
-                using(var output = proc.StandardOutput)
+                using (var proc = new Process())
                 {
-                    string line = output.ReadLine();
-                    if(line != null)
+                    proc.StartInfo = startInfo;
+                    proc.Start();
+                    using (var output = proc.StandardOutput)
                     {
-                        string trimmed = line.Trim();
-                        if(trimmed.Length != 0)
-                            switch(trimmed)
+                        string line = output.ReadLine();
+                        if (line != null)
                         {
-                            case "amd64":
-                            case "i386":
-                            case "i686":
-                            case "i686-64":
-                            case "i86pc":
-                            case "x86_64":
-                            case "x64":
-                                return true; // Known to tolerate unaligned-reads well.
-                            default:
-                                return new Regex(@"i\d86").IsMatch(trimmed);
+                            string trimmed = line.Trim();
+                            if (trimmed.Length != 0)
+                                switch (trimmed)
+                                {
+                                    case "amd64":
+                                    case "i386":
+                                    case "i686":
+                                    case "i686-64":
+                                    case "i86pc":
+                                    case "x86_64":
+                                    case "x64":
+                                        return true; // Known to tolerate unaligned-reads well.
+                                    default:
+                                        return new Regex(@"i\d86").IsMatch(trimmed);
+                                }
                         }
                     }
                 }
