@@ -41,8 +41,12 @@ using System.Security;
 [assembly: AssemblyVersion("1.1.5126.40900")]
 #elif NET_451
 [assembly: AssemblyVersion("1.1.5126.40896")]
+#elif NET_452
+[assembly: AssemblyVersion("1.1.5126.40908")]
+#elif NET_46
+[assembly: AssemblyVersion("1.1.5126.40909")]
 #endif
-[assembly: AssemblyInformationalVersionAttribute("1.1.5129-alpha")]
+[assembly: AssemblyInformationalVersion("1.1.5129-alpha")]
 [assembly: CLSCompliant(true)]
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: ComVisible(false)]
