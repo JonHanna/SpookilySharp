@@ -2,6 +2,7 @@ bin/
 obj/
 bin/*
 obj/*
+.vs
 *.userprefs
 *.*~
 OpenCover
