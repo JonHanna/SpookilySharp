@@ -15,6 +15,8 @@
 
 using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SpookilySharp
 {
@@ -133,6 +135,12 @@ namespace SpookilySharp
         }
 
         /// <inheritdoc/>
+        public override Task FlushAsync(CancellationToken cancellationToken)
+        {
+            return _backing.FlushAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public override long Length
         {
             get { return _backing.Length; }
@@ -159,6 +167,18 @@ namespace SpookilySharp
             _read.Update(buffer, offset, count);
             return count;
         }
+
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        /// <inheritdoc/>
+        public async override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            count = await _backing.ReadAsync(buffer, offset, count, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            _read.Update(buffer, offset, count);
+            return count;
+        }
+#endif
 
         /// <inheritdoc/>
         public override int ReadByte()
@@ -197,6 +217,17 @@ namespace SpookilySharp
             _backing.Write(buffer, offset, count);
             _written.Update(buffer, offset, count);
         }
+
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        /// <inheritdoc/>
+        public async override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await _backing.WriteAsync(buffer, offset, count, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            _written.Update(buffer, offset, count);
+        }
+#endif
 
         /// <inheritdoc/>
         public override void WriteByte(byte value)

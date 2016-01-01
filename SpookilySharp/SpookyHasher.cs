@@ -17,6 +17,8 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Security;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SpookilySharp
 {
@@ -414,6 +416,26 @@ namespace SpookilySharp
             return hash.Final();
         }
 
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        public async static Task<HashCode128> SpookyHash128Async(this Stream stream, ulong seed0, ulong seed1, CancellationToken cancellationToken)
+        {
+            ExceptionHelper.CheckNotNull(stream);
+            cancellationToken.ThrowIfCancellationRequested();
+            var hash = new SpookyHash(seed0, seed1);
+            var buffer = new byte[4096];
+            for (int len = await stream.ReadAsync(buffer, 0, 4096, cancellationToken); len != 0; len = await stream.ReadAsync(buffer, 0, 4096, cancellationToken))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                hash.Update(buffer, 0, len);
+            }
+            return hash.Final();
+        }
+        public static Task<HashCode128> SpookyHash128Async(this Stream stream, ulong seed0, ulong seed1)
+        {
+            return SpookyHash128Async(stream, seed0, seed1, CancellationToken.None);
+        }
+#endif
+
         /// <summary>Produces an 128-bit SpookyHash of a stream.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
         /// <param name="stream">The stream to hash.</param>
@@ -426,7 +448,7 @@ namespace SpookilySharp
         [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
             "SA1115:ParameterMustFollowComma",
             Justification = "Necessary to allow conditional compilation of extension methods.")]
-        public static unsafe HashCode128 SpookyHash128(
+        public static HashCode128 SpookyHash128(
 #if !NET_20 && !NET_30
             this
 #endif
@@ -436,6 +458,17 @@ namespace SpookilySharp
         {
             return unchecked(SpookyHash128(stream, (ulong)seed0, (ulong)seed1));
         }
+
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        public static Task<HashCode128> SpookyHash128Async(this Stream stream, long seed0, long seed1, CancellationToken cancellationToken)
+        {
+            return unchecked(SpookyHash128Async(stream, (ulong)seed0, (ulong)seed1, cancellationToken));
+        }
+        public static Task<HashCode128> SpookyHash128Async(this Stream stream, long seed0, long seed1)
+        {
+            return SpookyHash128Async(stream, seed0, seed1, CancellationToken.None);
+        }
+#endif
 
         /// <summary>Produces an 128-bit SpookyHash of a stream, with a default seed.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -447,8 +480,19 @@ namespace SpookilySharp
 #endif
             Stream stream)
         {
-            return unchecked(SpookyHash128(stream, SpookyHash.SpookyConst, SpookyHash.SpookyConst));
+            return SpookyHash128(stream, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
         }
+
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        public static Task<HashCode128> SpookyHash128Async(this Stream stream, CancellationToken cancellationToken)
+        {
+            return SpookyHash128Async(stream, SpookyHash.SpookyConst, SpookyHash.SpookyConst, cancellationToken);
+        }
+        public static Task<HashCode128> SpookyHash128Async(this Stream stream)
+        {
+            return SpookyHash128Async(stream, CancellationToken.None);
+        }
+#endif
 
         /// <summary>Produces a 64-bit SpookyHash of a stream.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
@@ -479,6 +523,27 @@ namespace SpookilySharp
             return seed;
         }
 
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        public async static Task<ulong> SpookyHash64Async(this Stream stream, ulong seed, CancellationToken cancellationToken)
+        {
+            ExceptionHelper.CheckNotNull(stream);
+            cancellationToken.ThrowIfCancellationRequested();
+            var hash = new SpookyHash(seed, seed);
+            var buffer = new byte[4096];
+            for (int len = await stream.ReadAsync(buffer, 0, 4096, cancellationToken); len != 0; len = await stream.ReadAsync(buffer, 0, 4096, cancellationToken))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                hash.Update(buffer, 0, len);
+            }
+            hash.Final(out seed, out seed);
+            return seed;
+        }
+        public static Task<ulong> SpookyHash64Async(this Stream stream, ulong seed)
+        {
+            return SpookyHash64Async(stream, seed, CancellationToken.None);
+        }
+#endif
+
         /// <summary>Produces a 64-bit SpookyHash of a stream.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="stream">The stream to hash.</param>
@@ -499,6 +564,17 @@ namespace SpookilySharp
             return unchecked((long)SpookyHash64(stream, (ulong)seed));
         }
 
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        public static Task<long> SpookyHash64Async(this Stream stream, long seed, CancellationToken cancellationToken)
+        {
+            return SpookyHash64Async(stream, unchecked((ulong)seed)).ContinueWith(t => unchecked((long)t.Result), cancellationToken, TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default);
+        }
+        public static Task<long> SpookyHash64Async(this Stream stream, long seed)
+        {
+            return SpookyHash64Async(stream, seed, CancellationToken.None);
+        }
+#endif
+
         /// <summary>Produces a 64-bit SpookyHash of a stream, with a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="stream">The stream to hash.</param>
@@ -511,6 +587,17 @@ namespace SpookilySharp
         {
             return unchecked(SpookyHash64(stream, (long)SpookyHash.SpookyConst));
         }
+
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        public static Task<long> SpookyHash64Async(Stream stream, CancellationToken cancellationToken)
+        {
+            return unchecked(SpookyHash64Async(stream, (long)SpookyHash.SpookyConst, cancellationToken));
+        }
+        public static Task<long> SpookyHash64Async(Stream stream)
+        {
+            return SpookyHash64Async(stream, CancellationToken.None);
+        }
+#endif
 
         /// <summary>Produces a 32-bit SpookyHash of a stream.</summary>
         /// <returns>An <see cref="int"/> containing the 32-bit hash.</returns>
@@ -533,6 +620,19 @@ namespace SpookilySharp
             return unchecked((uint)SpookyHash64(stream, (ulong)seed));
         }
 
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        [CLSCompliant(false)]
+        public static Task<uint> SpookyHash32Async(this Stream stream, uint seed, CancellationToken cancellationToken)
+        {
+            return unchecked(SpookyHash64Async(stream, (ulong)seed).ContinueWith(t => (uint)t.Result, cancellationToken, TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default));
+        }
+        [CLSCompliant(false)]
+        public static Task<uint> SpookyHash32Async(this Stream stream, uint seed)
+        {
+            return SpookyHash32Async(stream, seed, CancellationToken.None);
+        }
+#endif
+
         /// <summary>Produces a 32-bit SpookyHash of a stream.</summary>
         /// <returns>An <see cref="int"/> containing the 32-bit hash.</returns>
         /// <param name="stream">The stream to hash.</param>
@@ -552,6 +652,16 @@ namespace SpookilySharp
         {
             return unchecked((int)SpookyHash64(stream, (ulong)(uint)seed));
         }
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        public static Task<int> SpookyHash32Async(this Stream stream, int seed, CancellationToken cancellationToken)
+        {
+            return unchecked(SpookyHash64Async(stream, (ulong)(uint)seed, cancellationToken).ContinueWith(t => (int)t.Result, cancellationToken, TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default));
+        }
+        public static Task<int> SpookyHash32Async(this Stream stream, int seed)
+        {
+            return SpookyHash32Async(stream, seed, CancellationToken.None);
+        }
+#endif
 
         /// <summary>Produces a 32-bit SpookyHash of a stream.</summary>
         /// <returns>An <see cref="int"/> containing the 32-bit hash.</returns>
@@ -565,5 +675,15 @@ namespace SpookilySharp
         {
             return unchecked(SpookyHash32(stream, (int)(uint)SpookyHash.SpookyConst));
         }
+#if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        public static Task<int> SpookyHash32Async(this Stream stream, CancellationToken cancellationToken)
+        {
+            return unchecked(SpookyHash32Async(stream, (int)(uint)SpookyHash.SpookyConst, cancellationToken));
+        }
+        public static Task<int> SpookyHash32Async(this Stream stream)
+        {
+            return SpookyHash32Async(stream, CancellationToken.None);
+        }
+#endif
     }
 }
