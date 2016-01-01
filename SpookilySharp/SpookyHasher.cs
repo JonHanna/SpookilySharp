@@ -417,6 +417,7 @@ namespace SpookilySharp
         }
 
 #if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        [CLSCompliant(false)]
         public async static Task<HashCode128> SpookyHash128Async(this Stream stream, ulong seed0, ulong seed1, CancellationToken cancellationToken)
         {
             ExceptionHelper.CheckNotNull(stream);
@@ -430,6 +431,7 @@ namespace SpookilySharp
             }
             return hash.Final();
         }
+        [CLSCompliant(false)]
         public static Task<HashCode128> SpookyHash128Async(this Stream stream, ulong seed0, ulong seed1)
         {
             return SpookyHash128Async(stream, seed0, seed1, CancellationToken.None);
@@ -524,6 +526,7 @@ namespace SpookilySharp
         }
 
 #if !NET_20 && !NET_30 && !NET_35 && !NET_40
+        [CLSCompliant(false)]
         public async static Task<ulong> SpookyHash64Async(this Stream stream, ulong seed, CancellationToken cancellationToken)
         {
             ExceptionHelper.CheckNotNull(stream);
@@ -538,6 +541,7 @@ namespace SpookilySharp
             hash.Final(out seed, out seed);
             return seed;
         }
+        [CLSCompliant(false)]
         public static Task<ulong> SpookyHash64Async(this Stream stream, ulong seed)
         {
             return SpookyHash64Async(stream, seed, CancellationToken.None);
