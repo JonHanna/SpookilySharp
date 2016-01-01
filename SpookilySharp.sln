@@ -25,6 +25,12 @@ Global
 		Debug|Framework451 = Debug|Framework451
 		Release|Framework451 = Release|Framework451
         Signing|Framework451 = Signing|Framework451
+		Debug|Framework452 = Debug|Framework452
+		Release|Framework452 = Release|Framework452
+        Signing|Framework452 = Signing|Framework452
+		Debug|Framework46 = Debug|Framework46
+		Release|Framework46 = Release|Framework46
+        Signing|Framework46 = Signing|Framework46
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|Framework20.ActiveCfg = Debug|Framework20
@@ -39,6 +45,10 @@ Global
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|Framework451.Build.0 = Debug|Framework451
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|Framework45.ActiveCfg = Debug|Framework45
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|Framework45.Build.0 = Debug|Framework45
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|Framework452.ActiveCfg = Debug|Framework452
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|Framework452.Build.0 = Debug|Framework452
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|Framework46.ActiveCfg = Debug|Framework46
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Debug|Framework46.Build.0 = Debug|Framework46
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework20.ActiveCfg = Release|Framework20
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework20.Build.0 = Release|Framework20
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework30.ActiveCfg = Release|Framework30
@@ -49,6 +59,10 @@ Global
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework40.Build.0 = Release|Framework40
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework451.ActiveCfg = Release|Framework451
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework451.Build.0 = Release|Framework451
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework452.ActiveCfg = Release|Framework452
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework452.Build.0 = Release|Framework452
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework46.ActiveCfg = Release|Framework46
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework46.Build.0 = Release|Framework46
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework45.ActiveCfg = Release|Framework45
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Release|Framework45.Build.0 = Release|Framework45
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework20.ActiveCfg = Signing|Framework20
@@ -61,6 +75,10 @@ Global
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework40.Build.0 = Signing|Framework40
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework451.ActiveCfg = Signing|Framework451
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework451.Build.0 = Signing|Framework451
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework452.ActiveCfg = Signing|Framework452
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework452.Build.0 = Signing|Framework452
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework46.ActiveCfg = Signing|Framework46
+		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework46.Build.0 = Signing|Framework46
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework45.ActiveCfg = Signing|Framework45
 		{B010C38D-0BC9-4859-9433-0890B03CF6BE}.Signing|Framework45.Build.0 = Signing|Framework45
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework20.ActiveCfg = Debug|Framework45
@@ -73,6 +91,10 @@ Global
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework40.Build.0 = Debug|Framework45
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework451.ActiveCfg = Debug|Framework451
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework451.Build.0 = Debug|Framework451
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework452.ActiveCfg = Debug|Framework452
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework452.Build.0 = Debug|Framework452
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework46.ActiveCfg = Debug|Framework46
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework46.Build.0 = Debug|Framework46
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework45.ActiveCfg = Debug|Framework45
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Debug|Framework45.Build.0 = Debug|Framework45
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework20.ActiveCfg = Release|Framework45
@@ -85,6 +107,10 @@ Global
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework40.Build.0 = Release|Framework45
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework451.ActiveCfg = Release|Framework451
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework451.Build.0 = Release|Framework451
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework452.ActiveCfg = Release|Framework452
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework452.Build.0 = Release|Framework452
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework46.ActiveCfg = Release|Framework46
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework46.Build.0 = Release|Framework46
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework45.ActiveCfg = Release|Framework45
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Release|Framework45.Build.0 = Release|Framework45
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework20.ActiveCfg = Release|Framework45
@@ -97,6 +123,10 @@ Global
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework40.Build.0 = Release|Framework45
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework451.ActiveCfg = Release|Framework451
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework451.Build.0 = Release|Framework451
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework452.ActiveCfg = Release|Framework452
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework452.Build.0 = Release|Framework452
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework46.ActiveCfg = Release|Framework46
+		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework46.Build.0 = Release|Framework46
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework45.ActiveCfg = Release|Framework45
 		{D65EF837-D75E-4348-9487-4290AE3802E0}.Signing|Framework45.Build.0 = Release|Framework45
 	EndGlobalSection

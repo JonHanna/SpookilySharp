@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ProjectGuid>{B010C38D-0BC9-4859-9433-0890B03CF6BE}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">Framework451</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">Framework46</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>SpookilySharp</RootNamespace>
     <AssemblyName>SpookilySharp</AssemblyName>
@@ -29,6 +29,14 @@
     <DelaySign>false</DelaySign>
     <SourceAnalysisOverrideSettingsFile>D:\SpookilySharp\SpookilySharp\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <Prefer32Bit>False</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework46' ">
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <DefineConstants>NET_46</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'Framework452' ">
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <DefineConstants>NET_452</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'Framework451' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
@@ -79,6 +87,28 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Signing' ">
     <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework46' ">
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework46' ">
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework46' ">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework452' ">
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework452' ">
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework452' ">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework451' ">
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
