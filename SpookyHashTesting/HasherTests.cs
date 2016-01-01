@@ -15,19 +15,18 @@
 
 using System;
 using System.IO;
-using NUnit.Framework;
 using SpookilySharp;
+using Xunit;
 
 namespace SpookyHashTesting
 {
-    [TestFixture]
     public sealed partial class HasherTests
     {
         private Stream GetStream()
         {
             return new FileStream("nunit.framework.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
         }
-        [Test]
+        [Fact]
         public void StringExtension()
         {
             string testString;
@@ -38,9 +37,9 @@ namespace SpookyHashTesting
             sh.Update(testString);
             var h = sh.Final();
             int len = testString.Length;
-            Assert.AreEqual(h, SpookyHasher.SpookyHash128(testString));
-            Assert.AreEqual(h, SpookyHasher.SpookyHash128(testString, 0, len, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(
+            Assert.Equal(h, SpookyHasher.SpookyHash128(testString));
+            Assert.Equal(h, SpookyHasher.SpookyHash128(testString, 0, len, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
+            Assert.Equal(
                 h,
                 unchecked(SpookyHasher.SpookyHash128(
                     testString,
@@ -48,10 +47,10 @@ namespace SpookyHashTesting
                     len,
                     (long)0xDEADBEEFDEADBEEF,
                     (long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(h, SpookyHasher.SpookyHash128(testString, 0, len));
+            Assert.Equal(h, SpookyHasher.SpookyHash128(testString, 0, len));
             var hashSlice = SpookyHasher.SpookyHash128(testString, 50, 100, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF);
-            Assert.AreNotEqual(h, hashSlice);
-            Assert.AreEqual(
+            Assert.NotEqual(h, hashSlice);
+            Assert.Equal(
                 hashSlice,
                 unchecked(SpookyHasher.SpookyHash128(
                     testString,
@@ -60,16 +59,16 @@ namespace SpookyHashTesting
                     (long)0xDEADBEEFDEADBEEF,
                     (long)0xDEADBEEFDEADBEEF)));
             long longHash = SpookyHasher.SpookyHash64(testString, 0, len, unchecked((long)0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(longHash, SpookyHasher.SpookyHash64(testString, unchecked((long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(longHash, SpookyHasher.SpookyHash64(testString, 0, len));
-            Assert.AreEqual(longHash, SpookyHasher.SpookyHash64(testString));
+            Assert.Equal(longHash, SpookyHasher.SpookyHash64(testString, unchecked((long)0xDEADBEEFDEADBEEF)));
+            Assert.Equal(longHash, SpookyHasher.SpookyHash64(testString, 0, len));
+            Assert.Equal(longHash, SpookyHasher.SpookyHash64(testString));
             int hash = SpookyHasher.SpookyHash32(testString, 0, len, unchecked((int)0xDEADBEEF));
-            Assert.AreEqual(hash, SpookyHasher.SpookyHash32(testString, unchecked((int)0xDEADBEEF)));
-            Assert.AreEqual(hash, SpookyHasher.SpookyHash32(testString, 0, len));
-            Assert.AreEqual(hash, SpookyHasher.SpookyHash32(testString));
+            Assert.Equal(hash, SpookyHasher.SpookyHash32(testString, unchecked((int)0xDEADBEEF)));
+            Assert.Equal(hash, SpookyHasher.SpookyHash32(testString, 0, len));
+            Assert.Equal(hash, SpookyHasher.SpookyHash32(testString));
             testString = null;
-            Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(testString));
-            Assert.AreEqual(
+            Assert.Equal(HashCode128.Zero, SpookyHasher.SpookyHash128(testString));
+            Assert.Equal(
                 HashCode128.Zero,
                 SpookyHasher.SpookyHash128(
                     testString,
@@ -77,7 +76,7 @@ namespace SpookyHashTesting
                     200,
                     0xDEADBEEFDEADBEEF,
                     0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(
+            Assert.Equal(
                 HashCode128.Zero,
                 unchecked(SpookyHasher.SpookyHash128(
                     testString,
@@ -85,8 +84,8 @@ namespace SpookyHashTesting
                     200,
                     (long)0xDEADBEEFDEADBEEF,
                     (long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(HashCode128.Zero, SpookyHasher.SpookyHash128(testString, 0, 200));
-            Assert.AreEqual(
+            Assert.Equal(HashCode128.Zero, SpookyHasher.SpookyHash128(testString, 0, 200));
+            Assert.Equal(
                 HashCode128.Zero,
                 SpookyHasher.SpookyHash128(
                     testString,
@@ -94,86 +93,74 @@ namespace SpookyHashTesting
                     100,
                     0xDEADBEEFDEADBEEF,
                     0xDEADBEEFDEADBEEF));
-            Assert.AreEqual(0, SpookyHasher.SpookyHash64(testString, 0, 200, unchecked((long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(0, SpookyHasher.SpookyHash64(testString, unchecked((long)0xDEADBEEFDEADBEEF)));
-            Assert.AreEqual(0, SpookyHasher.SpookyHash64(testString, 0, 200));
-            Assert.AreEqual(0, SpookyHasher.SpookyHash64(testString));
-            Assert.AreEqual(0, SpookyHasher.SpookyHash32(testString, 0, 200, unchecked((int)0xDEADBEEF)));
-            Assert.AreEqual(0, SpookyHasher.SpookyHash32(testString, unchecked((int)0xDEADBEEF)));
-            Assert.AreEqual(0, SpookyHasher.SpookyHash32(testString, 0, 200));
-            Assert.AreEqual(0, SpookyHasher.SpookyHash32(testString));
+            Assert.Equal(0, SpookyHasher.SpookyHash64(testString, 0, 200, unchecked((long)0xDEADBEEFDEADBEEF)));
+            Assert.Equal(0, SpookyHasher.SpookyHash64(testString, unchecked((long)0xDEADBEEFDEADBEEF)));
+            Assert.Equal(0, SpookyHasher.SpookyHash64(testString, 0, 200));
+            Assert.Equal(0, SpookyHasher.SpookyHash64(testString));
+            Assert.Equal(0, SpookyHasher.SpookyHash32(testString, 0, 200, unchecked((int)0xDEADBEEF)));
+            Assert.Equal(0, SpookyHasher.SpookyHash32(testString, unchecked((int)0xDEADBEEF)));
+            Assert.Equal(0, SpookyHasher.SpookyHash32(testString, 0, 200));
+            Assert.Equal(0, SpookyHasher.SpookyHash32(testString));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void NegativeOffest32String()
         {
-            SpookyHasher.SpookyHash32("", -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash32("", -1, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void ExcessiveOffest32String()
         {
-            SpookyHasher.SpookyHash32("", 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash32("", 40, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void ExcessiveLength32String()
         {
-            SpookyHasher.SpookyHash32("a", 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32("a", 0, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void NegativeLength32String()
         {
-            SpookyHasher.SpookyHash32("", 0, -3);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash32("", 0, -3));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void NegativeOffest64String()
         {
-            SpookyHasher.SpookyHash64("", -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash64("", -1, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void ExcessiveOffest64String()
         {
-            SpookyHasher.SpookyHash64("", 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash64("", 40, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void ExcessiveLength64String()
         {
-            SpookyHasher.SpookyHash64("a", 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64("a", 0, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void NegativeLength64String()
         {
-            SpookyHasher.SpookyHash64("", 0, -3);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash64("", 0, -3));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void NegativeOffest128String()
         {
-            SpookyHasher.SpookyHash128("", -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash128("", -1, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void ExcessiveOffest128String()
         {
-            SpookyHasher.SpookyHash128("", 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash128("", 40, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void ExcessiveLength128String()
         {
-            SpookyHasher.SpookyHash128("a", 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128("a", 0, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void NegativeLength128String()
         {
-            SpookyHasher.SpookyHash128("", 0, -3);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash128("", 0, -3));
         }
     }
 }

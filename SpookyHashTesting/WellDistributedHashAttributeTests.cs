@@ -15,12 +15,11 @@
 
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using SpookilySharp;
+using Xunit;
 
 namespace SpookyHashTesting
 {
-    [TestFixture]
     public class WellDistributedHashAttributeTests
     {
         private class Bad : IEqualityComparer<int>
@@ -201,7 +200,7 @@ namespace SpookyHashTesting
                 return 0;
             }
         }
-        [Test]
+        [Fact]
         public void TestAttributeDetection()
         {
             // Repeat so we both find it by calculation and by lookup.
@@ -234,11 +233,11 @@ namespace SpookyHashTesting
         }
         private void ConfirmBad<T>(IEqualityComparer<T> cmp)
         {
-            Assert.AreNotSame(cmp, SpookierEqualityComparers.WellDistributed(cmp));
+            Assert.NotSame(cmp, SpookierEqualityComparers.WellDistributed(cmp));
         }
         private void ConfirmGood<T>(IEqualityComparer<T> cmp)
         {
-            Assert.AreSame(cmp, SpookierEqualityComparers.WellDistributed(cmp));
+            Assert.Same(cmp, SpookierEqualityComparers.WellDistributed(cmp));
         }
     }
 }

@@ -21,16 +21,15 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using NUnit.Framework;
 using SpookilySharp;
+using Xunit;
 
 namespace SpookyHashTesting
 {
-    [TestFixture]
     public class HashTests
     {
         private const int BufferSize  = 512;
-        [Test]
+        [Fact]
         public unsafe void KnownValues()
         {
             uint[] expected =
@@ -114,24 +113,23 @@ namespace SpookyHashTesting
                 {
                 buf[i] = unchecked((byte)(i + 128));
                     saw[i] = SpookyHash.Hash32(ptr, i, 0);
-                    Assert.AreEqual(expected[i], saw[i]);
+                    Assert.Equal(expected[i], saw[i]);
                 }
         }
-        [Test]
+        [Fact]
         public void EmptyString()
         {
-            Assert.AreEqual(0x6bf50919, SpookyHasher.SpookyHash32("", 0));
+            Assert.Equal(0x6bf50919, SpookyHasher.SpookyHash32("", 0));
         }
-        [Test]
+        [Fact]
         public void NullString()
         {
-            Assert.AreEqual(0, SpookyHasher.SpookyHash32((string)null));
+            Assert.Equal(0, SpookyHasher.SpookyHash32((string)null));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public unsafe void NullPointerUpdate()
         {
-            new SpookyHash().Update((void*)null, 42);
+            Assert.Throws<ArgumentNullException>("message", () => new SpookyHash().Update((void*)null, 42));
         }
         [SuppressMessage("StyleCopPlus.StyleCopPlusRules",
             "SP2000:CodeLineMustNotEndWithWhitespace",
@@ -212,15 +210,13 @@ namespace SpookyHashTesting
         // Note that these speed-comparison tests are not complete benchmarks. They are intended for use during
         // development as a quick sanity test to ensure that an attempted improvement has not had a strikingly
         // negative effect upon performance.
-        [Test]
-        [Ignore]
+        [Fact(Skip = "Long Running")]
         public void TestNativeSpeed()
         {
             for(int i = 0; i != 1000000; ++i)
                 MediumLengthString.GetHashCode();
         }
-        [Test]
-        [Ignore]
+        [Fact(Skip = "Long Running")]
         public void TestSpookySpeed()
         {
             for(int i = 0; i != 1000000; ++i)
@@ -236,12 +232,12 @@ namespace SpookyHashTesting
                 yield return arr[i];
             }
         }
-        [Test]
+        [Fact]
         public void SequenceOfStrings()
         {
             var sh = new SpookyHash();
             sh.Update(MediumLengthSequence());
-            Assert.AreEqual(SpookyHasher.SpookyHash128(MediumLengthString), sh.Final());
+            Assert.Equal(SpookyHasher.SpookyHash128(MediumLengthString), sh.Final());
         }
         private static IEnumerable<uint> RandomUints(int num)
         {
@@ -268,7 +264,7 @@ namespace SpookyHashTesting
             return RandomUlongs(num).Select(ul => (long)ul);
         }
         private const int RandomCycleCount = 20;
-        [Test]
+        [Fact]
         public unsafe void RehashUInt()
         {
             foreach(uint seed in RandomUints(RandomCycleCount))
@@ -276,16 +272,16 @@ namespace SpookyHashTesting
                 {
                     uint copy = message;
                     uint* p = &copy;
-                        Assert.AreEqual(SpookyHash.Hash32(p, 4, seed), Redistributor.Rehash(message, seed));
+                        Assert.Equal(SpookyHash.Hash32(p, 4, seed), Redistributor.Rehash(message, seed));
                 }
             foreach(uint message in RandomUints(RandomCycleCount))
             {
                 uint copy = message;
                 uint* p = &copy;
-                Assert.AreEqual(SpookyHash.Hash32(p, 4, 0xDEADBEEF), Redistributor.Rehash(message));
+                Assert.Equal(SpookyHash.Hash32(p, 4, 0xDEADBEEF), Redistributor.Rehash(message));
             }
         }
-        [Test]
+        [Fact]
         public unsafe void RehashInt()
         {
             foreach(int seed in RandomInts(RandomCycleCount))
@@ -295,7 +291,7 @@ namespace SpookyHashTesting
                     int* p = &copy;
                     unchecked
                     {
-                        Assert.AreEqual((int)SpookyHash.Hash32(p, 4, (uint)seed), Redistributor.Rehash(message, seed));
+                        Assert.Equal((int)SpookyHash.Hash32(p, 4, (uint)seed), Redistributor.Rehash(message, seed));
                     }
                 }
             foreach(int message in RandomInts(RandomCycleCount))
@@ -304,11 +300,11 @@ namespace SpookyHashTesting
                 int* p = &copy;
                 unchecked
                 {
-                    Assert.AreEqual((int)SpookyHash.Hash32(p, 4, 0xDEADBEEF), Redistributor.Rehash(message));
+                    Assert.Equal((int)SpookyHash.Hash32(p, 4, 0xDEADBEEF), Redistributor.Rehash(message));
                 }
             }
         }
-        [Test]
+        [Fact]
         public unsafe void RehashULong()
         {
             foreach(var seed in RandomUlongs(RandomCycleCount))
@@ -316,16 +312,16 @@ namespace SpookyHashTesting
                 {
                     var copy = message;
                     ulong* p = &copy;
-                    Assert.AreEqual(SpookyHash.Hash64(p, 8, seed), Redistributor.Rehash(message, seed));
+                    Assert.Equal(SpookyHash.Hash64(p, 8, seed), Redistributor.Rehash(message, seed));
                 }
             foreach(var message in RandomUlongs(RandomCycleCount))
             {
                 var copy = message;
                 ulong* p = &copy;
-                Assert.AreEqual(SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), Redistributor.Rehash(message));
+                Assert.Equal(SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), Redistributor.Rehash(message));
             }
         }
-        [Test]
+        [Fact]
         public unsafe void RehashLong()
         {
             foreach(var seed in RandomLongs(RandomCycleCount))
@@ -335,7 +331,7 @@ namespace SpookyHashTesting
                     long* p = &copy;
                     unchecked
                     {
-                        Assert.AreEqual(
+                        Assert.Equal(
                             (long)SpookyHash.Hash64(p, 8, (ulong)seed),
                             Redistributor.Rehash(message, seed));
                     }
@@ -346,11 +342,11 @@ namespace SpookyHashTesting
                 long* p = &copy;
                 unchecked
                 {
-                    Assert.AreEqual((long)SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), Redistributor.Rehash(message));
+                    Assert.Equal((long)SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), Redistributor.Rehash(message));
                 }
             }
         }
-        [Test]
+        [Fact]
         public unsafe void FinalsEquivalent()
         {
             var sh = new SpookyHash();
@@ -358,14 +354,14 @@ namespace SpookyHashTesting
             var h128 = sh.Final();
             ulong u1, u2;
             sh.Final(out u1, out u2);
-            Assert.AreEqual(h128.UHash1, u1);
-            Assert.AreEqual(h128.UHash2, u2);
+            Assert.Equal(h128.UHash1, u1);
+            Assert.Equal(h128.UHash2, u2);
             long l1, l2;
             sh.Final(out l1, out l2);
-            Assert.AreEqual(h128.Hash1, l1);
-            Assert.AreEqual(h128.Hash2, l2);
+            Assert.Equal(h128.Hash1, l1);
+            Assert.Equal(h128.Hash2, l2);
         }
-        [Test]
+        [Fact]
         public void ConstructorsEquivalent()
         {
             ulong ui1 = 0xdeadcafe;
@@ -383,12 +379,12 @@ namespace SpookyHashTesting
             fromL.Update(MediumLengthString);
             fromZL.Update(MediumLengthString);
             var hash = fromU.Final();
-            Assert.AreEqual(hash, fromZU.Final());
-            Assert.AreEqual(hash, fromL.Final());
-            Assert.AreEqual(hash, fromZL.Final());
-            Assert.AreEqual(hash.ToString(), fromZL.Final().ToString());
+            Assert.Equal(hash, fromZU.Final());
+            Assert.Equal(hash, fromL.Final());
+            Assert.Equal(hash, fromZL.Final());
+            Assert.Equal(hash.ToString(), fromZL.Final().ToString());
         }
-        [Test]
+        [Fact]
         public void Serialize()
         {
             var sh = new SpookyHash();
@@ -399,40 +395,35 @@ namespace SpookyHashTesting
                 bf.Serialize(ms, sh);
                 ms.Seek(0, SeekOrigin.Begin);
                 var copy = (SpookyHash)bf.Deserialize(ms);
-                Assert.AreEqual(sh.Final(), copy.Final());
+                Assert.Equal(sh.Final(), copy.Final());
             }
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullStringUpdate()
         {
-            new SpookyHash().Update((string)null);
+            Assert.Throws<ArgumentNullException>("message", () => new SpookyHash().Update((string)null));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void NullCharArrayUpdate()
         {
-            new SpookyHash().Update((char[])null);
+            Assert.Throws<ArgumentNullException>("message", () => new SpookyHash().Update((char[])null));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void NegativeOffestString()
         {
-            new SpookyHash().Update("", -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => new SpookyHash().Update("", -1, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void ExcessiveOffestString()
         {
-            new SpookyHash().Update("", 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => new SpookyHash().Update("", 40, 2));
         }
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void ExcessiveLengthString()
         {
-            new SpookyHash().Update("", 0, 2);
+            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => new SpookyHash().Update("", 0, 2));
         }
-        [Test]
+        [Fact]
         public unsafe void Hash128PtrOverloads()
         {
             ulong seed1 = 238929482;
@@ -445,21 +436,21 @@ namespace SpookyHashTesting
                 int len = testString.Length * 2;
                 SpookyHash.Hash128(ptr, len, ref hash1, ref hash2);
                 HashCode128 hc = new HashCode128(hash1, hash2);
-                Assert.AreEqual(hc, SpookyHash.Hash128((UIntPtr)ptr, len, seed1, seed2));
-                Assert.AreEqual(hc, SpookyHash.Hash128((UIntPtr)ptr, len, (long)seed1, (long)seed2));
-                Assert.AreEqual(hc, SpookyHash.Hash128((IntPtr)ptr, len, seed1, seed2));
-                Assert.AreEqual(hc, SpookyHash.Hash128((IntPtr)ptr, len, (long)seed1, (long)seed2));
+                Assert.Equal(hc, SpookyHash.Hash128((UIntPtr)ptr, len, seed1, seed2));
+                Assert.Equal(hc, SpookyHash.Hash128((UIntPtr)ptr, len, (long)seed1, (long)seed2));
+                Assert.Equal(hc, SpookyHash.Hash128((IntPtr)ptr, len, seed1, seed2));
+                Assert.Equal(hc, SpookyHash.Hash128((IntPtr)ptr, len, (long)seed1, (long)seed2));
             }
             void* nullPointer = null;
             SpookyHash.Hash128(nullPointer, 50, ref hash1, ref hash2);
-            Assert.AreEqual(0, hash1);
-            Assert.AreEqual(0, hash2);
-            Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(UIntPtr.Zero, 50, seed1, seed2));
-            Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(UIntPtr.Zero, 50, (long)seed1, (long)seed2));
-            Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, seed1, seed2));
-            Assert.AreEqual(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, (long)seed1, (long)seed2));
+            Assert.Equal(0UL, hash1);
+            Assert.Equal(0UL, hash2);
+            Assert.Equal(HashCode128.Zero, SpookyHash.Hash128(UIntPtr.Zero, 50, seed1, seed2));
+            Assert.Equal(HashCode128.Zero, SpookyHash.Hash128(UIntPtr.Zero, 50, (long)seed1, (long)seed2));
+            Assert.Equal(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, seed1, seed2));
+            Assert.Equal(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, (long)seed1, (long)seed2));
         }
-        [Test]
+        [Fact]
         public unsafe void Hash64PtrOverloads()
         {
             ulong seed = 238929482;
@@ -468,17 +459,17 @@ namespace SpookyHashTesting
             {
                 int len = testString.Length * 2;
                 var hc = SpookyHash.Hash64(ptr, len, seed);
-                Assert.AreEqual(hc, SpookyHash.Hash64((UIntPtr)ptr, len, seed));
-                Assert.AreEqual((long)hc, SpookyHash.Hash64((UIntPtr)ptr, len, (long)seed));
-                Assert.AreEqual(hc, SpookyHash.Hash64((IntPtr)ptr, len, seed));
-                Assert.AreEqual((long)hc, SpookyHash.Hash64((IntPtr)ptr, len, (long)seed));
+                Assert.Equal(hc, SpookyHash.Hash64((UIntPtr)ptr, len, seed));
+                Assert.Equal((long)hc, SpookyHash.Hash64((UIntPtr)ptr, len, (long)seed));
+                Assert.Equal(hc, SpookyHash.Hash64((IntPtr)ptr, len, seed));
+                Assert.Equal((long)hc, SpookyHash.Hash64((IntPtr)ptr, len, (long)seed));
             }
-            Assert.AreEqual(0, SpookyHash.Hash64(UIntPtr.Zero, 50, seed));
-            Assert.AreEqual(0, SpookyHash.Hash64(UIntPtr.Zero, 50, (long)seed));
-            Assert.AreEqual(0, SpookyHash.Hash64(IntPtr.Zero, 50, seed));
-            Assert.AreEqual(0, SpookyHash.Hash64(IntPtr.Zero, 50, (long)seed));
+            Assert.Equal(0UL, SpookyHash.Hash64(UIntPtr.Zero, 50, seed));
+            Assert.Equal(0L, SpookyHash.Hash64(UIntPtr.Zero, 50, (long)seed));
+            Assert.Equal(0UL, SpookyHash.Hash64(IntPtr.Zero, 50, seed));
+            Assert.Equal(0L, SpookyHash.Hash64(IntPtr.Zero, 50, (long)seed));
         }
-        [Test]
+        [Fact]
         public unsafe void Hash32PtrOverloads()
         {
             uint seed = 238929482;
@@ -487,15 +478,15 @@ namespace SpookyHashTesting
             {
                 int len = testString.Length * 2;
                 var hc = SpookyHash.Hash32(ptr, len, seed);
-                Assert.AreEqual(hc, SpookyHash.Hash32((UIntPtr)ptr, len, seed));
-                Assert.AreEqual((int)hc, SpookyHash.Hash32((UIntPtr)ptr, len, (int)seed));
-                Assert.AreEqual(hc, SpookyHash.Hash32((IntPtr)ptr, len, seed));
-                Assert.AreEqual((int)hc, SpookyHash.Hash32((IntPtr)ptr, len, (int)seed));
+                Assert.Equal(hc, SpookyHash.Hash32((UIntPtr)ptr, len, seed));
+                Assert.Equal((int)hc, SpookyHash.Hash32((UIntPtr)ptr, len, (int)seed));
+                Assert.Equal(hc, SpookyHash.Hash32((IntPtr)ptr, len, seed));
+                Assert.Equal((int)hc, SpookyHash.Hash32((IntPtr)ptr, len, (int)seed));
             }
-            Assert.AreEqual(0, SpookyHash.Hash32(UIntPtr.Zero, 50, seed));
-            Assert.AreEqual(0, SpookyHash.Hash32(UIntPtr.Zero, 50, (int)seed));
-            Assert.AreEqual(0, SpookyHash.Hash32(IntPtr.Zero, 50, seed));
-            Assert.AreEqual(0, SpookyHash.Hash32(IntPtr.Zero, 50, (int)seed));
+            Assert.Equal(0U, SpookyHash.Hash32(UIntPtr.Zero, 50, seed));
+            Assert.Equal(0, SpookyHash.Hash32(UIntPtr.Zero, 50, (int)seed));
+            Assert.Equal(0U, SpookyHash.Hash32(IntPtr.Zero, 50, seed));
+            Assert.Equal(0, SpookyHash.Hash32(IntPtr.Zero, 50, (int)seed));
         }
     }
 }

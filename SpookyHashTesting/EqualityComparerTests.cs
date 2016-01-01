@@ -15,12 +15,11 @@
 
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using SpookilySharp;
+using Xunit;
 
 namespace SpookyHashTesting
 {
-    [TestFixture]
     public class EqualityComparerTests
     {
         private static IEnumerable<SpookyStringEqualityComparer> TestComparers
@@ -35,30 +34,30 @@ namespace SpookyHashTesting
                     yield return new SpookyStringEqualityComparer(rand.Next(int.MinValue, int.MaxValue));
             }
         }
-        [Test]
+        [Fact]
         public void NullsToZero()
         {
             foreach(var eq in TestComparers)
             {
-                Assert.AreEqual(0, eq.GetHashCode((string)null));
-                Assert.AreEqual(0, eq.GetHashCode((char[])null));
+                Assert.Equal(0, eq.GetHashCode((string)null));
+                Assert.Equal(0, eq.GetHashCode((char[])null));
             }
         }
-        [Test]
+        [Fact]
         public void ConsistentHash()
         {
             var x = new SpookyStringEqualityComparer();
             var y = new SpookyStringEqualityComparer();
-            Assert.AreEqual(x.GetHashCode("abcde"), y.GetHashCode("abcde"));
-            Assert.AreEqual(x.GetHashCode("abcde".ToCharArray()), y.GetHashCode("abcde".ToCharArray()));
-            Assert.AreEqual(x.GetHashCode("abcde"), y.GetHashCode("abcde".ToCharArray()));
+            Assert.Equal(x.GetHashCode("abcde"), y.GetHashCode("abcde"));
+            Assert.Equal(x.GetHashCode("abcde".ToCharArray()), y.GetHashCode("abcde".ToCharArray()));
+            Assert.Equal(x.GetHashCode("abcde"), y.GetHashCode("abcde".ToCharArray()));
             x = new SpookyStringEqualityComparer(0);
             y = new SpookyStringEqualityComparer(0);
-            Assert.AreEqual(x.GetHashCode("abcde"), y.GetHashCode("abcde"));
-            Assert.AreEqual(x.GetHashCode("abcde".ToCharArray()), y.GetHashCode("abcde".ToCharArray()));
-            Assert.AreEqual(x.GetHashCode("abcde"), y.GetHashCode("abcde".ToCharArray()));
+            Assert.Equal(x.GetHashCode("abcde"), y.GetHashCode("abcde"));
+            Assert.Equal(x.GetHashCode("abcde".ToCharArray()), y.GetHashCode("abcde".ToCharArray()));
+            Assert.Equal(x.GetHashCode("abcde"), y.GetHashCode("abcde".ToCharArray()));
         }
-        [Test]
+        [Fact]
         public void Equals()
         {
             foreach(var eq in TestComparers)
@@ -66,15 +65,15 @@ namespace SpookyHashTesting
                 string source = "abcdefghi%©\"'faszעבריתಕನ್ನಡქართული";
                 for(int i = 0; i <= source.Length; ++i)
                 {
-                    Assert.IsTrue(eq.Equals(source.Substring(0, i), source.Substring(0, i)));
-                    Assert.IsTrue(
+                    Assert.True(eq.Equals(source.Substring(0, i), source.Substring(0, i)));
+                    Assert.True(
                         eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i).ToCharArray()));
-                    Assert.IsTrue(eq.Equals(source.Substring(0, i), source.Substring(0, i).ToCharArray()));
-                    Assert.IsTrue(eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i)));
+                    Assert.True(eq.Equals(source.Substring(0, i), source.Substring(0, i).ToCharArray()));
+                    Assert.True(eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i)));
                 }
             }
         }
-        [Test]
+        [Fact]
         public void NullsAndReferencesCorrect()
         {
             var str = "abcdefg";
@@ -95,7 +94,7 @@ namespace SpookyHashTesting
             Assert.False(eq.Equals(str, nulStr));
             Assert.False(eq.Equals(str, nulArr));
         }
-        [Test]
+        [Fact]
         public void SelfEquals()
         {
             var eq = new SpookyStringEqualityComparer(42);
@@ -106,7 +105,7 @@ namespace SpookyHashTesting
             Assert.True(hset.Add(eq));
             Assert.False(hset.Add(eqX));
         }
-        [Test]
+        [Fact]
         public void NotEvenClose()
         {
             string x = "a";
@@ -117,7 +116,7 @@ namespace SpookyHashTesting
             Assert.False(eq.Equals(x.ToCharArray(), y));
             Assert.False(eq.Equals(x.ToCharArray(), y.ToCharArray()));
         }
-        [Test]
+        [Fact]
         public void RollAlong()
         {
             var x = new char[65];

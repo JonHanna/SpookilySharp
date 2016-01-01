@@ -16,18 +16,15 @@
 // Based on Bob Jenkins’ tests.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using SpookilySharp;
+using Xunit;
 
 namespace SpookyHashTesting
 {
-    [TestFixture]
     public class IncrementalTest
     {
         private const int BufferSize = 1024;
-        [Test]
+        [Fact]
         public unsafe void TestPieces()
         {
             var bufArr = new byte[BufferSize];
@@ -54,8 +51,8 @@ namespace SpookyHashTesting
                     state.Update(buf, i);
                 state.Final(out c, out d);
 
-                Assert.AreEqual(a, c, "A-C mismatch at: " + i);
-                Assert.AreEqual(b, d, "B-D mismatch at: " + i);
+                Assert.Equal(a, c);
+                Assert.Equal(b, d);
 
                 for (int j = 0; j < i; ++j)
                 {
@@ -68,8 +65,8 @@ namespace SpookyHashTesting
                         state.Update(buf + j, i - j);
                     }
                     state.Final(out c, out d);
-                    Assert.AreEqual(a, c, "A-C mismatch at: " + i + "," + j);
-                    Assert.AreEqual(b, d, "B-D mismatch at: " + i + "," + j);
+                    Assert.Equal(a, c);
+                    Assert.Equal(b, d);
                 }
             }
         }
