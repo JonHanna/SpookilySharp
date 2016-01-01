@@ -24,7 +24,7 @@ namespace SpookyHashTesting
     {
         private Stream GetStream()
         {
-            return new FileStream("nunit.framework.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
+            return new FileStream("xunit.assert.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
         }
         [Fact]
         public void StringExtension()
@@ -120,7 +120,7 @@ namespace SpookyHashTesting
         [Fact]
         public void NegativeLength32String()
         {
-            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash32("", 0, -3));
+            Assert.Throws<ArgumentOutOfRangeException>("length", () => SpookyHasher.SpookyHash32("", 0, -3));
         }
         [Fact]
         public void NegativeOffest64String()
@@ -140,7 +140,7 @@ namespace SpookyHashTesting
         [Fact]
         public void NegativeLength64String()
         {
-            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash64("", 0, -3));
+            Assert.Throws<ArgumentOutOfRangeException>("length", () => SpookyHasher.SpookyHash64("", 0, -3));
         }
         [Fact]
         public void NegativeOffest128String()
@@ -160,7 +160,7 @@ namespace SpookyHashTesting
         [Fact]
         public void NegativeLength128String()
         {
-            Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => SpookyHasher.SpookyHash128("", 0, -3));
+            Assert.Throws<ArgumentOutOfRangeException>("length", () => SpookyHasher.SpookyHash128("", 0, -3));
         }
     }
 }

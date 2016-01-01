@@ -25,7 +25,7 @@ namespace SpookyHashTesting
     {
         private FileStream GetFileStream()
         {
-            return new FileStream("nunit.framework.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
+            return new FileStream("xunit.assert.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
         }
         private void WriteOut(HashedStream inStr, HashedStream outStr)
         {
