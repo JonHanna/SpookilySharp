@@ -13,7 +13,6 @@
 // Unless required by applicable law or agreed to in writing, software distributed under the
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
-using System;
 using System.Collections.Generic;
 using SpookilySharp;
 using Xunit;
@@ -24,187 +23,134 @@ namespace SpookyHashTesting
     {
         private class Bad : IEqualityComparer<int>
         {
-            public bool Equals(int x, int y)
-            {
-                return true;
-            }
-            public virtual int GetHashCode(int obj)
-            {
-                return 0;
-            }
+            public bool Equals(int x, int y) => true;
+
+            public virtual int GetHashCode(int obj) => 0;
         }
 
         // What a lie! This of course is exactly the sort of class that should least
         // have this attribute applied, but it serves our testing puroses.
         private class Good : IEqualityComparer<int>
         {
-            public bool Equals(int x, int y)
-            {
-                return true;
-            }
+            public bool Equals(int x, int y) => true;
+
             [WellDistributedHash]
-            public virtual int GetHashCode(int obj)
-            {
-                return 0;
-            }
+            public virtual int GetHashCode(int obj) => 0;
         }
+
         private class InheritsBad : Bad
         {
         }
+
         private class InheritsGood : Good
         {
         }
+
         private class InheritsBadOverridesBad : Bad
         {
-            public override int GetHashCode(int obj)
-            {
-                return 0;
-            }
+            public override int GetHashCode(int obj) => 0;
         }
+
         private class InheritsBadOverridesGood : Bad
         {
             [WellDistributedHash]
-            public override int GetHashCode(int obj)
-            {
-                return 0;
-            }
+            public override int GetHashCode(int obj) => 0;
         }
+
         private class InheritsGoodOverridesBad : Good
         {
-            public override int GetHashCode(int obj)
-            {
-                return 0;
-            }
+            public override int GetHashCode(int obj) => 0;
         }
+
         private class InheritsGoodOverridesGood : Good
         {
             [WellDistributedHash]
-            public override int GetHashCode(int obj)
-            {
-                return 0;
-            }
+            public override int GetHashCode(int obj) => 0;
         }
+
         private class InheritsBadExpliticOverridesBad : Bad, IEqualityComparer<int>
         {
-            int IEqualityComparer<int>.GetHashCode(int obj)
-            {
-                return 0;
-            }
+            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
         }
+
         private class InheritsBadExpliticOverridesGood : Bad, IEqualityComparer<int>
         {
             [WellDistributedHash]
-            int IEqualityComparer<int>.GetHashCode(int obj)
-            {
-                return 0;
-            }
+            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
         }
+
         private class InheritsGoodExpliticOverridesBad : Good, IEqualityComparer<int>
         {
-            int IEqualityComparer<int>.GetHashCode(int obj)
-            {
-                return 0;
-            }
+            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
         }
+
         private class InheritsGoodExpliticOverridesGood : Good, IEqualityComparer<int>
         {
             [WellDistributedHash]
-            int IEqualityComparer<int>.GetHashCode(int obj)
-            {
-                return 0;
-            }
+            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
         }
+
         private class GoodButAlsoBad : IEqualityComparer<int>, IEqualityComparer<string>
         {
-            public bool Equals(string x, string y)
-            {
-                return true;
-            }
-            public int GetHashCode(string obj)
-            {
-                return 0;
-            }
-            public bool Equals(int x, int y)
-            {
-                return true;
-            }
+            public bool Equals(string x, string y) => true;
+
+            public int GetHashCode(string obj) => 0;
+
+            public bool Equals(int x, int y) => true;
+
             [WellDistributedHash]
-            public int GetHashCode(int obj)
-            {
-                return 0;
-            }
+            public int GetHashCode(int obj) => 0;
         }
+
         private class BadButAlsoGood : IEqualityComparer<int>, IEqualityComparer<string>
         {
-            public bool Equals(string x, string y)
-            {
-                return true;
-            }
+            public bool Equals(string x, string y) => true;
+
             [WellDistributedHash]
-            public int GetHashCode(string obj)
-            {
-                return 0;
-            }
-            public bool Equals(int x, int y)
-            {
-                return true;
-            }
-            public int GetHashCode(int obj)
-            {
-                return 0;
-            }
+            public int GetHashCode(string obj) => 0;
+
+            public bool Equals(int x, int y) => true;
+
+            public int GetHashCode(int obj) => 0;
         }
+
         private class ExplicitGood : IEqualityComparer<int>
         {
-            bool IEqualityComparer<int>.Equals(int x, int y)
-            {
-                return true;
-            }
+            bool IEqualityComparer<int>.Equals(int x, int y) => true;
+
             [WellDistributedHash]
-            int IEqualityComparer<int>.GetHashCode(int obj)
-            {
-                return 0;
-            }
+            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
         }
+
         private class ExplicitBad : IEqualityComparer<int>
         {
-            bool IEqualityComparer<int>.Equals(int x, int y)
-            {
-                return true;
-            }
-            int IEqualityComparer<int>.GetHashCode(int obj)
-            {
-                return 0;
-            }
+            bool IEqualityComparer<int>.Equals(int x, int y) => true;
+
+            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
         }
+
         private class SelfGood
         {
             [WellDistributedHash]
-            public override int GetHashCode()
-            {
-                return 0;
-            }
+            public override int GetHashCode() => 0;
         }
+
         private class SelfBadFromGood : SelfGood
         {
-            public override int GetHashCode()
-            {
-                return 0;
-            }
+            public override int GetHashCode() => 0;
         }
+
         private class SelfGoodFromBad : SelfBadFromGood
         {
             [WellDistributedHash]
-            public override int GetHashCode()
-            {
-                return 0;
-            }
+            public override int GetHashCode() => 0;
         }
+
         [Fact]
         public void TestAttributeDetection()
         {
             // Repeat so we both find it by calculation and by lookup.
-            for(int i = 0; i != 3; ++i)
+            for (int i = 0; i != 3; ++i)
             {
                 ConfirmBad(new Bad());
                 ConfirmGood(new Good());
@@ -231,10 +177,12 @@ namespace SpookyHashTesting
                 ConfirmBad(EqualityComparer<string>.Default);
             }
         }
+
         private void ConfirmBad<T>(IEqualityComparer<T> cmp)
         {
             Assert.NotSame(cmp, SpookierEqualityComparers.WellDistributed(cmp));
         }
+
         private void ConfirmGood<T>(IEqualityComparer<T> cmp)
         {
             Assert.Same(cmp, SpookierEqualityComparers.WellDistributed(cmp));

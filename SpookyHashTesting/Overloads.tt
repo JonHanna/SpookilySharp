@@ -37,10 +37,10 @@ using Xunit;
 namespace SpookyHashTesting
 {
 <#
-    var types = new []{typeof(sbyte), typeof(ushort), typeof(uint), typeof(ulong), typeof(byte), typeof(char), typeof(short), typeof(int), typeof(long), typeof(float), typeof(double)};
+    Type[] types = {typeof(sbyte), typeof(ushort), typeof(uint), typeof(ulong), typeof(byte), typeof(char), typeof(short), typeof(int), typeof(long), typeof(float), typeof(double)};
     for(int i = 0; i != types.Length; ++i)
     {
-        var type = types[i];
+        Type type = types[i];
         string name = type.Name;
 #>
 	public sealed partial class HashUpdateTests

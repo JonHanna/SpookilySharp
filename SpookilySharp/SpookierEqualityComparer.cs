@@ -16,6 +16,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 
 // Analysis disable MemberHidesStaticFromOuterClass
 namespace SpookilySharp
@@ -34,13 +35,12 @@ namespace SpookilySharp
             // Note: Hashtable is documented as thread-safe for single-writer, multiple-reader.
             // Analysis disable once StaticFieldInGenericType
             private static readonly Hashtable Store = new Hashtable();
-            public static bool? KnownQuality(Type type)
-            {
-                return (bool?)Store[type];
-            }
+
+            public static bool? KnownQuality(Type type) => (bool?)Store[type];
+
             public static void Record(Type type, bool good)
             {
-                lock(Store)
+                lock (Store)
                 {
                     Store[type] = good;
                 }
@@ -51,29 +51,21 @@ namespace SpookilySharp
         private sealed class WellDistributedEqualityComparer<T> : IEqualityComparer<T>
         {
             private readonly IEqualityComparer<T> _cmp;
+
             public WellDistributedEqualityComparer(IEqualityComparer<T> comparer)
             {
                 _cmp = comparer;
             }
-            public bool Equals(T x, T y)
-            {
-                return _cmp.Equals(x, y);
-            }
+
+            public bool Equals(T x, T y) => _cmp.Equals(x, y);
+
             [WellDistributedHash]
-            public int GetHashCode(T obj)
-            {
-                // Analysis disable once CompareNonConstrainedGenericWithNull
-                return obj == null ? 0 : Redistributor.Rehash(_cmp.GetHashCode(obj));
-            }
-            public override bool Equals(object obj)
-            {
-                var other = obj as WellDistributedEqualityComparer<T>;
-                return other != null && _cmp.Equals(other._cmp);
-            }
-            public override int GetHashCode()
-            {
-                return Redistributor.Rehash(_cmp.GetHashCode());
-            }
+            public int GetHashCode(T obj) => obj == null ? 0 : Redistributor.Rehash(_cmp.GetHashCode(obj));
+
+            public override bool Equals(object obj) =>
+                obj is WellDistributedEqualityComparer<T> other && _cmp.Equals(other._cmp);
+
+            public override int GetHashCode() => Redistributor.Rehash(_cmp.GetHashCode());
         }
 
         /// <summary>
@@ -96,14 +88,14 @@ namespace SpookilySharp
                 return (IEqualityComparer<T>)(object)new SpookyStringEqualityComparer();
             }
 
-            return IsGood<T>(comparer) ? comparer : new WellDistributedEqualityComparer<T>(comparer);
+            return IsGood(comparer) ? comparer : new WellDistributedEqualityComparer<T>(comparer);
         }
 
         private static bool IsGood<T>(IEqualityComparer<T> comparer)
         {
             Type type = comparer.GetType();
             bool? knownGood = HashQualityStore<T>.KnownQuality(type);
-            if(knownGood.HasValue)
+            if (knownGood.HasValue)
             {
                 return knownGood.Value;
             }
@@ -115,13 +107,14 @@ namespace SpookilySharp
 
         private static bool DetermineGood<T>(IEqualityComparer<T> comparer, Type type)
         {
-            if(EqualityComparer<T>.Default.Equals(comparer))
+            if (EqualityComparer<T>.Default.Equals(comparer))
             {
                 return typeof(T).GetMethod("GetHashCode", new Type[0])
-                           .GetCustomAttributes(typeof(WellDistributedHashAttribute), false).Length == 1;
+                           .GetCustomAttributes(typeof(WellDistributedHashAttribute), false)
+                           .Length == 1;
             }
 
-            var imap = type.GetInterfaceMap(typeof(IEqualityComparer<T>));
+            InterfaceMapping imap = type.GetInterfaceMap(typeof(IEqualityComparer<T>));
             int idx = imap.InterfaceMethods[0].ReturnType == typeof(int) ? 0 : 1;
             return imap.TargetMethods[idx].GetCustomAttributes(typeof(WellDistributedHashAttribute), false).Length != 0;
         }

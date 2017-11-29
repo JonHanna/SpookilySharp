@@ -15,7 +15,6 @@
 
 // Based on Bob Jenkins’ tests.
 
-using System;
 using SpookilySharp;
 using Xunit;
 
@@ -24,10 +23,11 @@ namespace SpookyHashTesting
     public class IncrementalTest
     {
         private const int BufferSize = 1024;
+
         [Fact]
         public unsafe void TestPieces()
         {
-            var bufArr = new byte[BufferSize];
+            byte[] bufArr = new byte[BufferSize];
             for (int i = 0; i < BufferSize; ++i)
             {
                 bufArr[i] = unchecked((byte)i);
@@ -35,12 +35,12 @@ namespace SpookyHashTesting
             for (int i = 0; i < BufferSize; ++i)
             {
                 ulong a, b, c, d, seed1 = 1, seed2 = 2;
-                var state = new SpookyHash();
+                SpookyHash state = new SpookyHash();
 
                 // all as one call
                 a = seed1;
                 b = seed2;
-                fixed(byte* buf = bufArr)
+                fixed (byte* buf = bufArr)
                 {
                     SpookyHash.Hash128(buf, i, ref a, ref b);
                 }
@@ -49,7 +49,7 @@ namespace SpookyHashTesting
                 c = 0xdeadbeefdeadbeef;
                 d = 0xbaceba11baceba11;
                 state.Init(seed1, seed2);
-                fixed(byte* buf = bufArr)
+                fixed (byte* buf = bufArr)
                 {
                     state.Update(buf, i);
                 }
@@ -63,7 +63,7 @@ namespace SpookyHashTesting
                     c = seed1;
                     d = seed2;
                     state.Init(c, d);
-                    fixed(byte* buf = bufArr)
+                    fixed (byte* buf = bufArr)
                     {
                         state.Update(buf, j);
                         state.Update(buf + j, i - j);

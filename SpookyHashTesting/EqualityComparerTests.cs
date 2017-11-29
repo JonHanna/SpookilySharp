@@ -29,27 +29,30 @@ namespace SpookyHashTesting
                 yield return new SpookyStringEqualityComparer();
                 yield return new SpookyStringEqualityComparer(false);
                 yield return new SpookyStringEqualityComparer(true);
-                var rand = new Random();
-                for(int i = 0; i != 8; ++i)
+
+                Random rand = new Random();
+                for (int i = 0; i != 8; ++i)
                 {
                     yield return new SpookyStringEqualityComparer(rand.Next(int.MinValue, int.MaxValue));
                 }
             }
         }
+
         [Fact]
         public void NullsToZero()
         {
-            foreach(var eq in TestComparers)
+            foreach (SpookyStringEqualityComparer eq in TestComparers)
             {
                 Assert.Equal(0, eq.GetHashCode((string)null));
                 Assert.Equal(0, eq.GetHashCode((char[])null));
             }
         }
+
         [Fact]
         public void ConsistentHash()
         {
-            var x = new SpookyStringEqualityComparer();
-            var y = new SpookyStringEqualityComparer();
+            SpookyStringEqualityComparer x = new SpookyStringEqualityComparer();
+            SpookyStringEqualityComparer y = new SpookyStringEqualityComparer();
             Assert.Equal(x.GetHashCode("abcde"), y.GetHashCode("abcde"));
             Assert.Equal(x.GetHashCode("abcde".ToCharArray()), y.GetHashCode("abcde".ToCharArray()));
             Assert.Equal(x.GetHashCode("abcde"), y.GetHashCode("abcde".ToCharArray()));
@@ -59,77 +62,80 @@ namespace SpookyHashTesting
             Assert.Equal(x.GetHashCode("abcde".ToCharArray()), y.GetHashCode("abcde".ToCharArray()));
             Assert.Equal(x.GetHashCode("abcde"), y.GetHashCode("abcde".ToCharArray()));
         }
+
         [Fact]
         public void Equals()
         {
-            foreach(var eq in TestComparers)
+            foreach (SpookyStringEqualityComparer eq in TestComparers)
             {
                 string source = "abcdefghi%©\"'faszעבריתಕನ್ನಡქართული";
-                for(int i = 0; i <= source.Length; ++i)
+                for (int i = 0; i <= source.Length; ++i)
                 {
                     Assert.True(eq.Equals(source.Substring(0, i), source.Substring(0, i)));
-                    Assert.True(
-                        eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i).ToCharArray()));
+                    Assert.True(eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i).ToCharArray()));
                     Assert.True(eq.Equals(source.Substring(0, i), source.Substring(0, i).ToCharArray()));
                     Assert.True(eq.Equals(source.Substring(0, i).ToCharArray(), source.Substring(0, i)));
                 }
             }
         }
+
         [Fact]
         public void NullsAndReferencesCorrect()
         {
-            var str = "abcdefg";
-            var arr = "abcdefg".ToCharArray();
-            char[] nulArr = null;
-            string nulStr = null;
-            var eq = new SpookyStringEqualityComparer();
+            string str = "abcdefg";
+            char[] arr = "abcdefg".ToCharArray();
+            SpookyStringEqualityComparer eq = new SpookyStringEqualityComparer();
             Assert.True(eq.Equals(arr, arr));
-            Assert.True(eq.Equals(nulStr, nulStr));
-            Assert.True(eq.Equals(nulStr, nulArr));
-            Assert.True(eq.Equals(nulArr, nulStr));
-            Assert.True(eq.Equals(nulArr, nulArr));
-            Assert.False(eq.Equals(arr, nulArr));
-            Assert.False(eq.Equals(nulArr, arr));
-            Assert.False(eq.Equals(arr, nulStr));
-            Assert.False(eq.Equals(nulStr, arr));
-            Assert.False(eq.Equals(nulStr, str));
-            Assert.False(eq.Equals(str, nulStr));
-            Assert.False(eq.Equals(str, nulArr));
+            Assert.True(eq.Equals(default(string), default(string)));
+            Assert.True(eq.Equals(default(string), default(char[])));
+            Assert.True(eq.Equals(default(char[]), default(string)));
+            Assert.True(eq.Equals(default(char[]), default(char[])));
+            Assert.False(eq.Equals(arr, default(char[])));
+            Assert.False(eq.Equals(default(char[]), arr));
+            Assert.False(eq.Equals(arr, default(string)));
+            Assert.False(eq.Equals(default(string), arr));
+            Assert.False(eq.Equals(default(string), str));
+            Assert.False(eq.Equals(str, default(string)));
+            Assert.False(eq.Equals(str, default(char[])));
         }
+
         [Fact]
         public void SelfEquals()
         {
-            var eq = new SpookyStringEqualityComparer(42);
-            var eqX = new SpookyStringEqualityComparer(42);
-            Assert.True(object.Equals(eq, eqX));
-            var hset = new HashSet<SpookyStringEqualityComparer>();
-            hset.Add(new SpookyStringEqualityComparer());
+            SpookyStringEqualityComparer eq = new SpookyStringEqualityComparer(42);
+            SpookyStringEqualityComparer eqX = new SpookyStringEqualityComparer(42);
+            Assert.True(Equals(eq, eqX));
+            HashSet<SpookyStringEqualityComparer> hset =
+                new HashSet<SpookyStringEqualityComparer> {new SpookyStringEqualityComparer()};
             Assert.True(hset.Add(eq));
             Assert.False(hset.Add(eqX));
         }
+
         [Fact]
         public void NotEvenClose()
         {
             string x = "a";
             string y = "It was the best of times, it was the worse of times";
-            var eq = new SpookyStringEqualityComparer();
+            SpookyStringEqualityComparer eq = new SpookyStringEqualityComparer();
             Assert.False(eq.Equals(x, y));
             Assert.False(eq.Equals(x, y.ToCharArray()));
             Assert.False(eq.Equals(x.ToCharArray(), y));
             Assert.False(eq.Equals(x.ToCharArray(), y.ToCharArray()));
         }
+
         [Fact]
         public void RollAlong()
         {
-            var x = new char[65];
-            var y = new char[65];
-            var eq = new SpookyStringEqualityComparer();
-            for(int i = 0; i != x.Length; ++i)
+            char[] x = new char[65];
+            char[] y = new char[65];
+            SpookyStringEqualityComparer eq = new SpookyStringEqualityComparer();
+            for (int i = 0; i != x.Length; ++i)
             {
                 x[i] = (char)(i + (int)'a');
                 Assert.False(eq.Equals(x, y));
                 y[i] = (char)(i + (int)'a');
             }
+
             Assert.True(eq.Equals(x, y));
         }
     }

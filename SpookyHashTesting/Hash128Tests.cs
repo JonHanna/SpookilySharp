@@ -24,8 +24,7 @@ namespace SpookyHashTesting
         [Fact]
         public void Parsing()
         {
-            HashCode128 hash;
-            Assert.False(HashCode128.TryParse(null, out hash));
+            Assert.False(HashCode128.TryParse(null, out HashCode128 hash));
             Assert.False(HashCode128.TryParse("", out hash));
             Assert.False(HashCode128.TryParse("123456789ABCDE", out hash));
             Assert.False(HashCode128.TryParse("Well, this isn't likely to work, is it?", out hash));
@@ -47,58 +46,74 @@ namespace SpookyHashTesting
             Assert.Equal(hash, HashCode128.Parse("0x123456789abcdef00fedcba987654321"));
             Assert.Equal(hash, HashCode128.Parse("0x123456789abcdef00fedcba987654321"));
         }
+
         [Fact]
         public void ArgumentNull()
         {
             Assert.Throws<ArgumentNullException>("s", () => HashCode128.Parse(null));
         }
+
         [Fact]
         public void BadFormat()
         {
             Assert.Throws<FormatException>(() => HashCode128.Parse("0123456780123457833943"));
         }
+
         [Fact]
         public void BadFormatHigh()
         {
-            Assert.Throws<FormatException>(() => HashCode128.Parse("76544561234565434567654456012sdfafasjkl;fdsafdk1234565434561234565434567654456"));
+            Assert.Throws<FormatException>(
+                () => HashCode128.Parse(
+                    "76544561234565434567654456012sdfafasjkl;fdsafdk1234565434561234565434567654456"));
         }
+
         [Fact]
         public void BadFormatLow()
         {
-            Assert.Throws<FormatException>(() => HashCode128.Parse("0123456789f12323432343234324324323433232sdrtyrtyttytrty"));
+            Assert.Throws<FormatException>(
+                () => HashCode128.Parse("0123456789f12323432343234324324323433232sdrtyrtyttytrty"));
         }
+
         [Fact]
         public void BadFormatDouble0X()
         {
-            Assert.Throws<FormatException>(() => HashCode128.Parse("0x0x123456543456765445612345654345676544561234565434567654456"));
+            Assert.Throws<FormatException>(
+                () => HashCode128.Parse("0x0x123456543456765445612345654345676544561234565434567654456"));
         }
+
         [Fact]
         public void BadFormatTooShort()
         {
             Assert.Throws<FormatException>(() => HashCode128.Parse(""));
         }
+
         [Fact]
         public void BadFormatTooShortPadded()
         {
-            Assert.Throws<FormatException>(() => HashCode128.Parse("1234                                                            "));
+            Assert.Throws<FormatException>(
+                () => HashCode128.Parse("1234                                                            "));
         }
+
         [Fact]
         public void BadFormatTooShortHigh()
         {
             Assert.Throws<FormatException>(() => HashCode128.Parse(new string(' ', 32)));
         }
+
         [Fact]
         public void BadFormatTooShortLow()
         {
-            Assert.Throws<FormatException>(() => HashCode128.Parse("0123456789abcdef01234                                        "));
+            Assert.Throws<FormatException>(
+                () => HashCode128.Parse("0123456789abcdef01234                                        "));
         }
+
         [Fact]
         public void ToStringTests()
         {
             Assert.Equal(
-                HashCode128.Parse("0123456789abcdef0123456789ABCDEF").ToString(),
-                "0123456789ABCDEF0123456789ABCDEF");
+                HashCode128.Parse("0123456789abcdef0123456789ABCDEF").ToString(), "0123456789ABCDEF0123456789ABCDEF");
         }
+
         [Fact]
         public void EqualsObj()
         {
@@ -108,19 +123,23 @@ namespace SpookyHashTesting
             Assert.True(boxed.Equals(HashCode128.Parse("0123456789ABCDEF0123456789ABCDEF")));
             Assert.False(boxed.Equals(HashCode128.Zero));
             Assert.False(boxed.Equals("not a hash code"));
-            Assert.True(object.Equals(
-                HashCode128.Parse("fed c b a9876543210 0123456789ABCDEF"),
-                HashCode128.Parse("FE DCBA 98765 432 10 0123456789ABCD EF     ")));
+            Assert.True(
+                Equals(
+                    HashCode128.Parse("fed c b a9876543210 0123456789ABCDEF"),
+                    HashCode128.Parse("FE DCBA 98765 432 10 0123456789ABCD EF     ")));
         }
+
         [Fact]
-        #pragma warning disable 1718 //Yes, I'm testing the obvious!
+#pragma warning disable 1718 //Yes, I'm testing the obvious!
         public void EqualsOps()
         {
             Assert.True(HashCode128.Zero == HashCode128.Zero);
-            Assert.True(HashCode128.Parse("0123456789abcdef0123456789abcdef")
+            Assert.True(
+                HashCode128.Parse("0123456789abcdef0123456789abcdef")
                 == HashCode128.Parse("0123456789ABCDEF0123456789ABCDEF"));
             Assert.False(HashCode128.Zero != HashCode128.Zero);
-            Assert.False(HashCode128.Parse("0123456789abcdef0123456789abcdef")
+            Assert.False(
+                HashCode128.Parse("0123456789abcdef0123456789abcdef")
                 != HashCode128.Parse("0123456789ABCDEF0123456789ABCDEF"));
             Assert.True(HashCode128.Parse("0123456789abcdef0123456789abcdef") != HashCode128.Zero);
             Assert.False(HashCode128.Parse("0123456789abcdef0123456789abcdef") == HashCode128.Zero);

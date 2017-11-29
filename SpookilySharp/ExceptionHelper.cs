@@ -20,9 +20,10 @@ namespace SpookilySharp
 {
     internal static class ExceptionHelper
     {
+        // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Global
         public static void CheckNotNull<T>(T arg, string name) where T : class
         {
-            if(arg == null)
+            if (arg == null)
             {
                 throw new ArgumentNullException(name);
             }
@@ -62,7 +63,7 @@ namespace SpookilySharp
 
         private static void CheckNotNegativeLength(int length)
         {
-            if(length < 0)
+            if (length < 0)
             {
                 NegativeLength();
             }
@@ -70,7 +71,7 @@ namespace SpookilySharp
 
         private static void CheckIndexInRange(int startIndex, int length)
         {
-            if((uint)startIndex >= (uint)length)
+            if ((uint)startIndex >= (uint)length)
             {
                 StartIndexOutOfRange();
             }
@@ -81,7 +82,7 @@ namespace SpookilySharp
             CheckNotNegativeLength(length);
             int len = message.Length;
             CheckIndexInRange(startIndex, len);
-            if(startIndex + length > len)
+            if (startIndex + length > len)
             {
                 PastArrayBounds();
             }
@@ -92,33 +93,39 @@ namespace SpookilySharp
             CheckMessageNotNull(message);
             CheckArray(message, startIndex, length);
         }
+
         public static void CheckBounds(string message, int startIndex, int length)
         {
             CheckNotNegativeLength(length);
             int len = message.Length;
             CheckIndexInRange(startIndex, len);
-            if(startIndex + length > len)
+            if (startIndex + length > len)
             {
                 PastStringBounds();
             }
         }
+
         public static void CheckString(string message, int startIndex, int length)
         {
             CheckMessageNotNull(message);
             CheckBounds(message, startIndex, length);
         }
+
+        // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Global
         public static void CheckMessageNotNull<T>(T message) where T : class
         {
-            if(message == null)
+            if (message == null)
             {
-                throw new ArgumentNullException("message");
+                throw new ArgumentNullException(nameof(message));
             }
         }
+
+        // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Global
         public static void CheckNotNull(Stream stream)
         {
-            if(stream == null)
+            if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
         }
     }

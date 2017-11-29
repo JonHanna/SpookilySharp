@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Security;
 using System.Security.Permissions;
@@ -40,10 +41,11 @@ namespace SpookilySharp
         private const int BlockSize = NumVars * 8;
         private const int BufSize = 2 * BlockSize;
         private static readonly bool AllowUnalignedRead = AttemptDetectAllowUnalignedRead();
+
         [ExcludeFromCodeCoverage]
         private static bool AttemptDetectAllowUnalignedRead()
         {
-            switch(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE"))
+            switch (Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE"))
             {
                 case "x86":
                 case "AMD64": // Known to tolerate unaligned-reads well.
@@ -60,11 +62,12 @@ namespace SpookilySharp
                 return false;
             }
         }
+
         [SecuritySafeCritical]
         [ExcludeFromCodeCoverage]
         private static bool FindAlignSafetyFromUname()
         {
-            var startInfo = new ProcessStartInfo("uname", "-p")
+            ProcessStartInfo startInfo = new ProcessStartInfo("uname", "-p")
             {
                 CreateNoWindow = true,
                 ErrorDialog = false,
@@ -74,11 +77,11 @@ namespace SpookilySharp
             };
             try
             {
-                using (var proc = new Process())
+                using (Process proc = new Process())
                 {
                     proc.StartInfo = startInfo;
                     proc.Start();
-                    using (var output = proc.StandardOutput)
+                    using (StreamReader output = proc.StandardOutput)
                     {
                         string line = output.ReadLine();
                         if (line != null)
@@ -104,14 +107,15 @@ namespace SpookilySharp
                 // We don't care why we failed, as there are many possible reasons, and they all amount
                 // to our not having an answer. Just eat the exception.
             }
+
             startInfo.Arguments = "-m";
             try
             {
-                using (var proc = new Process())
+                using (Process proc = new Process())
                 {
                     proc.StartInfo = startInfo;
                     proc.Start();
-                    using (var output = proc.StandardOutput)
+                    using (StreamReader output = proc.StandardOutput)
                     {
                         string line = output.ReadLine();
                         if (line != null)
@@ -158,43 +162,93 @@ namespace SpookilySharp
         [CLSCompliant(false), SecurityCritical]
         public static unsafe void Hash128(void* message, int length, ref ulong hash1, ref ulong hash2)
         {
-            if((int)message == 0)
+            if ((int)message == 0)
             {
                 hash1 = 0;
                 hash2 = 0;
                 return;
             }
+
             if (length < BufSize)
             {
                 Short(message, length, ref hash1, ref hash2, false);
                 return;
             }
+
             ulong h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
 
-            h0 = h3 = h6 = h9  = hash1;
+            h0 = h3 = h6 = h9 = hash1;
             h1 = h4 = h7 = h10 = hash2;
             h2 = h5 = h8 = h11 = SpookyConst;
 
-            var p64 = (ulong*)message;
+            ulong* p64 = (ulong*)message;
 
-            ulong* end = p64 + ((length / BlockSize) * NumVars);
+            ulong* end = p64 + length / BlockSize * NumVars;
             ulong* buf = stackalloc ulong[NumVars];
-            if(AllowUnalignedRead || (((long)message) & 7) == 0)
+            if (AllowUnalignedRead || ((long)message & 7) == 0)
             {
                 while (p64 < end)
                 {
-                    h0 += p64[0];    h2 ^= h10;   h11 ^= h0;   h0 =   h0 << 11 | h0 >> -11;   h11 += h1;
-                    h1 += p64[1];    h3 ^= h11;   h0 ^= h1;    h1 =   h1 << 32 | h1 >> 32;    h0 += h2;
-                    h2 += p64[2];    h4 ^= h0;    h1 ^= h2;    h2 =   h2 << 43 | h2 >> -43;   h1 += h3;
-                    h3 += p64[3];    h5 ^= h1;    h2 ^= h3;    h3 =   h3 << 31 | h3 >> -31;   h2 += h4;
-                    h4 += p64[4];    h6 ^= h2;    h3 ^= h4;    h4 =   h4 << 17 | h4 >> -17;   h3 += h5;
-                    h5 += p64[5];    h7 ^= h3;    h4 ^= h5;    h5 =   h5 << 28 | h5 >> -28;   h4 += h6;
-                    h6 += p64[6];    h8 ^= h4;    h5 ^= h6;    h6 =   h6 << 39 | h6 >> -39;   h5 += h7;
-                    h7 += p64[7];    h9 ^= h5;    h6 ^= h7;    h7 =   h7 << 57 | h7 >> -57;   h6 += h8;
-                    h8 += p64[8];    h10 ^= h6;   h7 ^= h8;    h8 =   h8 << 55 | h8 >> -55;   h7 += h9;
-                    h9 += p64[9];    h11 ^= h7;   h8 ^= h9;    h9 =   h9 << 54 | h9 >> -54;   h8 += h10;
-                    h10 += p64[10];  h0 ^= h8;    h9 ^= h10;   h10 = h10 << 22 | h10 >> -22;  h9 += h11;
-                    h11 += p64[11];  h1 ^= h9;    h10 ^= h11;  h11 = h11 << 46 | h11 >> -46;  h10 += h0;
+                    h0 += p64[0];
+                    h2 ^= h10;
+                    h11 ^= h0;
+                    h0 = h0 << 11 | h0 >> -11;
+                    h11 += h1;
+                    h1 += p64[1];
+                    h3 ^= h11;
+                    h0 ^= h1;
+                    h1 = h1 << 32 | h1 >> 32;
+                    h0 += h2;
+                    h2 += p64[2];
+                    h4 ^= h0;
+                    h1 ^= h2;
+                    h2 = h2 << 43 | h2 >> -43;
+                    h1 += h3;
+                    h3 += p64[3];
+                    h5 ^= h1;
+                    h2 ^= h3;
+                    h3 = h3 << 31 | h3 >> -31;
+                    h2 += h4;
+                    h4 += p64[4];
+                    h6 ^= h2;
+                    h3 ^= h4;
+                    h4 = h4 << 17 | h4 >> -17;
+                    h3 += h5;
+                    h5 += p64[5];
+                    h7 ^= h3;
+                    h4 ^= h5;
+                    h5 = h5 << 28 | h5 >> -28;
+                    h4 += h6;
+                    h6 += p64[6];
+                    h8 ^= h4;
+                    h5 ^= h6;
+                    h6 = h6 << 39 | h6 >> -39;
+                    h5 += h7;
+                    h7 += p64[7];
+                    h9 ^= h5;
+                    h6 ^= h7;
+                    h7 = h7 << 57 | h7 >> -57;
+                    h6 += h8;
+                    h8 += p64[8];
+                    h10 ^= h6;
+                    h7 ^= h8;
+                    h8 = h8 << 55 | h8 >> -55;
+                    h7 += h9;
+                    h9 += p64[9];
+                    h11 ^= h7;
+                    h8 ^= h9;
+                    h9 = h9 << 54 | h9 >> -54;
+                    h8 += h10;
+                    h10 += p64[10];
+                    h0 ^= h8;
+                    h9 ^= h10;
+                    h10 = h10 << 22 | h10 >> -22;
+                    h9 += h11;
+                    h11 += p64[11];
+                    h1 ^= h9;
+                    h10 ^= h11;
+                    h11 = h11 << 46 | h11 >> -46;
+                    h10 += h0;
                     p64 += NumVars;
                 }
             }
@@ -204,70 +258,198 @@ namespace SpookilySharp
                 {
                     Memory.Copy(buf, p64, BlockSize);
 
-                    h0 += buf[0];    h2 ^= h10;   h11 ^= h0;   h0 =   h0 << 11 | h0 >> -11;   h11 += h1;
-                    h1 += buf[1];    h3 ^= h11;   h0 ^= h1;    h1 =   h1 << 32 | h1 >> 32;    h0 += h2;
-                    h2 += buf[2];    h4 ^= h0;    h1 ^= h2;    h2 =   h2 << 43 | h2 >> -43;   h1 += h3;
-                    h3 += buf[3];    h5 ^= h1;    h2 ^= h3;    h3 =   h3 << 31 | h3 >> -31;   h2 += h4;
-                    h4 += buf[4];    h6 ^= h2;    h3 ^= h4;    h4 =   h4 << 17 | h4 >> -17;   h3 += h5;
-                    h5 += buf[5];    h7 ^= h3;    h4 ^= h5;    h5 =   h5 << 28 | h5 >> -28;   h4 += h6;
-                    h6 += buf[6];    h8 ^= h4;    h5 ^= h6;    h6 =   h6 << 39 | h6 >> -39;   h5 += h7;
-                    h7 += buf[7];    h9 ^= h5;    h6 ^= h7;    h7 =   h7 << 57 | h7 >> -57;   h6 += h8;
-                    h8 += buf[8];    h10 ^= h6;   h7 ^= h8;    h8 =   h8 << 55 | h8 >> -55;   h7 += h9;
-                    h9 += buf[9];    h11 ^= h7;   h8 ^= h9;    h9 =   h9 << 54 | h9 >> -54;   h8 += h10;
-                    h10 += buf[10];  h0 ^= h8;    h9 ^= h10;   h10 = h10 << 22 | h10 >> -22;  h9 += h11;
-                    h11 += buf[11];  h1 ^= h9;    h10 ^= h11;  h11 = h11 << 46 | h11 >> -46;  h10 += h0;
+                    h0 += buf[0];
+                    h2 ^= h10;
+                    h11 ^= h0;
+                    h0 = h0 << 11 | h0 >> -11;
+                    h11 += h1;
+                    h1 += buf[1];
+                    h3 ^= h11;
+                    h0 ^= h1;
+                    h1 = h1 << 32 | h1 >> 32;
+                    h0 += h2;
+                    h2 += buf[2];
+                    h4 ^= h0;
+                    h1 ^= h2;
+                    h2 = h2 << 43 | h2 >> -43;
+                    h1 += h3;
+                    h3 += buf[3];
+                    h5 ^= h1;
+                    h2 ^= h3;
+                    h3 = h3 << 31 | h3 >> -31;
+                    h2 += h4;
+                    h4 += buf[4];
+                    h6 ^= h2;
+                    h3 ^= h4;
+                    h4 = h4 << 17 | h4 >> -17;
+                    h3 += h5;
+                    h5 += buf[5];
+                    h7 ^= h3;
+                    h4 ^= h5;
+                    h5 = h5 << 28 | h5 >> -28;
+                    h4 += h6;
+                    h6 += buf[6];
+                    h8 ^= h4;
+                    h5 ^= h6;
+                    h6 = h6 << 39 | h6 >> -39;
+                    h5 += h7;
+                    h7 += buf[7];
+                    h9 ^= h5;
+                    h6 ^= h7;
+                    h7 = h7 << 57 | h7 >> -57;
+                    h6 += h8;
+                    h8 += buf[8];
+                    h10 ^= h6;
+                    h7 ^= h8;
+                    h8 = h8 << 55 | h8 >> -55;
+                    h7 += h9;
+                    h9 += buf[9];
+                    h11 ^= h7;
+                    h8 ^= h9;
+                    h9 = h9 << 54 | h9 >> -54;
+                    h8 += h10;
+                    h10 += buf[10];
+                    h0 ^= h8;
+                    h9 ^= h10;
+                    h10 = h10 << 22 | h10 >> -22;
+                    h9 += h11;
+                    h11 += buf[11];
+                    h1 ^= h9;
+                    h10 ^= h11;
+                    h11 = h11 << 46 | h11 >> -46;
+                    h10 += h0;
                     p64 += NumVars;
                 }
             }
 
             int remainder = length - (int)((byte*)end - (byte*)message);
 
-            if(remainder != 0)
+            if (remainder != 0)
             {
                 Memory.Copy(buf, end, remainder);
             }
-            Memory.Zero(((byte*)buf) + remainder, BlockSize - remainder);
+            Memory.Zero((byte*)buf + remainder, BlockSize - remainder);
             ((byte*)buf)[BlockSize - 1] = (byte)remainder;
 
-            h0 += buf[0];  h1 += buf[1];  h2  += buf[2];  h3  += buf[3];
-            h4 += buf[4];  h5 += buf[5];  h6  += buf[6];  h7  += buf[7];
-            h8 += buf[8];  h9 += buf[9];  h10 += buf[10]; h11 += buf[11];
-            h11 += h1;  h2  ^= h11; h1  = h1 << 44  | h1  >> -44;
-            h0  += h2;  h3  ^= h0;  h2  = h2 << 15  | h2  >> -15;
-            h1  += h3;  h4  ^= h1;  h3  = h3 << 34  | h3  >> -34;
-            h2  += h4;  h5  ^= h2;  h4  = h4 << 21  | h4  >> -21;
-            h3  += h5;  h6  ^= h3;  h5  = h5 << 38  | h5  >> -38;
-            h4  += h6;  h7  ^= h4;  h6  = h6 << 33  | h6  >> -33;
-            h5  += h7;  h8  ^= h5;  h7  = h7 << 10  | h7  >> -10;
-            h6  += h8;  h9  ^= h6;  h8  = h8 << 13  | h8  >> -13;
-            h7  += h9;  h10 ^= h7;  h9  = h9 << 38  | h9  >> -38;
-            h8  += h10; h11 ^= h8;  h10 = h10 << 53 | h10 >> -53;
-            h9  += h11; h0  ^= h9;  h11 = h11 << 42 | h11 >> -42;
-            h10 += h0;  h1  ^= h10; h0  = h0 << 54  | h0  >> -54;
-            h11 += h1;  h2  ^= h11; h1  = h1 << 44  | h1  >> -44;
-            h0  += h2;  h3  ^= h0;  h2  = h2 << 15  | h2  >> -15;
-            h1  += h3;  h4  ^= h1;  h3  = h3 << 34  | h3  >> -34;
-            h2  += h4;  h5  ^= h2;  h4  = h4 << 21  | h4  >> -21;
-            h3  += h5;  h6  ^= h3;  h5  = h5 << 38  | h5  >> -38;
-            h4  += h6;  h7  ^= h4;  h6  = h6 << 33  | h6  >> -33;
-            h5  += h7;  h8  ^= h5;  h7  = h7 << 10  | h7  >> -10;
-            h6  += h8;  h9  ^= h6;  h8  = h8 << 13  | h8  >> -13;
-            h7  += h9;  h10 ^= h7;  h9  = h9 << 38  | h9  >> -38;
-            h8  += h10; h11 ^= h8;  h10 = h10 << 53 | h10 >> -53;
-            h9  += h11; h0  ^= h9;  h11 = h11 << 42 | h11 >> -42;
-            h10 += h0;  h1  ^= h10; h0  = h0 << 54  | h0  >> -54;
-            h11 += h1;  h2  ^= h11; h1  = h1 << 44  | h1  >> -44;
-            h0  += h2;  h3  ^= h0;  h2  = h2 << 15  | h2  >> -15;
-            h1  += h3;  h4  ^= h1;  h3  = h3 << 34  | h3  >> -34;
-            h2  += h4;  h5  ^= h2;  h4  = h4 << 21  | h4  >> -21;
-            h3  += h5;  h6  ^= h3;  h5  = h5 << 38  | h5  >> -38;
-            h4  += h6;  h7  ^= h4;  h6  = h6 << 33  | h6  >> -33;
-            h5  += h7;  h8  ^= h5;  h7  = h7 << 10  | h7  >> -10;
-            h6  += h8;  h9  ^= h6;  h8  = h8 << 13  | h8  >> -13;
-            h7  += h9;  h10 ^= h7;  h9  = h9 << 38  | h9  >> -38;
-            h8  += h10; h11 ^= h8;  h10 = h10 << 53 | h10 >> -53;
-            h9  += h11; h0  ^= h9;
-            h10 += h0;  h1  ^= h10; h0  = h0 << 54  | h0  >> -54;
+            h0 += buf[0];
+            h1 += buf[1];
+            h2 += buf[2];
+            h3 += buf[3];
+            h4 += buf[4];
+            h5 += buf[5];
+            h6 += buf[6];
+            h7 += buf[7];
+            h8 += buf[8];
+            h9 += buf[9];
+            h10 += buf[10];
+            h11 += buf[11];
+            h11 += h1;
+            h2 ^= h11;
+            h1 = h1 << 44 | h1 >> -44;
+            h0 += h2;
+            h3 ^= h0;
+            h2 = h2 << 15 | h2 >> -15;
+            h1 += h3;
+            h4 ^= h1;
+            h3 = h3 << 34 | h3 >> -34;
+            h2 += h4;
+            h5 ^= h2;
+            h4 = h4 << 21 | h4 >> -21;
+            h3 += h5;
+            h6 ^= h3;
+            h5 = h5 << 38 | h5 >> -38;
+            h4 += h6;
+            h7 ^= h4;
+            h6 = h6 << 33 | h6 >> -33;
+            h5 += h7;
+            h8 ^= h5;
+            h7 = h7 << 10 | h7 >> -10;
+            h6 += h8;
+            h9 ^= h6;
+            h8 = h8 << 13 | h8 >> -13;
+            h7 += h9;
+            h10 ^= h7;
+            h9 = h9 << 38 | h9 >> -38;
+            h8 += h10;
+            h11 ^= h8;
+            h10 = h10 << 53 | h10 >> -53;
+            h9 += h11;
+            h0 ^= h9;
+            h11 = h11 << 42 | h11 >> -42;
+            h10 += h0;
+            h1 ^= h10;
+            h0 = h0 << 54 | h0 >> -54;
+            h11 += h1;
+            h2 ^= h11;
+            h1 = h1 << 44 | h1 >> -44;
+            h0 += h2;
+            h3 ^= h0;
+            h2 = h2 << 15 | h2 >> -15;
+            h1 += h3;
+            h4 ^= h1;
+            h3 = h3 << 34 | h3 >> -34;
+            h2 += h4;
+            h5 ^= h2;
+            h4 = h4 << 21 | h4 >> -21;
+            h3 += h5;
+            h6 ^= h3;
+            h5 = h5 << 38 | h5 >> -38;
+            h4 += h6;
+            h7 ^= h4;
+            h6 = h6 << 33 | h6 >> -33;
+            h5 += h7;
+            h8 ^= h5;
+            h7 = h7 << 10 | h7 >> -10;
+            h6 += h8;
+            h9 ^= h6;
+            h8 = h8 << 13 | h8 >> -13;
+            h7 += h9;
+            h10 ^= h7;
+            h9 = h9 << 38 | h9 >> -38;
+            h8 += h10;
+            h11 ^= h8;
+            h10 = h10 << 53 | h10 >> -53;
+            h9 += h11;
+            h0 ^= h9;
+            h11 = h11 << 42 | h11 >> -42;
+            h10 += h0;
+            h1 ^= h10;
+            h0 = h0 << 54 | h0 >> -54;
+            h11 += h1;
+            h2 ^= h11;
+            h1 = h1 << 44 | h1 >> -44;
+            h0 += h2;
+            h3 ^= h0;
+            h2 = h2 << 15 | h2 >> -15;
+            h1 += h3;
+            h4 ^= h1;
+            h3 = h3 << 34 | h3 >> -34;
+            h2 += h4;
+            h5 ^= h2;
+            h4 = h4 << 21 | h4 >> -21;
+            h3 += h5;
+            h6 ^= h3;
+            h5 = h5 << 38 | h5 >> -38;
+            h4 += h6;
+            h7 ^= h4;
+            h6 = h6 << 33 | h6 >> -33;
+            h5 += h7;
+            h8 ^= h5;
+            h7 = h7 << 10 | h7 >> -10;
+            h6 += h8;
+            h9 ^= h6;
+            h8 = h8 << 13 | h8 >> -13;
+            h7 += h9;
+            h10 ^= h7;
+            h9 = h9 << 38 | h9 >> -38;
+            h8 += h10;
+            h11 ^= h8;
+            h10 = h10 << 53 | h10 >> -53;
+            h9 += h11;
+            h0 ^= h9;
+            h10 += h0;
+            h1 ^= h10;
+            h0 = h0 << 54 | h0 >> -54;
             hash2 = h1;
             hash1 = h0;
         }
@@ -296,22 +478,20 @@ namespace SpookilySharp
         /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
         /// may have incorrect results.</exception>
         [CLSCompliant(false), SecurityCritical]
-        public static unsafe uint Hash32(void* message, int length, uint seed)
-        {
-            return (uint)Hash64(message, length, seed);
-        }
+        public static unsafe uint Hash32(void* message, int length, uint seed) => (uint)Hash64(message, length, seed);
+
         [SecurityCritical]
         private static unsafe void Short(void* message, int length, ref ulong hash1, ref ulong hash2, bool skipTest)
         {
-            ulong* p64;
-            if(!skipTest && !AllowUnalignedRead && length != 0 && (((long)message) & 7) != 0)
+            if (!skipTest && !AllowUnalignedRead && length != 0 && ((long)message & 7) != 0)
             {
                 ulong* buf = stackalloc ulong[2 * NumVars];
                 Memory.Copy(buf, message, length);
                 Short(buf, length, ref hash1, ref hash2, true);
                 return;
             }
-            p64 = (ulong*)message;
+
+            ulong* p64 = (ulong*)message;
 
             int remainder = length & 31;
             ulong a = hash1;
@@ -321,67 +501,117 @@ namespace SpookilySharp
 
             if (length > 15)
             {
-                ulong* end = p64 + ((length / 32) * 4);
+                ulong* end = p64 + length / 32 * 4;
                 for (; p64 < end; p64 += 4)
                 {
                     c += p64[0];
                     d += p64[1];
-                    c = c << 50 | c >> -50;  c += d;  a ^= c;
-                    d = d << 52 | d >> -52;  d += a;  b ^= d;
-                    a = a << 30 | a >> -30;  a += b;  c ^= a;
-                    b = b << 41 | b >> -41;  b += c;  d ^= b;
-                    c = c << 54 | c >> -54;  c += d;  a ^= c;
-                    d = d << 48 | d >> -48;  d += a;  b ^= d;
-                    a = a << 38 | a >> -38;  a += b;  c ^= a;
-                    b = b << 37 | b >> -37;  b += c;  d ^= b;
-                    c = c << 62 | c >> -62;  c += d;  a ^= c;
-                    d = d << 34 | d >> -34;  d += a;  b ^= d;
-                    a = a << 5  | a >> -5;   a += b;  c ^= a;
-                    b = b << 36 | b >> -36;  b += c;  d ^= b;
+                    c = c << 50 | c >> -50;
+                    c += d;
+                    a ^= c;
+                    d = d << 52 | d >> -52;
+                    d += a;
+                    b ^= d;
+                    a = a << 30 | a >> -30;
+                    a += b;
+                    c ^= a;
+                    b = b << 41 | b >> -41;
+                    b += c;
+                    d ^= b;
+                    c = c << 54 | c >> -54;
+                    c += d;
+                    a ^= c;
+                    d = d << 48 | d >> -48;
+                    d += a;
+                    b ^= d;
+                    a = a << 38 | a >> -38;
+                    a += b;
+                    c ^= a;
+                    b = b << 37 | b >> -37;
+                    b += c;
+                    d ^= b;
+                    c = c << 62 | c >> -62;
+                    c += d;
+                    a ^= c;
+                    d = d << 34 | d >> -34;
+                    d += a;
+                    b ^= d;
+                    a = a << 5 | a >> -5;
+                    a += b;
+                    c ^= a;
+                    b = b << 36 | b >> -36;
+                    b += c;
+                    d ^= b;
                     a += p64[2];
                     b += p64[3];
                 }
+
                 if (remainder >= 16)
                 {
                     c += p64[0];
                     d += p64[1];
-                    c = c << 50 | c >> -50;  c += d;  a ^= c;
-                    d = d << 52 | d >> -52;  d += a;  b ^= d;
-                    a = a << 30 | a >> -30;  a += b;  c ^= a;
-                    b = b << 41 | b >> -41;  b += c;  d ^= b;
-                    c = c << 54 | c >> -54;  c += d;  a ^= c;
-                    d = d << 48 | d >> -48;  d += a;  b ^= d;
-                    a = a << 38 | a >> -38;  a += b;  c ^= a;
-                    b = b << 37 | b >> -37;  b += c;  d ^= b;
-                    c = c << 62 | c >> -62;  c += d;  a ^= c;
-                    d = d << 34 | d >> -34;  d += a;  b ^= d;
-                    a = a << 5  | a >> -5;   a += b;  c ^= a;
-                    b = b << 36 | b >> -36;  b += c;  d ^= b;
+                    c = c << 50 | c >> -50;
+                    c += d;
+                    a ^= c;
+                    d = d << 52 | d >> -52;
+                    d += a;
+                    b ^= d;
+                    a = a << 30 | a >> -30;
+                    a += b;
+                    c ^= a;
+                    b = b << 41 | b >> -41;
+                    b += c;
+                    d ^= b;
+                    c = c << 54 | c >> -54;
+                    c += d;
+                    a ^= c;
+                    d = d << 48 | d >> -48;
+                    d += a;
+                    b ^= d;
+                    a = a << 38 | a >> -38;
+                    a += b;
+                    c ^= a;
+                    b = b << 37 | b >> -37;
+                    b += c;
+                    d ^= b;
+                    c = c << 62 | c >> -62;
+                    c += d;
+                    a ^= c;
+                    d = d << 34 | d >> -34;
+                    d += a;
+                    b ^= d;
+                    a = a << 5 | a >> -5;
+                    a += b;
+                    c ^= a;
+                    b = b << 36 | b >> -36;
+                    b += c;
+                    d ^= b;
                     p64 += 2;
                     remainder -= 16;
                 }
             }
-            d += ((ulong)length) << 56;
+
+            d += (ulong)length << 56;
             switch (remainder)
             {
                 case 15:
-                    d += ((ulong)((byte*)p64)[14]) << 48;
+                    d += (ulong)((byte*)p64)[14] << 48;
                     goto case 14;
                 case 14:
-                    d += ((ulong)((byte*)p64)[13]) << 40;
+                    d += (ulong)((byte*)p64)[13] << 40;
                     goto case 13;
                 case 13:
-                    d += ((ulong)((byte*)p64)[12]) << 32;
+                    d += (ulong)((byte*)p64)[12] << 32;
                     goto case 12;
                 case 12:
                     d += ((uint*)p64)[2];
                     c += p64[0];
                     break;
                 case 11:
-                    d += ((ulong)((byte*)p64)[10]) << 16;
+                    d += (ulong)((byte*)p64)[10] << 16;
                     goto case 10;
                 case 10:
-                    d += ((ulong)((byte*)p64)[9]) << 8;
+                    d += (ulong)((byte*)p64)[9] << 8;
                     goto case 9;
                 case 9:
                     d += (ulong)((byte*)p64)[8];
@@ -390,22 +620,22 @@ namespace SpookilySharp
                     c += p64[0];
                     break;
                 case 7:
-                    c += ((ulong)((byte*)p64)[6]) << 48;
+                    c += (ulong)((byte*)p64)[6] << 48;
                     goto case 6;
                 case 6:
-                    c += ((ulong)((byte*)p64)[5]) << 40;
+                    c += (ulong)((byte*)p64)[5] << 40;
                     goto case 5;
                 case 5:
-                    c += ((ulong)((byte*)p64)[4]) << 32;
+                    c += (ulong)((byte*)p64)[4] << 32;
                     goto case 4;
                 case 4:
                     c += ((uint*)p64)[0];
                     break;
                 case 3:
-                    c += ((ulong)((byte*)p64)[2]) << 16;
+                    c += (ulong)((byte*)p64)[2] << 16;
                     goto case 2;
                 case 2:
-                    c += ((ulong)((byte*)p64)[1]) << 8;
+                    c += (ulong)((byte*)p64)[1] << 8;
                     goto case 1;
                 case 1:
                     c += (ulong)((byte*)p64)[0];
@@ -415,23 +645,59 @@ namespace SpookilySharp
                     d += SpookyConst;
                     break;
             }
-            d ^= c;  c = c << 15 | c >> -15;  d += c;
-            a ^= d;  d = d << 52 | d >> -52;  a += d;
-            b ^= a;  a = a << 26 | a >> -26;  b += a;
-            c ^= b;  b = b << 51 | b >> -51;  c += b;
-            d ^= c;  c = c << 28 | c >> -28;  d += c;
-            a ^= d;  d = d << 9  | d >> -9;   a += d;
-            b ^= a;  a = a << 47 | a >> -47;  b += a;
-            c ^= b;  b = b << 54 | b >> -54;  c += b;
-            d ^= c;  c = c << 32 | c >> -32;  d += c;
-            a ^= d;  d = d << 25 | d >> -25;  a += d;
-            b ^= a;  a = a << 63 | a >> -63;  b += a;
+
+            d ^= c;
+            c = c << 15 | c >> -15;
+            d += c;
+            a ^= d;
+            d = d << 52 | d >> -52;
+            a += d;
+            b ^= a;
+            a = a << 26 | a >> -26;
+            b += a;
+            c ^= b;
+            b = b << 51 | b >> -51;
+            c += b;
+            d ^= c;
+            c = c << 28 | c >> -28;
+            d += c;
+            a ^= d;
+            d = d << 9 | d >> -9;
+            a += d;
+            b ^= a;
+            a = a << 47 | a >> -47;
+            b += a;
+            c ^= b;
+            b = b << 54 | b >> -54;
+            c += b;
+            d ^= c;
+            c = c << 32 | c >> -32;
+            d += c;
+            a ^= d;
+            d = d << 25 | d >> -25;
+            a += d;
+            b ^= a;
+            a = a << 63 | a >> -63;
+            b += a;
             hash2 = b;
             hash1 = a;
         }
+
         private readonly ulong[] _data = new ulong[2 * NumVars];
-        private ulong _state0, _state1, _state2, _state3, _state4, _state5,
-            _state6, _state7, _state8, _state9, _state10, _state11;
+
+        private ulong _state0,
+            _state1,
+            _state2,
+            _state3,
+            _state4,
+            _state5,
+            _state6,
+            _state7,
+            _state8,
+            _state9,
+            _state10,
+            _state11;
+
         private int _length;
         private int _remainder;
 
@@ -512,7 +778,7 @@ namespace SpookilySharp
         public unsafe void Update(string message, int startIndex, int length)
         {
             ExceptionHelper.CheckString(message, startIndex, length);
-            fixed(char* ptr = message)
+            fixed (char* ptr = message)
             {
                 Update(ptr + startIndex, length << 1);
             }
@@ -540,15 +806,15 @@ namespace SpookilySharp
         public unsafe void Update(IEnumerable<string> message)
         {
             ExceptionHelper.CheckMessageNotNull(message);
-            foreach(string item in message)
+            foreach (string item in message)
             {
-                if(item == null)
+                if (item == null)
                 {
                     Update(SpookyConst); // Just to make sure we produce a different hash for this case.
                 }
                 else
                 {
-                    fixed(char* ptr = item)
+                    fixed (char* ptr = item)
                     {
                         Update(ptr, item.Length << 1);
                     }
@@ -566,12 +832,12 @@ namespace SpookilySharp
         [CLSCompliant(false), SecurityCritical]
         public unsafe void Update(void* message, int length)
         {
-            if((int)message == 0)
+            if ((int)message == 0)
             {
                 throw new ArgumentNullException("message");
             }
 
-            if(length == 0)
+            if (length == 0)
             {
                 return;
             }
@@ -580,17 +846,18 @@ namespace SpookilySharp
             int newLength = length + _remainder;
             if (newLength < BufSize)
             {
-                fixed(ulong* uptr = _data)
+                fixed (ulong* uptr = _data)
                 {
-                    Memory.Copy(((byte*)uptr) + _remainder, message, length);
+                    Memory.Copy((byte*)uptr + _remainder, message, length);
                 }
                 _length = length + _length;
                 _remainder = newLength;
                 return;
             }
+
             if (_length < BufSize)
             {
-                h0 = h3 = h6 = h9  = _state0;
+                h0 = h3 = h6 = h9 = _state0;
                 h1 = h4 = h7 = h10 = _state1;
                 h2 = h5 = h8 = h11 = SpookyConst;
             }
@@ -611,40 +878,136 @@ namespace SpookilySharp
             }
             _length = length + _length;
 
-            ulong* p64;
-            fixed(ulong* p64Fixed = _data)
+            fixed (ulong* p64Fixed = _data)
             {
+                ulong* p64;
                 if (_remainder != 0)
                 {
                     int prefix = BufSize - _remainder;
                     Memory.Copy((byte*)p64Fixed + _remainder, message, prefix);
 
-                    h0  += p64Fixed[0];  h2  ^= h10; h11 ^= h0;  h0 =  h0 << 11  | h0 >>  -11; h11 += h1;
-                    h1  += p64Fixed[1];  h3  ^= h11; h0  ^= h1;  h1 =  h1 << 32  | h1 >>  -32; h0  += h2;
-                    h2  += p64Fixed[2];  h4  ^= h0;  h1  ^= h2;  h2 =  h2 << 43  | h2 >>  -43; h1  += h3;
-                    h3  += p64Fixed[3];  h5  ^= h1;  h2  ^= h3;  h3 =  h3 << 31  | h3 >>  -31; h2  += h4;
-                    h4  += p64Fixed[4];  h6  ^= h2;  h3  ^= h4;  h4 =  h4 << 17  | h4 >>  -17; h3  += h5;
-                    h5  += p64Fixed[5];  h7  ^= h3;  h4  ^= h5;  h5 =  h5 << 28  | h5 >>  -28; h4  += h6;
-                    h6  += p64Fixed[6];  h8  ^= h4;  h5  ^= h6;  h6 =  h6 << 39  | h6 >>  -39; h5  += h7;
-                    h7  += p64Fixed[7];  h9  ^= h5;  h6  ^= h7;  h7 =  h7 << 57  | h7 >>  -57; h6  += h8;
-                    h8  += p64Fixed[8];  h10 ^= h6;  h7  ^= h8;  h8 =  h8 << 55  | h8 >>  -55; h7  += h9;
-                    h9  += p64Fixed[9];  h11 ^= h7;  h8  ^= h9;  h9 =  h9 << 54  | h9 >>  -54; h8  += h10;
-                    h10 += p64Fixed[10]; h0  ^= h8;  h9  ^= h10; h10 = h10 << 22 | h10 >> -22; h9  += h11;
-                    h11 += p64Fixed[11]; h1  ^= h9;  h10 ^= h11; h11 = h11 << 46 | h11 >> -46; h10 += h0;
+                    h0 += p64Fixed[0];
+                    h2 ^= h10;
+                    h11 ^= h0;
+                    h0 = h0 << 11 | h0 >> -11;
+                    h11 += h1;
+                    h1 += p64Fixed[1];
+                    h3 ^= h11;
+                    h0 ^= h1;
+                    h1 = h1 << 32 | h1 >> -32;
+                    h0 += h2;
+                    h2 += p64Fixed[2];
+                    h4 ^= h0;
+                    h1 ^= h2;
+                    h2 = h2 << 43 | h2 >> -43;
+                    h1 += h3;
+                    h3 += p64Fixed[3];
+                    h5 ^= h1;
+                    h2 ^= h3;
+                    h3 = h3 << 31 | h3 >> -31;
+                    h2 += h4;
+                    h4 += p64Fixed[4];
+                    h6 ^= h2;
+                    h3 ^= h4;
+                    h4 = h4 << 17 | h4 >> -17;
+                    h3 += h5;
+                    h5 += p64Fixed[5];
+                    h7 ^= h3;
+                    h4 ^= h5;
+                    h5 = h5 << 28 | h5 >> -28;
+                    h4 += h6;
+                    h6 += p64Fixed[6];
+                    h8 ^= h4;
+                    h5 ^= h6;
+                    h6 = h6 << 39 | h6 >> -39;
+                    h5 += h7;
+                    h7 += p64Fixed[7];
+                    h9 ^= h5;
+                    h6 ^= h7;
+                    h7 = h7 << 57 | h7 >> -57;
+                    h6 += h8;
+                    h8 += p64Fixed[8];
+                    h10 ^= h6;
+                    h7 ^= h8;
+                    h8 = h8 << 55 | h8 >> -55;
+                    h7 += h9;
+                    h9 += p64Fixed[9];
+                    h11 ^= h7;
+                    h8 ^= h9;
+                    h9 = h9 << 54 | h9 >> -54;
+                    h8 += h10;
+                    h10 += p64Fixed[10];
+                    h0 ^= h8;
+                    h9 ^= h10;
+                    h10 = h10 << 22 | h10 >> -22;
+                    h9 += h11;
+                    h11 += p64Fixed[11];
+                    h1 ^= h9;
+                    h10 ^= h11;
+                    h11 = h11 << 46 | h11 >> -46;
+                    h10 += h0;
                     p64 = p64Fixed + NumVars;
-                    h0  += p64[0];  h2  ^= h10; h11 ^= h0;  h0 =  h0 << 11  | h0 >>  -11; h11 += h1;
-                    h1  += p64[1];  h3  ^= h11; h0  ^= h1;  h1 =  h1 << 32  | h1 >>  -32; h0  += h2;
-                    h2  += p64[2];  h4  ^= h0;  h1  ^= h2;  h2 =  h2 << 43  | h2 >>  -43; h1  += h3;
-                    h3  += p64[3];  h5  ^= h1;  h2  ^= h3;  h3 =  h3 << 31  | h3 >>  -31; h2  += h4;
-                    h4  += p64[4];  h6  ^= h2;  h3  ^= h4;  h4 =  h4 << 17  | h4 >>  -17; h3  += h5;
-                    h5  += p64[5];  h7  ^= h3;  h4  ^= h5;  h5 =  h5 << 28  | h5 >>  -28; h4  += h6;
-                    h6  += p64[6];  h8  ^= h4;  h5  ^= h6;  h6 =  h6 << 39  | h6 >>  -39; h5  += h7;
-                    h7  += p64[7];  h9  ^= h5;  h6  ^= h7;  h7 =  h7 << 57  | h7 >>  -57; h6  += h8;
-                    h8  += p64[8];  h10 ^= h6;  h7  ^= h8;  h8 =  h8 << 55  | h8 >>  -55; h7  += h9;
-                    h9  += p64[9];  h11 ^= h7;  h8  ^= h9;  h9 =  h9 << 54  | h9 >>  -54; h8  += h10;
-                    h10 += p64[10]; h0  ^= h8;  h9  ^= h10; h10 = h10 << 22 | h10 >> -22; h9  += h11;
-                    h11 += p64[11]; h1  ^= h9;  h10 ^= h11; h11 = h11 << 46 | h11 >> -46; h10 += h0;
-                    p64 = (ulong*)(((byte*)message) + prefix);
+                    h0 += p64[0];
+                    h2 ^= h10;
+                    h11 ^= h0;
+                    h0 = h0 << 11 | h0 >> -11;
+                    h11 += h1;
+                    h1 += p64[1];
+                    h3 ^= h11;
+                    h0 ^= h1;
+                    h1 = h1 << 32 | h1 >> -32;
+                    h0 += h2;
+                    h2 += p64[2];
+                    h4 ^= h0;
+                    h1 ^= h2;
+                    h2 = h2 << 43 | h2 >> -43;
+                    h1 += h3;
+                    h3 += p64[3];
+                    h5 ^= h1;
+                    h2 ^= h3;
+                    h3 = h3 << 31 | h3 >> -31;
+                    h2 += h4;
+                    h4 += p64[4];
+                    h6 ^= h2;
+                    h3 ^= h4;
+                    h4 = h4 << 17 | h4 >> -17;
+                    h3 += h5;
+                    h5 += p64[5];
+                    h7 ^= h3;
+                    h4 ^= h5;
+                    h5 = h5 << 28 | h5 >> -28;
+                    h4 += h6;
+                    h6 += p64[6];
+                    h8 ^= h4;
+                    h5 ^= h6;
+                    h6 = h6 << 39 | h6 >> -39;
+                    h5 += h7;
+                    h7 += p64[7];
+                    h9 ^= h5;
+                    h6 ^= h7;
+                    h7 = h7 << 57 | h7 >> -57;
+                    h6 += h8;
+                    h8 += p64[8];
+                    h10 ^= h6;
+                    h7 ^= h8;
+                    h8 = h8 << 55 | h8 >> -55;
+                    h7 += h9;
+                    h9 += p64[9];
+                    h11 ^= h7;
+                    h8 ^= h9;
+                    h9 = h9 << 54 | h9 >> -54;
+                    h8 += h10;
+                    h10 += p64[10];
+                    h0 ^= h8;
+                    h9 ^= h10;
+                    h10 = h10 << 22 | h10 >> -22;
+                    h9 += h11;
+                    h11 += p64[11];
+                    h1 ^= h9;
+                    h10 ^= h11;
+                    h11 = h11 << 46 | h11 >> -46;
+                    h10 += h0;
+                    p64 = (ulong*)((byte*)message + prefix);
                     length -= prefix;
                 }
                 else
@@ -652,53 +1015,149 @@ namespace SpookilySharp
                     p64 = (ulong*)message;
                 }
 
-                ulong* end = p64 + ((length / BlockSize) * NumVars);
-                byte remainder = (byte)(length - ((byte*)end - ((byte*)p64)));
-                if(AllowUnalignedRead || (((long)message) & 7) == 0)
+                ulong* end = p64 + length / BlockSize * NumVars;
+                byte remainder = (byte)(length - ((byte*)end - (byte*)p64));
+                if (AllowUnalignedRead || ((long)message & 7) == 0)
                 {
                     while (p64 < end)
                     {
-                        h0  += p64[0];  h2  ^= h10; h11 ^= h0;  h0 =  h0 << 11  | h0 >>  -11; h11 += h1;
-                        h1  += p64[1];  h3  ^= h11; h0  ^= h1;  h1 =  h1 << 32  | h1 >>  -32; h0  += h2;
-                        h2  += p64[2];  h4  ^= h0;  h1  ^= h2;  h2 =  h2 << 43  | h2 >>  -43; h1  += h3;
-                        h3  += p64[3];  h5  ^= h1;  h2  ^= h3;  h3 =  h3 << 31  | h3 >>  -31; h2  += h4;
-                        h4  += p64[4];  h6  ^= h2;  h3  ^= h4;  h4 =  h4 << 17  | h4 >>  -17; h3  += h5;
-                        h5  += p64[5];  h7  ^= h3;  h4  ^= h5;  h5 =  h5 << 28  | h5 >>  -28; h4  += h6;
-                        h6  += p64[6];  h8  ^= h4;  h5  ^= h6;  h6 =  h6 << 39  | h6 >>  -39; h5  += h7;
-                        h7  += p64[7];  h9  ^= h5;  h6  ^= h7;  h7 =  h7 << 57  | h7 >>  -57; h6  += h8;
-                        h8  += p64[8];  h10 ^= h6;  h7  ^= h8;  h8 =  h8 << 55  | h8 >>  -55; h7  += h9;
-                        h9  += p64[9];  h11 ^= h7;  h8  ^= h9;  h9 =  h9 << 54  | h9 >>  -54; h8  += h10;
-                        h10 += p64[10]; h0  ^= h8;  h9  ^= h10; h10 = h10 << 22 | h10 >> -22; h9  += h11;
-                        h11 += p64[11]; h1  ^= h9;  h10 ^= h11; h11 = h11 << 46 | h11 >> -46; h10 += h0;
+                        h0 += p64[0];
+                        h2 ^= h10;
+                        h11 ^= h0;
+                        h0 = h0 << 11 | h0 >> -11;
+                        h11 += h1;
+                        h1 += p64[1];
+                        h3 ^= h11;
+                        h0 ^= h1;
+                        h1 = h1 << 32 | h1 >> -32;
+                        h0 += h2;
+                        h2 += p64[2];
+                        h4 ^= h0;
+                        h1 ^= h2;
+                        h2 = h2 << 43 | h2 >> -43;
+                        h1 += h3;
+                        h3 += p64[3];
+                        h5 ^= h1;
+                        h2 ^= h3;
+                        h3 = h3 << 31 | h3 >> -31;
+                        h2 += h4;
+                        h4 += p64[4];
+                        h6 ^= h2;
+                        h3 ^= h4;
+                        h4 = h4 << 17 | h4 >> -17;
+                        h3 += h5;
+                        h5 += p64[5];
+                        h7 ^= h3;
+                        h4 ^= h5;
+                        h5 = h5 << 28 | h5 >> -28;
+                        h4 += h6;
+                        h6 += p64[6];
+                        h8 ^= h4;
+                        h5 ^= h6;
+                        h6 = h6 << 39 | h6 >> -39;
+                        h5 += h7;
+                        h7 += p64[7];
+                        h9 ^= h5;
+                        h6 ^= h7;
+                        h7 = h7 << 57 | h7 >> -57;
+                        h6 += h8;
+                        h8 += p64[8];
+                        h10 ^= h6;
+                        h7 ^= h8;
+                        h8 = h8 << 55 | h8 >> -55;
+                        h7 += h9;
+                        h9 += p64[9];
+                        h11 ^= h7;
+                        h8 ^= h9;
+                        h9 = h9 << 54 | h9 >> -54;
+                        h8 += h10;
+                        h10 += p64[10];
+                        h0 ^= h8;
+                        h9 ^= h10;
+                        h10 = h10 << 22 | h10 >> -22;
+                        h9 += h11;
+                        h11 += p64[11];
+                        h1 ^= h9;
+                        h10 ^= h11;
+                        h11 = h11 << 46 | h11 >> -46;
+                        h10 += h0;
                         p64 += NumVars;
                     }
                 }
                 else
                 {
-                    fixed(ulong* dataPtr = _data)
+                    fixed (ulong* dataPtr = _data)
                     {
                         while (p64 < end)
                         {
                             Memory.Copy(dataPtr, p64, BlockSize);
-                            h0  += _data[0];  h2  ^= h10; h11 ^= h0;  h0 =  h0 << 11  | h0 >>  -11; h11 += h1;
-                            h1  += _data[1];  h3  ^= h11; h0  ^= h1;  h1 =  h1 << 32  | h1 >>  -32; h0  += h2;
-                            h2  += _data[2];  h4  ^= h0;  h1  ^= h2;  h2 =  h2 << 43  | h2 >>  -43; h1  += h3;
-                            h3  += _data[3];  h5  ^= h1;  h2  ^= h3;  h3 =  h3 << 31  | h3 >>  -31; h2  += h4;
-                            h4  += _data[4];  h6  ^= h2;  h3  ^= h4;  h4 =  h4 << 17  | h4 >>  -17; h3  += h5;
-                            h5  += _data[5];  h7  ^= h3;  h4  ^= h5;  h5 =  h5 << 28  | h5 >>  -28; h4  += h6;
-                            h6  += _data[6];  h8  ^= h4;  h5  ^= h6;  h6 =  h6 << 39  | h6 >>  -39; h5  += h7;
-                            h7  += _data[7];  h9  ^= h5;  h6  ^= h7;  h7 =  h7 << 57  | h7 >>  -57; h6  += h8;
-                            h8  += _data[8];  h10 ^= h6;  h7  ^= h8;  h8 =  h8 << 55  | h8 >>  -55; h7  += h9;
-                            h9  += _data[9];  h11 ^= h7;  h8  ^= h9;  h9 =  h9 << 54  | h9 >>  -54; h8  += h10;
-                            h10 += _data[10]; h0  ^= h8;  h9  ^= h10; h10 = h10 << 22 | h10 >> -22; h9  += h11;
-                            h11 += _data[11]; h1  ^= h9;  h10 ^= h11; h11 = h11 << 46 | h11 >> -46; h10 += h0;
+                            h0 += _data[0];
+                            h2 ^= h10;
+                            h11 ^= h0;
+                            h0 = h0 << 11 | h0 >> -11;
+                            h11 += h1;
+                            h1 += _data[1];
+                            h3 ^= h11;
+                            h0 ^= h1;
+                            h1 = h1 << 32 | h1 >> -32;
+                            h0 += h2;
+                            h2 += _data[2];
+                            h4 ^= h0;
+                            h1 ^= h2;
+                            h2 = h2 << 43 | h2 >> -43;
+                            h1 += h3;
+                            h3 += _data[3];
+                            h5 ^= h1;
+                            h2 ^= h3;
+                            h3 = h3 << 31 | h3 >> -31;
+                            h2 += h4;
+                            h4 += _data[4];
+                            h6 ^= h2;
+                            h3 ^= h4;
+                            h4 = h4 << 17 | h4 >> -17;
+                            h3 += h5;
+                            h5 += _data[5];
+                            h7 ^= h3;
+                            h4 ^= h5;
+                            h5 = h5 << 28 | h5 >> -28;
+                            h4 += h6;
+                            h6 += _data[6];
+                            h8 ^= h4;
+                            h5 ^= h6;
+                            h6 = h6 << 39 | h6 >> -39;
+                            h5 += h7;
+                            h7 += _data[7];
+                            h9 ^= h5;
+                            h6 ^= h7;
+                            h7 = h7 << 57 | h7 >> -57;
+                            h6 += h8;
+                            h8 += _data[8];
+                            h10 ^= h6;
+                            h7 ^= h8;
+                            h8 = h8 << 55 | h8 >> -55;
+                            h7 += h9;
+                            h9 += _data[9];
+                            h11 ^= h7;
+                            h8 ^= h9;
+                            h9 = h9 << 54 | h9 >> -54;
+                            h8 += h10;
+                            h10 += _data[10];
+                            h0 ^= h8;
+                            h9 ^= h10;
+                            h10 = h10 << 22 | h10 >> -22;
+                            h9 += h11;
+                            h11 += _data[11];
+                            h1 ^= h9;
+                            h10 ^= h11;
+                            h11 = h11 << 46 | h11 >> -46;
+                            h10 += h0;
                             p64 += NumVars;
                         }
                     }
                 }
 
                 _remainder = remainder;
-                if(remainder != 0)
+                if (remainder != 0)
                 {
                     Memory.Copy(p64Fixed, end, remainder);
                 }
@@ -750,12 +1209,13 @@ namespace SpookilySharp
             {
                 hash1 = _state0;
                 hash2 = _state1;
-                fixed(void* ptr = _data)
+                fixed (void* ptr = _data)
                 {
                     Short(ptr, _length, ref hash1, ref hash2, false);
                 }
                 return;
             }
+
             ulong h0 = _state0;
             ulong h1 = _state1;
             ulong h2 = _state2;
@@ -768,72 +1228,201 @@ namespace SpookilySharp
             ulong h9 = _state9;
             ulong h10 = _state10;
             ulong h11 = _state11;
-            fixed(ulong* dataFixed = _data)
+            fixed (ulong* dataFixed = _data)
             {
                 ulong* data = dataFixed;
                 int remainder = _remainder;
                 if (remainder >= BlockSize)
                 {
-                    h0 += data[0];   h2  ^= h10; h11 ^= h0;  h0 = h0   << 11 | h0  >> -11; h11 += h1;
-                    h1 += data[1];   h3  ^= h11; h0  ^= h1;  h1 = h1   << 32 | h1  >> -32; h0 += h2;
-                    h2 += data[2];   h4  ^= h0;  h1  ^= h2;  h2 = h2   << 43 | h2  >> -43; h1 += h3;
-                    h3 += data[3];   h5  ^= h1;  h2  ^= h3;  h3 = h3   << 31 | h3  >> -31; h2 += h4;
-                    h4 += data[4];   h6  ^= h2;  h3  ^= h4;  h4 = h4   << 17 | h4  >> -17; h3 += h5;
-                    h5 += data[5];   h7  ^= h3;  h4  ^= h5;  h5 = h5   << 28 | h5  >> -28; h4 += h6;
-                    h6 += data[6];   h8  ^= h4;  h5  ^= h6;  h6 = h6   << 39 | h6  >> -39; h5 += h7;
-                    h7 += data[7];   h9  ^= h5;  h6  ^= h7;  h7 = h7   << 57 | h7  >> -57; h6 += h8;
-                    h8 += data[8];   h10 ^= h6;  h7  ^= h8;  h8 = h8   << 55 | h8  >> -55; h7 += h9;
-                    h9 += data[9];   h11 ^= h7;  h8  ^= h9;  h9 = h9   << 54 | h9  >> -54; h8 += h10;
-                    h10 += data[10]; h0  ^= h8;  h9  ^= h10; h10 = h10 << 22 | h10 >> -22; h9 += h11;
-                    h11 += data[11]; h1  ^= h9;  h10 ^= h11; h11 = h11 << 46 | h11 >> -46; h10 += h0;
+                    h0 += data[0];
+                    h2 ^= h10;
+                    h11 ^= h0;
+                    h0 = h0 << 11 | h0 >> -11;
+                    h11 += h1;
+                    h1 += data[1];
+                    h3 ^= h11;
+                    h0 ^= h1;
+                    h1 = h1 << 32 | h1 >> -32;
+                    h0 += h2;
+                    h2 += data[2];
+                    h4 ^= h0;
+                    h1 ^= h2;
+                    h2 = h2 << 43 | h2 >> -43;
+                    h1 += h3;
+                    h3 += data[3];
+                    h5 ^= h1;
+                    h2 ^= h3;
+                    h3 = h3 << 31 | h3 >> -31;
+                    h2 += h4;
+                    h4 += data[4];
+                    h6 ^= h2;
+                    h3 ^= h4;
+                    h4 = h4 << 17 | h4 >> -17;
+                    h3 += h5;
+                    h5 += data[5];
+                    h7 ^= h3;
+                    h4 ^= h5;
+                    h5 = h5 << 28 | h5 >> -28;
+                    h4 += h6;
+                    h6 += data[6];
+                    h8 ^= h4;
+                    h5 ^= h6;
+                    h6 = h6 << 39 | h6 >> -39;
+                    h5 += h7;
+                    h7 += data[7];
+                    h9 ^= h5;
+                    h6 ^= h7;
+                    h7 = h7 << 57 | h7 >> -57;
+                    h6 += h8;
+                    h8 += data[8];
+                    h10 ^= h6;
+                    h7 ^= h8;
+                    h8 = h8 << 55 | h8 >> -55;
+                    h7 += h9;
+                    h9 += data[9];
+                    h11 ^= h7;
+                    h8 ^= h9;
+                    h9 = h9 << 54 | h9 >> -54;
+                    h8 += h10;
+                    h10 += data[10];
+                    h0 ^= h8;
+                    h9 ^= h10;
+                    h10 = h10 << 22 | h10 >> -22;
+                    h9 += h11;
+                    h11 += data[11];
+                    h1 ^= h9;
+                    h10 ^= h11;
+                    h11 = h11 << 46 | h11 >> -46;
+                    h10 += h0;
                     data += NumVars;
                     remainder = remainder - BlockSize;
                 }
-                Memory.Zero(((byte*)data) + remainder, BlockSize - remainder);
+                Memory.Zero((byte*)data + remainder, BlockSize - remainder);
                 *((byte*)data + BlockSize - 1) = (byte)remainder;
-                h0 += data[0];  h1 += data[1];  h2  += data[2];  h3  += data[3];
-                h4 += data[4];  h5 += data[5];  h6  += data[6];  h7  += data[7];
-                h8 += data[8];  h9 += data[9];  h10 += data[10]; h11 += data[11];
+                h0 += data[0];
+                h1 += data[1];
+                h2 += data[2];
+                h3 += data[3];
+                h4 += data[4];
+                h5 += data[5];
+                h6 += data[6];
+                h7 += data[7];
+                h8 += data[8];
+                h9 += data[9];
+                h10 += data[10];
+                h11 += data[11];
             }
-            h11 += h1;  h2  ^= h11; h1  = h1 << 44  | h1  >> -44;
-            h0  += h2;  h3  ^= h0;  h2  = h2 << 15  | h2  >> -15;
-            h1  += h3;  h4  ^= h1;  h3  = h3 << 34  | h3  >> -34;
-            h2  += h4;  h5  ^= h2;  h4  = h4 << 21  | h4  >> -21;
-            h3  += h5;  h6  ^= h3;  h5  = h5 << 38  | h5  >> -38;
-            h4  += h6;  h7  ^= h4;  h6  = h6 << 33  | h6  >> -33;
-            h5  += h7;  h8  ^= h5;  h7  = h7 << 10  | h7  >> -10;
-            h6  += h8;  h9  ^= h6;  h8  = h8 << 13  | h8  >> -13;
-            h7  += h9;  h10 ^= h7;  h9  = h9 << 38  | h9  >> -38;
-            h8  += h10; h11 ^= h8;  h10 = h10 << 53 | h10 >> -53;
-            h9  += h11; h0  ^= h9;  h11 = h11 << 42 | h11 >> -42;
-            h10 += h0;  h1  ^= h10; h0  = h0 << 54  | h0  >> -54;
-            h11 += h1;  h2  ^= h11; h1  = h1 << 44  | h1  >> -44;
-            h0  += h2;  h3  ^= h0;  h2  = h2 << 15  | h2  >> -15;
-            h1  += h3;  h4  ^= h1;  h3  = h3 << 34  | h3  >> -34;
-            h2  += h4;  h5  ^= h2;  h4  = h4 << 21  | h4  >> -21;
-            h3  += h5;  h6  ^= h3;  h5  = h5 << 38  | h5  >> -38;
-            h4  += h6;  h7  ^= h4;  h6  = h6 << 33  | h6  >> -33;
-            h5  += h7;  h8  ^= h5;  h7  = h7 << 10  | h7  >> -10;
-            h6  += h8;  h9  ^= h6;  h8  = h8 << 13  | h8  >> -13;
-            h7  += h9;  h10 ^= h7;  h9  = h9 << 38  | h9  >> -38;
-            h8  += h10; h11 ^= h8;  h10 = h10 << 53 | h10 >> -53;
-            h9  += h11; h0  ^= h9;  h11 = h11 << 42 | h11 >> -42;
-            h10 += h0;  h1  ^= h10; h0  = h0 << 54  | h0  >> -54;
-            h11 += h1;  h2  ^= h11; h1  = h1 << 44  | h1  >> -44;
-            h0  += h2;  h3  ^= h0;  h2  = h2 << 15  | h2  >> -15;
-            h1  += h3;  h4  ^= h1;  h3  = h3 << 34  | h3  >> -34;
-            h2  += h4;  h5  ^= h2;  h4  = h4 << 21  | h4  >> -21;
-            h3  += h5;  h6  ^= h3;  h5  = h5 << 38  | h5  >> -38;
-            h4  += h6;  h7  ^= h4;  h6  = h6 << 33  | h6  >> -33;
-            h5  += h7;  h8  ^= h5;  h7  = h7 << 10  | h7  >> -10;
-            h6  += h8;  h9  ^= h6;  h8  = h8 << 13  | h8  >> -13;
-            h7  += h9;  h10 ^= h7;  h9  = h9 << 38  | h9  >> -38;
-            h8  += h10; h11 ^= h8;  h10 = h10 << 53 | h10 >> -53;
-            h9  += h11; h0  ^= h9;
-            h10 += h0;  h1  ^= h10; h0  = h0 << 54  | h0  >> -54;
+            h11 += h1;
+            h2 ^= h11;
+            h1 = h1 << 44 | h1 >> -44;
+            h0 += h2;
+            h3 ^= h0;
+            h2 = h2 << 15 | h2 >> -15;
+            h1 += h3;
+            h4 ^= h1;
+            h3 = h3 << 34 | h3 >> -34;
+            h2 += h4;
+            h5 ^= h2;
+            h4 = h4 << 21 | h4 >> -21;
+            h3 += h5;
+            h6 ^= h3;
+            h5 = h5 << 38 | h5 >> -38;
+            h4 += h6;
+            h7 ^= h4;
+            h6 = h6 << 33 | h6 >> -33;
+            h5 += h7;
+            h8 ^= h5;
+            h7 = h7 << 10 | h7 >> -10;
+            h6 += h8;
+            h9 ^= h6;
+            h8 = h8 << 13 | h8 >> -13;
+            h7 += h9;
+            h10 ^= h7;
+            h9 = h9 << 38 | h9 >> -38;
+            h8 += h10;
+            h11 ^= h8;
+            h10 = h10 << 53 | h10 >> -53;
+            h9 += h11;
+            h0 ^= h9;
+            h11 = h11 << 42 | h11 >> -42;
+            h10 += h0;
+            h1 ^= h10;
+            h0 = h0 << 54 | h0 >> -54;
+            h11 += h1;
+            h2 ^= h11;
+            h1 = h1 << 44 | h1 >> -44;
+            h0 += h2;
+            h3 ^= h0;
+            h2 = h2 << 15 | h2 >> -15;
+            h1 += h3;
+            h4 ^= h1;
+            h3 = h3 << 34 | h3 >> -34;
+            h2 += h4;
+            h5 ^= h2;
+            h4 = h4 << 21 | h4 >> -21;
+            h3 += h5;
+            h6 ^= h3;
+            h5 = h5 << 38 | h5 >> -38;
+            h4 += h6;
+            h7 ^= h4;
+            h6 = h6 << 33 | h6 >> -33;
+            h5 += h7;
+            h8 ^= h5;
+            h7 = h7 << 10 | h7 >> -10;
+            h6 += h8;
+            h9 ^= h6;
+            h8 = h8 << 13 | h8 >> -13;
+            h7 += h9;
+            h10 ^= h7;
+            h9 = h9 << 38 | h9 >> -38;
+            h8 += h10;
+            h11 ^= h8;
+            h10 = h10 << 53 | h10 >> -53;
+            h9 += h11;
+            h0 ^= h9;
+            h11 = h11 << 42 | h11 >> -42;
+            h10 += h0;
+            h1 ^= h10;
+            h0 = h0 << 54 | h0 >> -54;
+            h11 += h1;
+            h2 ^= h11;
+            h1 = h1 << 44 | h1 >> -44;
+            h0 += h2;
+            h3 ^= h0;
+            h2 = h2 << 15 | h2 >> -15;
+            h1 += h3;
+            h4 ^= h1;
+            h3 = h3 << 34 | h3 >> -34;
+            h2 += h4;
+            h5 ^= h2;
+            h4 = h4 << 21 | h4 >> -21;
+            h3 += h5;
+            h6 ^= h3;
+            h5 = h5 << 38 | h5 >> -38;
+            h4 += h6;
+            h7 ^= h4;
+            h6 = h6 << 33 | h6 >> -33;
+            h5 += h7;
+            h8 ^= h5;
+            h7 = h7 << 10 | h7 >> -10;
+            h6 += h8;
+            h9 ^= h6;
+            h8 = h8 << 13 | h8 >> -13;
+            h7 += h9;
+            h10 ^= h7;
+            h9 = h9 << 38 | h9 >> -38;
+            h8 += h10;
+            h11 ^= h8;
+            h10 = h10 << 53 | h10 >> -53;
+            h9 += h11;
+            h0 ^= h9;
+            h10 += h0;
+            h1 ^= h10;
+            h0 = h0 << 54 | h0 >> -54;
             hash2 = h1;
             hash1 = h0;
         }
+
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         [SecurityCritical]
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)

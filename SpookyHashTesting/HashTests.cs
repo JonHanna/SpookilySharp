@@ -28,7 +28,8 @@ namespace SpookyHashTesting
 {
     public class HashTests
     {
-        private const int BufferSize  = 512;
+        private const int BufferSize = 512;
+
         [Fact]
         public unsafe void KnownValues()
         {
@@ -42,7 +43,6 @@ namespace SpookyHashTesting
                 0x9856c65f, 0x647411f7, 0x50777c74, 0xf0f1a8b7, 0x9d7e55a5, 0xc68dd371, 0xfc1af2cc, 0x75728d0a,
                 0x390e5fdc, 0xf389b84c, 0xfb0ccf23, 0xc95bad0e, 0x5b1cb85a, 0x6bdae14f, 0x6deb4626, 0x93047034,
                 0x6f3266c6, 0xf529c3bd, 0x396322e7, 0x3777d042, 0x1cd6a5a2, 0x197b402e, 0xc28d0d2b, 0x09c1afb4,
-
                 0x069c8bb7, 0x6f9d4e1e, 0xd2621b5c, 0xea68108d, 0x8660cb8f, 0xd61e6de6, 0x7fba15c7, 0xaacfaa97,
                 0xdb381902, 0x4ea22649, 0x5d414a1e, 0xc3fc5984, 0xa0fc9e10, 0x347dc51c, 0x37545fb6, 0x8c84b26b,
                 0xf57efa5d, 0x56afaf16, 0xb6e1eb94, 0x9218536a, 0xe3cc4967, 0xd3275ef4, 0xea63536e, 0x6086e499,
@@ -51,7 +51,6 @@ namespace SpookyHashTesting
                 0x6e02ce8f, 0x90d19f7f, 0xbca4a484, 0xd4efdd63, 0x780fd504, 0xe80310e3, 0x03abbc12, 0x90023849,
                 0xd6f6fb84, 0xd6b354c5, 0x5b8575f0, 0x758f14e4, 0x450de862, 0x90704afb, 0x47209a33, 0xf226b726,
                 0xf858dab8, 0x7c0d6de9, 0xb05ce777, 0xee5ff2d4, 0x7acb6d5c, 0x2d663f85, 0x41c72a91, 0x82356bf2,
-
                 0x94e948ec, 0xd358d448, 0xeca7814d, 0x78cd7950, 0xd6097277, 0x97782a5d, 0xf43fc6f4, 0x105f0a38,
                 0x9e170082, 0x4bfe566b, 0x4371d25f, 0xef25a364, 0x698eb672, 0x74f850e4, 0x4678ff99, 0x4a290dc6,
                 0x3918f07c, 0x32c7d9cd, 0x9f28e0af, 0x0d3c5a86, 0x7bfc8a45, 0xddf0c7e1, 0xdeacb86b, 0x970b3c5c,
@@ -60,7 +59,6 @@ namespace SpookyHashTesting
                 0x029ef587, 0x683b26e0, 0xb08afc70, 0x7c1fd59e, 0xbaae9a70, 0x98c8c801, 0xb6e35a26, 0x57083971,
                 0x90a6a680, 0x1b44169e, 0x1dce237c, 0x518e0a59, 0xccb11358, 0x7b8175fb, 0xb8fe701a, 0x10d259bb,
                 0xe806ce10, 0x9212be79, 0x4604ae7b, 0x7fa22a84, 0xe715b13a, 0x0394c3b2, 0x11efbbae, 0xe13d9e19,
-
                 0x77e012bd, 0x2d05114c, 0xaecf2ddd, 0xb2a2b4aa, 0xb9429546, 0x55dce815, 0xc89138f8, 0x46dcae20,
                 0x1f6f7162, 0x0c557ebc, 0x5b996932, 0xafbbe7e2, 0xd2bd5f62, 0xff475b9f, 0x9cec7108, 0xeaddcffb,
                 0x5d751aef, 0xf68f7bdf, 0xf3f4e246, 0x00983fcd, 0x00bc82bb, 0xbf5fd3e7, 0xe80c7e2c, 0x187d8b1f,
@@ -69,7 +67,6 @@ namespace SpookyHashTesting
                 0x5fc846da, 0x56d190e9, 0x82167225, 0x98e4daba, 0xbf7865f3, 0x00da7ae4, 0x9b7cd126, 0x644172f8,
                 0xde40c78f, 0xe8803efc, 0xdd331a2b, 0x48485c3c, 0x4ed01ddc, 0x9c0b2d9e, 0xb1c6e9d7, 0xd797d43c,
                 0x274101ff, 0x3bf7e127, 0x91ebbc56, 0x7ffeb321, 0x4d42096f, 0xd6e9456a, 0x0bade318, 0x2f40ee0b,
-
                 0x38cebf03, 0x0cbc2e72, 0xbf03e704, 0x7b3e7a9a, 0x8e985acd, 0x90917617, 0x413895f8, 0xf11dde04,
                 0xc66f8244, 0xe5648174, 0x6c420271, 0x2469d463, 0x2540b033, 0xdc788e7b, 0xe4140ded, 0x0990630a,
                 0xa54abed4, 0x6e124829, 0xd940155a, 0x1c8836f6, 0x38fda06c, 0x5207ab69, 0xf8be9342, 0x774882a8,
@@ -78,7 +75,6 @@ namespace SpookyHashTesting
                 0x513d7f97, 0x3984a1f1, 0xdfcdc5f4, 0x97766a5e, 0x37e2b1da, 0x41441f3f, 0xabd9ddba, 0x23b755a9,
                 0xda937945, 0x103e650e, 0x3eef7c8f, 0x2760ff8d, 0x2493a4cd, 0x1d671225, 0x3bf4bd4c, 0xed6e1728,
                 0xc70e9e30, 0x4e05e529, 0x928d5aa6, 0x164d0220, 0xb5184306, 0x4bd7efb3, 0x63830f11, 0xf3a1526c,
-
                 0xf1545450, 0xd41d5df5, 0x25a5060d, 0x77b368da, 0x4fe33c7e, 0xeae09021, 0xfdb053c4, 0x2930f18d,
                 0xd37109ff, 0x8511a781, 0xc7e7cdd7, 0x6aeabc45, 0xebbeaeaa, 0x9a0c4f11, 0xda252cbb, 0x5b248f41,
                 0x5223b5eb, 0xe32ab782, 0x8e6a1c97, 0x11d3f454, 0x3e05bd16, 0x0059001d, 0xce13ac97, 0xf83b2b4c,
@@ -87,7 +83,6 @@ namespace SpookyHashTesting
                 0xb76031e3, 0xd0f53973, 0xfb17907c, 0xa4c4c10f, 0x9f2d8af9, 0xca0e56b0, 0xb0d9b689, 0xfcbf37a3,
                 0xfede8f7d, 0xf836511c, 0x744003fc, 0x89eba576, 0xcfdcf6a6, 0xc2007f52, 0xaaaf683f, 0x62d2f9ca,
                 0xc996f77f, 0x77a7b5b3, 0x8ba7d0a4, 0xef6a0819, 0xa0d903c0, 0x01b27431, 0x58fffd4c, 0x4827f45c,
-
                 0x44eb5634, 0xae70edfc, 0x591c740b, 0x478bf338, 0x2f3b513b, 0x67bf518e, 0x6fef4a0c, 0x1e0b6917,
                 0x5ac0edc5, 0x2e328498, 0x077de7d5, 0x5726020b, 0x2aeda888, 0x45b637ca, 0xcf60858d, 0x3dc91ae2,
                 0x3e6d5294, 0xe6900d39, 0x0f634c71, 0x827a5fa4, 0xc713994b, 0x1c363494, 0x3d43b615, 0xe5fe7d15,
@@ -96,7 +91,6 @@ namespace SpookyHashTesting
                 0xf2fdba97, 0x8d45c9f1, 0x4eeae802, 0x17003659, 0xb9db81a7, 0xe734b1b2, 0x9503c54e, 0xb7c77c3e,
                 0x271dd0ab, 0xd8b906b5, 0x0d540ec6, 0xf03b86e0, 0x0fdb7d18, 0x95e261af, 0xad9ec04e, 0x381f4a64,
                 0xfec798d7, 0x09ea20be, 0x0ef4ca57, 0x1e6195bb, 0xfd0da78b, 0xcea1653b, 0x157d9777, 0xf04af50f,
-
                 0xad7baa23, 0xd181714a, 0x9bbdab78, 0x6c7d1577, 0x645eb1e7, 0xa0648264, 0x35839ca6, 0x2287ef45,
                 0x32a64ca3, 0x26111f6f, 0x64814946, 0xb0cddaf1, 0x4351c59e, 0x1b30471c, 0xb970788a, 0x30e9f597,
                 0xd7e58df1, 0xc6d2b953, 0xf5f37cf4, 0x3d7c419e, 0xf91ecb2d, 0x9c87fd5d, 0xb22384ce, 0x8c7ac51c,
@@ -106,11 +100,11 @@ namespace SpookyHashTesting
                 0xa67b83f7, 0xf27eab09, 0xdbe10e28, 0xf04c911f, 0xd1169f87, 0x8e1e4976, 0x17f57744, 0xe4f5a33f,
                 0x27c2e04b, 0x0b7523bd, 0x07305776, 0xc6be7503, 0x918fa7c9, 0xaf2e2cd9, 0x82046f8e, 0xcc1c8250
             };
-            var buf = new byte[BufferSize];
-            var saw = new uint[BufferSize];
-            fixed(byte* ptr = buf)
+            byte[] buf = new byte[BufferSize];
+            uint[] saw = new uint[BufferSize];
+            fixed (byte* ptr = buf)
             {
-                for(int i = 0; i != BufferSize; ++i)
+                for (int i = 0; i != BufferSize; ++i)
                 {
                     buf[i] = unchecked((byte)(i + 128));
                     saw[i] = SpookyHash.Hash32(ptr, i, 0);
@@ -118,25 +112,28 @@ namespace SpookyHashTesting
                 }
             }
         }
+
         [Fact]
         public void EmptyString()
         {
             Assert.Equal(0x6bf50919, SpookyHasher.SpookyHash32("", 0));
         }
+
         [Fact]
         public void NullString()
         {
             Assert.Equal(0, SpookyHasher.SpookyHash32((string)null));
         }
+
         [Fact]
         public unsafe void NullPointerUpdate()
         {
             Assert.Throws<ArgumentNullException>("message", () => new SpookyHash().Update((void*)null, 42));
         }
-        [SuppressMessage("StyleCopPlus.StyleCopPlusRules",
-            "SP2000:CodeLineMustNotEndWithWhitespace",
-            Justification = "String literal that fits this pattern.")]
-        private const string MediumLengthString =
+
+        [SuppressMessage(
+            "StyleCopPlus.StyleCopPlusRules", "SP2000:CodeLineMustNotEndWithWhitespace", Justification =
+                "String literal that fits this pattern.")] private const string MediumLengthString =
             @"                0x6bf50919,0x70de1d26,0xa2b37298,0x35bc5fbf,0x8223b279,0x5bcb315e,0x53fe88a1,0xf9f1a233,
                 0xee193982,0x54f86f29,0xc8772d36,0x9ed60886,0x5f23d1da,0x1ed9f474,0xf2ef0c89,0x83ec01f9,
                 0xf274736c,0x7e9ac0df,0xc7aed250,0xb1015811,0xe23470f5,0x48ac20c4,0xe2ab3cd5,0x608f8363,
@@ -215,53 +212,60 @@ namespace SpookyHashTesting
         [Fact(Skip = "Long Running")]
         public void TestNativeSpeed()
         {
-            for(int i = 0; i != 1000000; ++i)
+            for (int i = 0; i != 1000000; ++i)
             {
                 MediumLengthString.GetHashCode();
             }
         }
+
         [Fact(Skip = "Long Running")]
         public void TestSpookySpeed()
         {
-            for(int i = 0; i != 1000000; ++i)
+            for (int i = 0; i != 1000000; ++i)
             {
                 SpookyHasher.SpookyHash32(MediumLengthString);
             }
         }
+
         private static IEnumerable<string> MediumLengthSequence()
         {
-            var arr = MediumLengthString.Split('x');
+            string[] arr = MediumLengthString.Split('x');
             yield return arr[0];
-            for(int i = 1; i != arr.Length; ++i)
+
+            for (int i = 1; i != arr.Length; ++i)
             {
                 yield return "x";
                 yield return arr[i];
             }
         }
+
         [Fact]
         public void SequenceOfStrings()
         {
-            var sh = new SpookyHash();
+            SpookyHash sh = new SpookyHash();
             sh.Update(MediumLengthSequence());
             Assert.Equal(SpookyHasher.SpookyHash128(MediumLengthString), sh.Final());
         }
+
         private static IEnumerable<uint> RandomUints(int num)
         {
-            return RandomInts(num).Select((int i) => unchecked((uint)i));
+            return RandomInts(num).Select(i => unchecked((uint)i));
         }
+
         private static IEnumerable<int> RandomInts(int num)
         {
-            var rand = new Random();
-            while(num-- != 0)
+            Random rand = new Random();
+            while (num-- != 0)
             {
                 yield return rand.Next(int.MinValue, int.MaxValue);
             }
         }
+
         private static IEnumerable<ulong> RandomUlongs(int num)
         {
-            using(var en = RandomUints(num * 2).GetEnumerator())
+            using (IEnumerator<uint> en = RandomUints(num * 2).GetEnumerator())
             {
-                while(en.MoveNext())
+                while (en.MoveNext())
                 {
                     ulong high = (ulong)en.Current << 4;
                     en.MoveNext();
@@ -269,42 +273,46 @@ namespace SpookyHashTesting
                 }
             }
         }
+
         private static IEnumerable<long> RandomLongs(int num)
         {
             return RandomUlongs(num).Select(ul => (long)ul);
         }
+
         private const int RandomCycleCount = 20;
+
         [Fact]
         public unsafe void RehashUInt()
         {
-            foreach(uint seed in RandomUints(RandomCycleCount))
-                foreach(uint message in RandomUints(RandomCycleCount))
-                {
-                    uint copy = message;
-                    uint* p = &copy;
-                        Assert.Equal(SpookyHash.Hash32(p, 4, seed), Redistributor.Rehash(message, seed));
-                }
-            foreach(uint message in RandomUints(RandomCycleCount))
+            foreach (uint seed in RandomUints(RandomCycleCount))
+            foreach (uint message in RandomUints(RandomCycleCount))
+            {
+                uint copy = message;
+                uint* p = &copy;
+                Assert.Equal(SpookyHash.Hash32(p, 4, seed), Redistributor.Rehash(message, seed));
+            }
+            foreach (uint message in RandomUints(RandomCycleCount))
             {
                 uint copy = message;
                 uint* p = &copy;
                 Assert.Equal(SpookyHash.Hash32(p, 4, 0xDEADBEEF), Redistributor.Rehash(message));
             }
         }
+
         [Fact]
         public unsafe void RehashInt()
         {
-            foreach(int seed in RandomInts(RandomCycleCount))
-                foreach(int message in RandomInts(RandomCycleCount))
+            foreach (int seed in RandomInts(RandomCycleCount))
+            foreach (int message in RandomInts(RandomCycleCount))
+            {
+                int copy = message;
+                int* p = &copy;
+                unchecked
                 {
-                    int copy = message;
-                    int* p = &copy;
-                    unchecked
-                    {
-                        Assert.Equal((int)SpookyHash.Hash32(p, 4, (uint)seed), Redistributor.Rehash(message, seed));
-                    }
+                    Assert.Equal((int)SpookyHash.Hash32(p, 4, (uint)seed), Redistributor.Rehash(message, seed));
                 }
-            foreach(int message in RandomInts(RandomCycleCount))
+            }
+            foreach (int message in RandomInts(RandomCycleCount))
             {
                 int copy = message;
                 int* p = &copy;
@@ -314,41 +322,41 @@ namespace SpookyHashTesting
                 }
             }
         }
+
         [Fact]
         public unsafe void RehashULong()
         {
-            foreach(var seed in RandomUlongs(RandomCycleCount))
-                foreach(var message in RandomUlongs(RandomCycleCount))
-                {
-                    var copy = message;
-                    ulong* p = &copy;
-                    Assert.Equal(SpookyHash.Hash64(p, 8, seed), Redistributor.Rehash(message, seed));
-                }
-            foreach(var message in RandomUlongs(RandomCycleCount))
+            foreach (ulong seed in RandomUlongs(RandomCycleCount))
+            foreach (ulong message in RandomUlongs(RandomCycleCount))
             {
-                var copy = message;
+                ulong copy = message;
+                ulong* p = &copy;
+                Assert.Equal(SpookyHash.Hash64(p, 8, seed), Redistributor.Rehash(message, seed));
+            }
+            foreach (ulong message in RandomUlongs(RandomCycleCount))
+            {
+                ulong copy = message;
                 ulong* p = &copy;
                 Assert.Equal(SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), Redistributor.Rehash(message));
             }
         }
+
         [Fact]
         public unsafe void RehashLong()
         {
-            foreach(var seed in RandomLongs(RandomCycleCount))
-                foreach(var message in RandomLongs(RandomCycleCount))
-                {
-                    var copy = message;
-                    long* p = &copy;
-                    unchecked
-                    {
-                        Assert.Equal(
-                            (long)SpookyHash.Hash64(p, 8, (ulong)seed),
-                            Redistributor.Rehash(message, seed));
-                    }
-                }
-            foreach(var message in RandomLongs(RandomCycleCount))
+            foreach (long seed in RandomLongs(RandomCycleCount))
+            foreach (long message in RandomLongs(RandomCycleCount))
             {
-                var copy = message;
+                long copy = message;
+                long* p = &copy;
+                unchecked
+                {
+                    Assert.Equal((long)SpookyHash.Hash64(p, 8, (ulong)seed), Redistributor.Rehash(message, seed));
+                }
+            }
+            foreach (long message in RandomLongs(RandomCycleCount))
+            {
+                long copy = message;
                 long* p = &copy;
                 unchecked
                 {
@@ -356,83 +364,90 @@ namespace SpookyHashTesting
                 }
             }
         }
+
         [Fact]
-        public unsafe void FinalsEquivalent()
+        public void FinalsEquivalent()
         {
-            var sh = new SpookyHash();
+            SpookyHash sh = new SpookyHash();
             sh.Update("abcdefg");
-            var h128 = sh.Final();
-            ulong u1, u2;
-            sh.Final(out u1, out u2);
+            HashCode128 h128 = sh.Final();
+            sh.Final(out ulong u1, out ulong u2);
             Assert.Equal(h128.UHash1, u1);
             Assert.Equal(h128.UHash2, u2);
-            long l1, l2;
-            sh.Final(out l1, out l2);
+            sh.Final(out long l1, out long l2);
             Assert.Equal(h128.Hash1, l1);
             Assert.Equal(h128.Hash2, l2);
         }
+
         [Fact]
         public void ConstructorsEquivalent()
         {
             ulong ui1 = 0xdeadcafe;
             ulong ui2 = 0xbaceba11;
-            var fromU = new SpookyHash(ui1, ui2);
-            var fromZU = new SpookyHash();
+            SpookyHash fromU = new SpookyHash(ui1, ui2);
+            SpookyHash fromZU = new SpookyHash();
             fromZU.Init(ui1, ui2);
             long l1 = unchecked((long)ui1);
             long l2 = unchecked((long)ui2);
-            var fromL = new SpookyHash(l1, l2);
-            var fromZL = new SpookyHash();
+            SpookyHash fromL = new SpookyHash(l1, l2);
+            SpookyHash fromZL = new SpookyHash();
             fromZL.Init(l1, l2);
             fromU.Update(MediumLengthString);
             fromZU.Update(MediumLengthString);
             fromL.Update(MediumLengthString);
             fromZL.Update(MediumLengthString);
-            var hash = fromU.Final();
+            HashCode128 hash = fromU.Final();
             Assert.Equal(hash, fromZU.Final());
             Assert.Equal(hash, fromL.Final());
             Assert.Equal(hash, fromZL.Final());
             Assert.Equal(hash.ToString(), fromZL.Final().ToString());
         }
+
         [Fact]
         public void Serialize()
         {
-            var sh = new SpookyHash();
+            SpookyHash sh = new SpookyHash();
             sh.Update(MediumLengthString);
-            using(MemoryStream ms = new MemoryStream())
+            using (MemoryStream ms = new MemoryStream())
             {
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(ms, sh);
                 ms.Seek(0, SeekOrigin.Begin);
-                var copy = (SpookyHash)bf.Deserialize(ms);
+                SpookyHash copy = (SpookyHash)bf.Deserialize(ms);
                 Assert.Equal(sh.Final(), copy.Final());
             }
         }
+
         [Fact]
         public void NullStringUpdate()
         {
             Assert.Throws<ArgumentNullException>("message", () => new SpookyHash().Update((string)null));
         }
+
         [Fact]
         public void NullCharArrayUpdate()
         {
             Assert.Throws<ArgumentNullException>("message", () => new SpookyHash().Update((char[])null));
         }
+
         [Fact]
         public void NegativeOffestString()
         {
             Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => new SpookyHash().Update("", -1, 2));
         }
+
         [Fact]
         public void ExcessiveOffestString()
         {
             Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => new SpookyHash().Update("", 40, 2));
         }
+
         [Fact]
         public void ExcessiveLengthString()
         {
             Assert.Throws<ArgumentOutOfRangeException>("startIndex", () => new SpookyHash().Update("", 0, 2));
         }
+
         [Fact]
         public unsafe void Hash128PtrOverloads()
         {
@@ -441,7 +456,7 @@ namespace SpookyHashTesting
             string testString = "This is a test string";
             ulong hash1 = seed1;
             ulong hash2 = seed2;
-            fixed(void* ptr = testString)
+            fixed (void* ptr = testString)
             {
                 int len = testString.Length * 2;
                 SpookyHash.Hash128(ptr, len, ref hash1, ref hash2);
@@ -451,8 +466,7 @@ namespace SpookyHashTesting
                 Assert.Equal(hc, SpookyHash.Hash128((IntPtr)ptr, len, seed1, seed2));
                 Assert.Equal(hc, SpookyHash.Hash128((IntPtr)ptr, len, (long)seed1, (long)seed2));
             }
-            void* nullPointer = null;
-            SpookyHash.Hash128(nullPointer, 50, ref hash1, ref hash2);
+            SpookyHash.Hash128(default(void*), 50, ref hash1, ref hash2);
             Assert.Equal(0UL, hash1);
             Assert.Equal(0UL, hash2);
             Assert.Equal(HashCode128.Zero, SpookyHash.Hash128(UIntPtr.Zero, 50, seed1, seed2));
@@ -460,15 +474,16 @@ namespace SpookyHashTesting
             Assert.Equal(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, seed1, seed2));
             Assert.Equal(HashCode128.Zero, SpookyHash.Hash128(IntPtr.Zero, 50, (long)seed1, (long)seed2));
         }
+
         [Fact]
         public unsafe void Hash64PtrOverloads()
         {
             ulong seed = 238929482;
             string testString = "This is a test string";
-            fixed(void* ptr = testString)
+            fixed (void* ptr = testString)
             {
                 int len = testString.Length * 2;
-                var hc = SpookyHash.Hash64(ptr, len, seed);
+                ulong hc = SpookyHash.Hash64(ptr, len, seed);
                 Assert.Equal(hc, SpookyHash.Hash64((UIntPtr)ptr, len, seed));
                 Assert.Equal((long)hc, SpookyHash.Hash64((UIntPtr)ptr, len, (long)seed));
                 Assert.Equal(hc, SpookyHash.Hash64((IntPtr)ptr, len, seed));
@@ -479,15 +494,16 @@ namespace SpookyHashTesting
             Assert.Equal(0UL, SpookyHash.Hash64(IntPtr.Zero, 50, seed));
             Assert.Equal(0L, SpookyHash.Hash64(IntPtr.Zero, 50, (long)seed));
         }
+
         [Fact]
         public unsafe void Hash32PtrOverloads()
         {
             uint seed = 238929482;
             string testString = "This is a test string";
-            fixed(void* ptr = testString)
+            fixed (void* ptr = testString)
             {
                 int len = testString.Length * 2;
-                var hc = SpookyHash.Hash32(ptr, len, seed);
+                uint hc = SpookyHash.Hash32(ptr, len, seed);
                 Assert.Equal(hc, SpookyHash.Hash32((UIntPtr)ptr, len, seed));
                 Assert.Equal((int)hc, SpookyHash.Hash32((UIntPtr)ptr, len, (int)seed));
                 Assert.Equal(hc, SpookyHash.Hash32((IntPtr)ptr, len, seed));

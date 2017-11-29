@@ -27,7 +27,6 @@ namespace SpookilySharp
         private readonly Stream _backing;
         private readonly SpookyHash _read;
         private readonly SpookyHash _written;
-        private bool _moved;
 
         /// <summary>Initialises a new instance of the <see cref="SpookilySharp.HashedStream"/> class.</summary>
         /// <param name="stream">The stream to read.</param>
@@ -90,28 +89,16 @@ namespace SpookilySharp
         }
 
         /// <inheritdoc/>
-        public override bool CanRead
-        {
-            get { return _backing.CanRead; }
-        }
+        public override bool CanRead => _backing.CanRead;
 
         /// <inheritdoc/>
-        public override bool CanSeek
-        {
-            get { return _backing.CanSeek; }
-        }
+        public override bool CanSeek => _backing.CanSeek;
 
         /// <inheritdoc/>
-        public override bool CanTimeout
-        {
-            get { return _backing.CanTimeout; }
-        }
+        public override bool CanTimeout => _backing.CanTimeout;
 
         /// <inheritdoc/>
-        public override bool CanWrite
-        {
-            get { return _backing.CanWrite; }
-        }
+        public override bool CanWrite => _backing.CanWrite;
 
         /// <inheritdoc/>
         public override void Close()
@@ -124,7 +111,7 @@ namespace SpookilySharp
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            if(disposing)
+            if (disposing)
             {
                 _backing.Dispose();
             }
@@ -137,28 +124,19 @@ namespace SpookilySharp
         }
 
         /// <inheritdoc/>
-        public override Task FlushAsync(CancellationToken cancellationToken)
-        {
-            return _backing.FlushAsync(cancellationToken);
-        }
+        public override Task FlushAsync(CancellationToken cancellationToken) => _backing.FlushAsync(cancellationToken);
 
         /// <inheritdoc/>
-        public override long Length
-        {
-            get { return _backing.Length; }
-        }
+        public override long Length => _backing.Length;
 
         /// <inheritdoc/>
         public override long Position
         {
-            get
-            {
-                return _backing.Position;
-            }
+            get => _backing.Position;
             set
             {
                 _backing.Position = value;
-                _moved = true;
+                WasMoved = true;
             }
         }
 
@@ -171,7 +149,8 @@ namespace SpookilySharp
         }
 
         /// <inheritdoc/>
-        public async override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        public override async Task<int> ReadAsync(
+            byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             count = await _backing.ReadAsync(buffer, offset, count, cancellationToken).ConfigureAwait(false);
@@ -184,7 +163,7 @@ namespace SpookilySharp
         public override int ReadByte()
         {
             int ret = _backing.ReadByte();
-            if(ret != -1)
+            if (ret != -1)
             {
                 _read.Update((byte)ret);
             }
@@ -194,15 +173,15 @@ namespace SpookilySharp
         /// <inheritdoc/>
         public override int ReadTimeout
         {
-            get { return _backing.ReadTimeout; }
-            set { _backing.ReadTimeout = value; }
+            get => _backing.ReadTimeout;
+            set => _backing.ReadTimeout = value;
         }
 
         /// <inheritdoc/>
         public override long Seek(long offset, SeekOrigin origin)
         {
             long ret = _backing.Seek(offset, origin);
-            _moved = true;
+            WasMoved = true;
             return ret;
         }
 
@@ -210,7 +189,7 @@ namespace SpookilySharp
         public override void SetLength(long value)
         {
             _backing.SetLength(value);
-            _moved = true;
+            WasMoved = true;
         }
 
         /// <inheritdoc/>
@@ -221,7 +200,7 @@ namespace SpookilySharp
         }
 
         /// <inheritdoc/>
-        public async override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        public override async Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             await _backing.WriteAsync(buffer, offset, count, cancellationToken).ConfigureAwait(false);
@@ -239,51 +218,33 @@ namespace SpookilySharp
         /// <inheritdoc/>
         public override int WriteTimeout
         {
-            get { return _backing.WriteTimeout; }
-            set { _backing.WriteTimeout = value; }
+            get => _backing.WriteTimeout;
+            set => _backing.WriteTimeout = value;
         }
 
         /// <summary>Gets the current 128-bit hash of what has been written so far.</summary>
         /// <value>The hash, so far.</value>
-        public HashCode128 WriteHash128
-        {
-            get { return _written.Final(); }
-        }
+        public HashCode128 WriteHash128 => _written.Final();
 
         /// <summary>Gets the current 64-bit hash of what has been written so far.</summary>
         /// <value>The hash, so far.</value>
-        public long WriteHash64
-        {
-            get { return WriteHash128.Hash1; }
-        }
+        public long WriteHash64 => WriteHash128.Hash1;
 
         /// <summary>Gets the current 32-bit hash of what has been written so far.</summary>
         /// <value>The hash, so far.</value>
-        public int WriteHash32
-        {
-            get { return (int)WriteHash128.Hash1; }
-        }
+        public int WriteHash32 => (int)WriteHash128.Hash1;
 
         /// <summary>Gets the current 128-bit hash of what has been read so far.</summary>
         /// <value>The hash, so far.</value>
-        public HashCode128 ReadHash128
-        {
-            get { return _read.Final(); }
-        }
+        public HashCode128 ReadHash128 => _read.Final();
 
         /// <summary>Gets the current 64-bit hash of what has been read so far.</summary>
         /// <value>The hash, so far.</value>
-        public long ReadHash64
-        {
-            get { return ReadHash128.Hash1; }
-        }
+        public long ReadHash64 => ReadHash128.Hash1;
 
         /// <summary>Gets the current 32-bit hash of what has been read so far.</summary>
         /// <value>The hash, so far.</value>
-        public int ReadHash32
-        {
-            get { return (int)ReadHash128.Hash1; }
-        }
+        public int ReadHash32 => (int)ReadHash128.Hash1;
 
         /// <summary>Gets a value indicating whether there had been an operation that moved the point being read from or
         /// written to.</summary>
@@ -292,9 +253,6 @@ namespace SpookilySharp
         /// will mean that while the hashes will remain correct hashes of the values written and read, they may not
         /// correspond with e.g. the hash obtained by hashing the contents of a file the stream is backed by,
         /// etc.</remarks>
-        public bool WasMoved
-        {
-            get { return _moved; }
-        }
+        public bool WasMoved { get; private set; }
     }
 }

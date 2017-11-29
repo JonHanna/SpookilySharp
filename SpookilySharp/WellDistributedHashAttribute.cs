@@ -30,7 +30,7 @@ namespace SpookilySharp
     /// <see cref="SpookierEqualityComparers.WellDistributed{T}(IEqualityComparer{T})"/> will return it again, as it can
     /// add nothing more in the way of distribution, and will just be wasteful and if anything cause more
     /// collisions.</remarks>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     public sealed class WellDistributedHashAttribute : Attribute
     {
         /// <summary>Initialises a new instance of the <see cref="WellDistributedHashAttribute"/> class.</summary>

@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Security;
 
 namespace SpookilySharp
@@ -61,19 +60,13 @@ namespace SpookilySharp
         /// <summary>Returns a 32-bit signed SpookyHash hash code for the specified array.</summary>
         /// <param name="obj">The array of <see cref="char"/> to hash.</param>
         [WellDistributedHash]
-        public int GetHashCode(char[] obj)
-        {
-            return obj == null ? 0 : SpookyHasher.SpookyHash32(obj, _seed);
-        }
+        public int GetHashCode(char[] obj) => obj == null ? 0 : SpookyHasher.SpookyHash32(obj, _seed);
 
         /// <returns>The 32-bit signed SpookyHash hash code, or zero if the string is null.</returns>
         /// <summary>Returns a 32-bit signed SpookyHash hash code for the specified string.</summary>
         /// <param name="obj">The <see cref="string"/> to hash.</param>
         [WellDistributedHash]
-        public int GetHashCode(string obj)
-        {
-            return obj == null ? 0 : SpookyHasher.SpookyHash32(obj, _seed);
-        }
+        public int GetHashCode(string obj) => obj == null ? 0 : SpookyHasher.SpookyHash32(obj, _seed);
 
         /// <summary>Returns true if the two arrays are identical.</summary>
         /// <param name="x">The first array to compare.</param>
@@ -82,40 +75,37 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public unsafe bool Equals(char[] x, char[] y)
         {
-            if(x == y)
+            if (x == y)
             {
                 return true;
             }
-            if(x == null || y == null)
+            if (x == null || y == null)
             {
                 return false;
             }
 
             int len = x.Length;
-            if(y.Length != len)
+            if (y.Length != len)
             {
                 return false;
             }
-            if(len == 0)
+            if (len == 0)
             {
                 return true;
             }
 
-            fixed(char* px = x)
-                fixed(char* py = y)
-                {
-                    return Equals(px, py, len);
-                }
+            fixed (char* px = x)
+            fixed (char* py = y)
+            {
+                return Equals(px, py, len);
+            }
         }
 
         /// <summary>Returns true if the two <see cref="string"/>s are identical.</summary>
         /// <param name="x">The first <see cref="string"/> to compare.</param>
         /// <param name="y">The second <see cref="string"/> to compare.</param>
         /// <returns>True if the two <see cref="string"/>s are identical, false otherwise.</returns>
-        public bool Equals(string x, string y)
-        {
-            return x == y;
-        }
+        public bool Equals(string x, string y) => x == y;
 
         /// <summary>Returns true if the string and array of characters contain the same sequence of characters, or both
         /// are null.</summary>
@@ -125,30 +115,30 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public unsafe bool Equals(string x, char[] y)
         {
-            if(x == null)
+            if (x == null)
             {
                 return y == null;
             }
-            if(y == null)
+            if (y == null)
             {
                 return false;
             }
 
             int len = x.Length;
-            if(y.Length != len)
+            if (y.Length != len)
             {
                 return false;
             }
-            if(len == 0)
+            if (len == 0)
             {
                 return true;
             }
 
-            fixed(char* px = x)
-                fixed(char* py = y)
-                {
-                    return Equals(px, py, len);
-                }
+            fixed (char* px = x)
+            fixed (char* py = y)
+            {
+                return Equals(px, py, len);
+            }
         }
 
         /// <summary>Returns true if the string and array of characters contain the same sequence of characters, or both
@@ -159,169 +149,172 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public unsafe bool Equals(char[] x, string y)
         {
-            if(x == null)
+            if (x == null)
             {
                 return y == null;
             }
-            if(y == null)
+            if (y == null)
             {
                 return false;
             }
 
             int len = x.Length;
-            if(y.Length != len)
+            if (y.Length != len)
             {
                 return false;
             }
-            if(len == 0)
+            if (len == 0)
             {
                 return true;
             }
 
-            fixed(char* px = x)
-                fixed(char* py = y)
-                {
-                    return Equals(px, py, len);
-                }
+            fixed (char* px = x)
+            fixed (char* py = y)
+            {
+                return Equals(px, py, len);
+            }
         }
+
         [SecurityCritical]
         private static unsafe bool Equals(char* pX, char* pY, int length)
         {
-            var ipX = (int*)pX;
-            var ipY = (int*)pY;
-            if((length & 1) != 0)
+            int* ipX = (int*)pX;
+            int* ipY = (int*)pY;
+            if ((length & 1) != 0)
             {
                 int move = length & ~1;
-                if(*(pX + move) != *(pY + move))
+                if (*(pX + move) != *(pY + move))
                 {
                     return false;
                 }
             }
+
             int intLen = length >> 1;
-            if(intLen == 0)
+            if (intLen == 0)
             {
                 return true;
             }
 
-            switch(intLen & 15)
+            switch (intLen & 15)
             {
                 case 0:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 15;
                 case 15:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 14;
                 case 14:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 13;
                 case 13:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 12;
                 case 12:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 11;
                 case 11:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 10;
                 case 10:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 9;
                 case 9:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 8;
                 case 8:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 7;
                 case 7:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 6;
                 case 6:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 5;
                 case 5:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 4;
                 case 4:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 3;
                 case 3:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 2;
                 case 2:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
                     goto case 1;
                 case 1:
-                    if(*ipX++ != *ipY++)
+                    if (*ipX++ != *ipY++)
                     {
                         return false;
                     }
 
-                    if((intLen -= 16) > 0)
+                    if ((intLen -= 16) > 0)
                     {
                         goto case 0;
                     }
                     break;
             }
+
             return true;
         }
 
@@ -333,24 +326,15 @@ namespace SpookilySharp
         /// current <see cref="SpookyStringEqualityComparer"/>; otherwise, <see langword="false"/>.</returns>
         /// <remarks>Two instances of <see cref="SpookyStringEqualityComparer"/> are considered equal if they have the
         /// same seed, and as such can be depended upon to produce the same hash codes for the same input.</remarks>
-        public bool Equals(SpookyStringEqualityComparer other)
-        {
-            return other != null && other._seed == _seed;
-        }
+        public bool Equals(SpookyStringEqualityComparer other) => other != null && other._seed == _seed;
 
         /// <inheritdoc/>
         /// <remarks>Considers itself equal to an equal <see cref="SpookyStringEqualityComparer"/> instance, and to
         /// nothing else.</remarks>
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as SpookyStringEqualityComparer);
-        }
+        public override bool Equals(object obj) => Equals(obj as SpookyStringEqualityComparer);
 
         /// <inheritdoc/>
         [WellDistributedHash]
-        public override int GetHashCode()
-        {
-            return Redistributor.Rehash(_seed);
-        }
+        public override int GetHashCode() => Redistributor.Rehash(_seed);
     }
 }
