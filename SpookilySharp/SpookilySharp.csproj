@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Spookily Sharp</PackageId>
+    <PackageId>SpookilySharp</PackageId>
     <Version>1.2</Version>
     <Authors>Jon Hanna</Authors>
     <Company />
@@ -18,10 +18,11 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\netstandard2.0\SpookilySharp.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mnemosyne" Version="1.0.0.1" />
+    <PackageReference Include="Mnemosyne" Version="1.1.0-beta" />
   </ItemGroup>
 
   <ItemGroup>

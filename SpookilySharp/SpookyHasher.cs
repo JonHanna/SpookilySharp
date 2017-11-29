@@ -278,6 +278,13 @@ namespace SpookilySharp
             return hash.Final();
         }
 
+        /// <summary>Asynchronously produces an 128-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed0">The first 64-bits of the seed value.</param>
+        /// <param name="seed1">The second 64-bits of the seed value.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A <see cref="Task{HashCode128}"/> that represents the asynchronous operation. The result will be a <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
         public static async Task<HashCode128> SpookyHash128Async(
             this Stream stream, ulong seed0, ulong seed1, CancellationToken cancellationToken)
@@ -297,6 +304,12 @@ namespace SpookilySharp
             return hash.Final();
         }
 
+        /// <summary>Asynchronously produces an 128-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed0">The first 64-bits of the seed value.</param>
+        /// <param name="seed1">The second 64-bits of the seed value.</param>
+        /// <returns>A <see cref="Task{HashCode128}"/> that represents the asynchronous operation. The result will be a <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
         public static Task<HashCode128> SpookyHash128Async(this Stream stream, ulong seed0, ulong seed1) =>
             SpookyHash128Async(stream, seed0, seed1, CancellationToken.None);
@@ -310,10 +323,23 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Stream stream, long seed0, long seed1) =>
             unchecked(SpookyHash128(stream, (ulong)seed0, (ulong)seed1));
 
+        /// <summary>Asynchronously produces an 128-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed0">The first 64-bits of the seed value.</param>
+        /// <param name="seed1">The second 64-bits of the seed value.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A <see cref="Task{HashCode128}"/> that represents the asynchronous operation. The result will be a <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<HashCode128> SpookyHash128Async(
             this Stream stream, long seed0, long seed1, CancellationToken cancellationToken) =>
             unchecked(SpookyHash128Async(stream, (ulong)seed0, (ulong)seed1, cancellationToken));
 
+        /// <summary>Asynchronously produces an 128-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed0">The first 64-bits of the seed value.</param>
+        /// <param name="seed1">The second 64-bits of the seed value.</param>
+        /// <returns>A <see cref="Task{HashCode128}"/> that represents the asynchronous operation. The result will be a <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<HashCode128> SpookyHash128Async(this Stream stream, long seed0, long seed1) =>
             SpookyHash128Async(stream, seed0, seed1, CancellationToken.None);
 
@@ -324,9 +350,18 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Stream stream) => SpookyHash128(
             stream, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
+        /// <summary>Asynchronously produces an 128-bit SpookyHash of a stream, with a default seed.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A <see cref="Task{HashCode128}"/> that represents the asynchronous operation. The result will be a <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<HashCode128> SpookyHash128Async(this Stream stream, CancellationToken cancellationToken) =>
             SpookyHash128Async(stream, SpookyHash.SpookyConst, SpookyHash.SpookyConst, cancellationToken);
 
+        /// <summary>Asynchronously produces an 128-bit SpookyHash of a stream, with a default seed.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <returns>A <see cref="Task{HashCode128}"/> that represents the asynchronous operation. The result will be a <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<HashCode128> SpookyHash128Async(this Stream stream) =>
             SpookyHash128Async(stream, CancellationToken.None);
 
@@ -353,6 +388,12 @@ namespace SpookilySharp
             return seed;
         }
 
+        /// <summary>Asynchronously produces an 64-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed">The 64-bit of seed value.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A <see cref="Task{UInt64}"/> that represents the asynchronous operation. The result will be a <see cref="ulong"/> containing the 64-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
         public static async Task<ulong> SpookyHash64Async(
             this Stream stream, ulong seed, CancellationToken cancellationToken)
@@ -373,6 +414,11 @@ namespace SpookilySharp
             return seed;
         }
 
+        /// <summary>Asynchronously produces an 64-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed">The 64-bit of seed value.</param>
+        /// <returns>A <see cref="Task{UInt64}"/> that represents the asynchronous operation. The result will be a <see cref="ulong"/> containing the 64-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
         public static Task<ulong> SpookyHash64Async(this Stream stream, ulong seed) =>
             SpookyHash64Async(stream, seed, CancellationToken.None);
@@ -385,6 +431,12 @@ namespace SpookilySharp
         public static long SpookyHash64(this Stream stream, long seed) =>
             unchecked((long)SpookyHash64(stream, (ulong)seed));
 
+        /// <summary>Asynchronously produces an 64-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed">The 64-bit of seed value.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A <see cref="Task{Int64}"/> that represents the asynchronous operation. The result will be a <see cref="long"/> containing the 64-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<long> SpookyHash64Async(this Stream stream, long seed, CancellationToken cancellationToken)
         {
             return SpookyHash64Async(stream, unchecked((ulong)seed))
@@ -394,6 +446,11 @@ namespace SpookilySharp
                     TaskScheduler.Default);
         }
 
+        /// <summary>Asynchronously produces an 64-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed">The 64-bit of seed value.</param>
+        /// <returns>A <see cref="Task{Int64}"/> that represents the asynchronous operation. The result will be a <see cref="long"/> containing the 64-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<long> SpookyHash64Async(this Stream stream, long seed) =>
             SpookyHash64Async(stream, seed, CancellationToken.None);
 
@@ -404,9 +461,18 @@ namespace SpookilySharp
         public static long SpookyHash64(this Stream stream) =>
             unchecked(SpookyHash64(stream, (long)SpookyHash.SpookyConst));
 
+        /// <summary>Asynchronously produces an 64-bit SpookyHash of a stream, with a default seed.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A <see cref="Task{Int64}"/> that represents the asynchronous operation. The result will be a <see cref="long"/> containing the 64-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<long> SpookyHash64Async(Stream stream, CancellationToken cancellationToken) =>
             unchecked(SpookyHash64Async(stream, (long)SpookyHash.SpookyConst, cancellationToken));
 
+        /// <summary>Asynchronously produces an 64-bit SpookyHash of a stream, with a default seed.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <returns>A <see cref="Task{Int64}"/> that represents the asynchronous operation. The result will be a <see cref="long"/> containing the 64-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<long> SpookyHash64Async(Stream stream) => SpookyHash64Async(stream, CancellationToken.None);
 
         /// <summary>Produces a 32-bit SpookyHash of a stream.</summary>
@@ -418,16 +484,27 @@ namespace SpookilySharp
         public static uint SpookyHash32(this Stream stream, uint seed) =>
             unchecked((uint)SpookyHash64(stream, (ulong)seed));
 
+        /// <summary>Asynchronously produces an 32-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed">The 32-bit seed value.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A <see cref="Task{UInt32}"/> that represents the asynchronous operation. The result will be a <see cref="uint"/> containing the 32-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
         public static Task<uint> SpookyHash32Async(this Stream stream, uint seed, CancellationToken cancellationToken)
         {
-            return unchecked(SpookyHash64Async(stream, (ulong)seed)
+            return unchecked(SpookyHash64Async(stream, (ulong)seed, cancellationToken)
                 .ContinueWith(
                     t => (uint)t.Result, cancellationToken,
                     TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnRanToCompletion,
                     TaskScheduler.Default));
         }
 
+        /// <summary>Asynchronously produces an 32-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed">The 32-bit seed value.</param>
+        /// <returns>A <see cref="Task{UInt32}"/> that represents the asynchronous operation. The result will be a <see cref="uint"/> containing the 32-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         [CLSCompliant(false)]
         public static Task<uint> SpookyHash32Async(this Stream stream, uint seed) =>
             SpookyHash32Async(stream, seed, CancellationToken.None);
@@ -440,6 +517,12 @@ namespace SpookilySharp
         public static int SpookyHash32(this Stream stream, int seed) =>
             unchecked((int)SpookyHash64(stream, (ulong)(uint)seed));
 
+        /// <summary>Asynchronously produces an 32-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed">The 32-bit seed value.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A <see cref="Task{Int32}"/> that represents the asynchronous operation. The result will be a <see cref="int"/> containing the 32-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<int> SpookyHash32Async(this Stream stream, int seed, CancellationToken cancellationToken)
         {
             return unchecked(SpookyHash64Async(stream, (ulong)(uint)seed, cancellationToken)
@@ -449,6 +532,11 @@ namespace SpookilySharp
                     TaskScheduler.Default));
         }
 
+        /// <summary>Asynchronously produces an 32-bit SpookyHash of a stream.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="seed">The 32-bit seed value.</param>
+        /// <returns>A <see cref="Task{Int32}"/> that represents the asynchronous operation. The result will be a <see cref="int"/> containing the 32-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<int> SpookyHash32Async(this Stream stream, int seed) =>
             SpookyHash32Async(stream, seed, CancellationToken.None);
 
@@ -459,9 +547,18 @@ namespace SpookilySharp
         public static int SpookyHash32(this Stream stream) =>
             unchecked(SpookyHash32(stream, (int)(uint)SpookyHash.SpookyConst));
 
+        /// <summary>Asynchronously produces an 32-bit SpookyHash of a stream, with a default seed.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        /// <returns>A <see cref="Task{Int32}"/> that represents the asynchronous operation. The result will be a <see cref="int"/> containing the 32-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<int> SpookyHash32Async(this Stream stream, CancellationToken cancellationToken) =>
             unchecked(SpookyHash32Async(stream, (int)(uint)SpookyHash.SpookyConst, cancellationToken));
 
+        /// <summary>Asynchronously produces an 32-bit SpookyHash of a stream, with a default seed.</summary>
+        /// <param name="stream">The stream to hash.</param>
+        /// <returns>A <see cref="Task{Int32}"/> that represents the asynchronous operation. The result will be a <see cref="int"/> containing the 32-bit hash.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="stream"/> was null.</exception>
         public static Task<int> SpookyHash32Async(this Stream stream) =>
             SpookyHash32Async(stream, CancellationToken.None);
     }

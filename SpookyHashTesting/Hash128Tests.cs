@@ -30,15 +30,15 @@ namespace SpookyHashTesting
             Assert.False(HashCode128.TryParse("Well, this isn't likely to work, is it?", out hash));
             Assert.False(HashCode128.TryParse("123456789abcdef01", out hash));
             Assert.Equal(hash, HashCode128.Zero);
-            Assert.Equal(hash, default(HashCode128));
+            Assert.Equal(default(HashCode128), hash);
             Assert.True(HashCode128.TryParse("123456789abcdef00fedcba987654321", out hash));
             Assert.Equal(hash, HashCode128.Parse("  123456789ABCD EF0  0fe DCB a98 765 4321   "));
             Assert.Equal(HashCode128.Parse("00000000000000000000000000000000"), HashCode128.Zero);
             Assert.Equal(hash.GetHashCode(), HashCode128.Parse("123456789abcdef0123456789abcdef0").GetHashCode());
             Assert.NotEqual(hash.GetHashCode(), HashCode128.Zero.GetHashCode());
-            Assert.Equal(HashCode128.Zero.GetHashCode(), 0);
-            Assert.Equal<ulong>(hash.UHash1, 0x123456789abcdef0);
-            Assert.Equal<ulong>(hash.UHash2, 0x0fedcba987654321);
+            Assert.Equal(0, HashCode128.Zero.GetHashCode());
+            Assert.Equal<ulong>(0x123456789abcdef0, hash.UHash1);
+            Assert.Equal<ulong>(0x0fedcba987654321, hash.UHash2);
             Assert.Equal(hash.Hash1, (long)0x123456789abcdef0);
             Assert.Equal(hash.Hash2, (long)0x0fedcba987654321);
             Assert.Equal(hash, new HashCode128(0x123456789abcdef0u, 0x0fedcba987654321));
@@ -111,13 +111,12 @@ namespace SpookyHashTesting
         public void ToStringTests()
         {
             Assert.Equal(
-                HashCode128.Parse("0123456789abcdef0123456789ABCDEF").ToString(), "0123456789ABCDEF0123456789ABCDEF");
+"0123456789ABCDEF0123456789ABCDEF", HashCode128.Parse("0123456789abcdef0123456789ABCDEF").ToString());
         }
 
         [Fact]
         public void EqualsObj()
         {
-            Assert.NotEqual<object>(HashCode128.Zero, null);
             Assert.Equal(HashCode128.Zero, (object)HashCode128.Zero);
             object boxed = HashCode128.Parse("0123456789abcdef0123456789ABCDEF");
             Assert.True(boxed.Equals(HashCode128.Parse("0123456789ABCDEF0123456789ABCDEF")));

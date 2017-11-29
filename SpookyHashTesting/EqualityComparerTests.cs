@@ -64,7 +64,7 @@ namespace SpookyHashTesting
         }
 
         [Fact]
-        public void Equals()
+        public void EqualsTest()
         {
             foreach (SpookyStringEqualityComparer eq in TestComparers)
             {
