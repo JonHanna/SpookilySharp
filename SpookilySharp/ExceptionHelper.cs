@@ -57,13 +57,13 @@ namespace SpookilySharp
         {
             throw new ArgumentException("Attempt to read beyond the end of the string.");
         }
-        
+
         private static void CheckNotNegativeLength(int length)
         {
             if(length < 0)
                 NegativeLength();
         }
-        
+
         private static void CheckIndexInRange(int startIndex, int length)
         {
             if((uint)startIndex >= (uint)length)
