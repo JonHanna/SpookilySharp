@@ -14,11 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SpookilySharp;
-using NUnit.Framework;
+using Xunit;
 
 namespace SpookyHashTesting
 {
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -50,43 +49,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullSByteArrayUpdate()
         {
-            new SpookyHash().Update((SByte[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((SByte[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullSByteArrayWithLength()
         {
-            new SpookyHash().Update((SByte[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((SByte[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestSByte()
         {
-            new SpookyHash().Update(new SByte[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new SByte[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestSByte()
         {
-            new SpookyHash().Update(new SByte[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new SByte[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthSByte()
         {
-            new SpookyHash().Update(new SByte[]{default(SByte)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new SByte[]{default(SByte)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthSByte()
         {
-            new SpookyHash().Update(new SByte[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new SByte[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -130,81 +134,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32SByte()
         {
-            SpookyHasher.SpookyHash32(new SByte[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new SByte[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32SByte()
         {
-            SpookyHasher.SpookyHash32(new SByte[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new SByte[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32SByte()
         {
-            SpookyHasher.SpookyHash32(new SByte[]{default(SByte)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new SByte[]{default(SByte)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32SByte()
         {
-            SpookyHasher.SpookyHash32(new SByte[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new SByte[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64SByte()
         {
-            SpookyHasher.SpookyHash64(new SByte[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new SByte[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64SByte()
         {
-            SpookyHasher.SpookyHash64(new SByte[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new SByte[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64SByte()
         {
-            SpookyHasher.SpookyHash64(new SByte[]{default(SByte)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new SByte[]{default(SByte)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64SByte()
         {
-            SpookyHasher.SpookyHash64(new SByte[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new SByte[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128SByte()
         {
-            SpookyHasher.SpookyHash128(new SByte[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new SByte[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128SByte()
         {
-            SpookyHasher.SpookyHash128(new SByte[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new SByte[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128SByte()
         {
-            SpookyHasher.SpookyHash128(new SByte[]{default(SByte)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new SByte[]{default(SByte)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128SByte()
         {
-            SpookyHasher.SpookyHash128(new SByte[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new SByte[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -236,43 +236,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullUInt16ArrayUpdate()
         {
-            new SpookyHash().Update((UInt16[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((UInt16[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullUInt16ArrayWithLength()
         {
-            new SpookyHash().Update((UInt16[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((UInt16[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestUInt16()
         {
-            new SpookyHash().Update(new UInt16[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new UInt16[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestUInt16()
         {
-            new SpookyHash().Update(new UInt16[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new UInt16[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthUInt16()
         {
-            new SpookyHash().Update(new UInt16[]{default(UInt16)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new UInt16[]{default(UInt16)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthUInt16()
         {
-            new SpookyHash().Update(new UInt16[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new UInt16[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -316,81 +321,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32UInt16()
         {
-            SpookyHasher.SpookyHash32(new UInt16[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new UInt16[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32UInt16()
         {
-            SpookyHasher.SpookyHash32(new UInt16[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new UInt16[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32UInt16()
         {
-            SpookyHasher.SpookyHash32(new UInt16[]{default(UInt16)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new UInt16[]{default(UInt16)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32UInt16()
         {
-            SpookyHasher.SpookyHash32(new UInt16[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new UInt16[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64UInt16()
         {
-            SpookyHasher.SpookyHash64(new UInt16[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new UInt16[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64UInt16()
         {
-            SpookyHasher.SpookyHash64(new UInt16[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new UInt16[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64UInt16()
         {
-            SpookyHasher.SpookyHash64(new UInt16[]{default(UInt16)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new UInt16[]{default(UInt16)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64UInt16()
         {
-            SpookyHasher.SpookyHash64(new UInt16[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new UInt16[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128UInt16()
         {
-            SpookyHasher.SpookyHash128(new UInt16[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new UInt16[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128UInt16()
         {
-            SpookyHasher.SpookyHash128(new UInt16[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new UInt16[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128UInt16()
         {
-            SpookyHasher.SpookyHash128(new UInt16[]{default(UInt16)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new UInt16[]{default(UInt16)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128UInt16()
         {
-            SpookyHasher.SpookyHash128(new UInt16[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new UInt16[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -422,43 +423,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullUInt32ArrayUpdate()
         {
-            new SpookyHash().Update((UInt32[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((UInt32[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullUInt32ArrayWithLength()
         {
-            new SpookyHash().Update((UInt32[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((UInt32[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestUInt32()
         {
-            new SpookyHash().Update(new UInt32[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new UInt32[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestUInt32()
         {
-            new SpookyHash().Update(new UInt32[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new UInt32[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthUInt32()
         {
-            new SpookyHash().Update(new UInt32[]{default(UInt32)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new UInt32[]{default(UInt32)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthUInt32()
         {
-            new SpookyHash().Update(new UInt32[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new UInt32[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -502,81 +508,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32UInt32()
         {
-            SpookyHasher.SpookyHash32(new UInt32[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new UInt32[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32UInt32()
         {
-            SpookyHasher.SpookyHash32(new UInt32[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new UInt32[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32UInt32()
         {
-            SpookyHasher.SpookyHash32(new UInt32[]{default(UInt32)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new UInt32[]{default(UInt32)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32UInt32()
         {
-            SpookyHasher.SpookyHash32(new UInt32[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new UInt32[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64UInt32()
         {
-            SpookyHasher.SpookyHash64(new UInt32[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new UInt32[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64UInt32()
         {
-            SpookyHasher.SpookyHash64(new UInt32[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new UInt32[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64UInt32()
         {
-            SpookyHasher.SpookyHash64(new UInt32[]{default(UInt32)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new UInt32[]{default(UInt32)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64UInt32()
         {
-            SpookyHasher.SpookyHash64(new UInt32[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new UInt32[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128UInt32()
         {
-            SpookyHasher.SpookyHash128(new UInt32[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new UInt32[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128UInt32()
         {
-            SpookyHasher.SpookyHash128(new UInt32[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new UInt32[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128UInt32()
         {
-            SpookyHasher.SpookyHash128(new UInt32[]{default(UInt32)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new UInt32[]{default(UInt32)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128UInt32()
         {
-            SpookyHasher.SpookyHash128(new UInt32[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new UInt32[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -608,43 +610,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullUInt64ArrayUpdate()
         {
-            new SpookyHash().Update((UInt64[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((UInt64[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullUInt64ArrayWithLength()
         {
-            new SpookyHash().Update((UInt64[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((UInt64[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestUInt64()
         {
-            new SpookyHash().Update(new UInt64[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new UInt64[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestUInt64()
         {
-            new SpookyHash().Update(new UInt64[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new UInt64[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthUInt64()
         {
-            new SpookyHash().Update(new UInt64[]{default(UInt64)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new UInt64[]{default(UInt64)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthUInt64()
         {
-            new SpookyHash().Update(new UInt64[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new UInt64[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -688,81 +695,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32UInt64()
         {
-            SpookyHasher.SpookyHash32(new UInt64[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new UInt64[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32UInt64()
         {
-            SpookyHasher.SpookyHash32(new UInt64[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new UInt64[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32UInt64()
         {
-            SpookyHasher.SpookyHash32(new UInt64[]{default(UInt64)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new UInt64[]{default(UInt64)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32UInt64()
         {
-            SpookyHasher.SpookyHash32(new UInt64[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new UInt64[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64UInt64()
         {
-            SpookyHasher.SpookyHash64(new UInt64[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new UInt64[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64UInt64()
         {
-            SpookyHasher.SpookyHash64(new UInt64[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new UInt64[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64UInt64()
         {
-            SpookyHasher.SpookyHash64(new UInt64[]{default(UInt64)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new UInt64[]{default(UInt64)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64UInt64()
         {
-            SpookyHasher.SpookyHash64(new UInt64[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new UInt64[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128UInt64()
         {
-            SpookyHasher.SpookyHash128(new UInt64[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new UInt64[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128UInt64()
         {
-            SpookyHasher.SpookyHash128(new UInt64[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new UInt64[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128UInt64()
         {
-            SpookyHasher.SpookyHash128(new UInt64[]{default(UInt64)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new UInt64[]{default(UInt64)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128UInt64()
         {
-            SpookyHasher.SpookyHash128(new UInt64[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new UInt64[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -794,43 +797,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullByteArrayUpdate()
         {
-            new SpookyHash().Update((Byte[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Byte[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullByteArrayWithLength()
         {
-            new SpookyHash().Update((Byte[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Byte[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestByte()
         {
-            new SpookyHash().Update(new Byte[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Byte[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestByte()
         {
-            new SpookyHash().Update(new Byte[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Byte[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthByte()
         {
-            new SpookyHash().Update(new Byte[]{default(Byte)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new Byte[]{default(Byte)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthByte()
         {
-            new SpookyHash().Update(new Byte[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Byte[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -874,81 +882,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32Byte()
         {
-            SpookyHasher.SpookyHash32(new Byte[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Byte[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32Byte()
         {
-            SpookyHasher.SpookyHash32(new Byte[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Byte[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Byte()
         {
-            SpookyHasher.SpookyHash32(new Byte[]{default(Byte)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new Byte[]{default(Byte)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32Byte()
         {
-            SpookyHasher.SpookyHash32(new Byte[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Byte[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64Byte()
         {
-            SpookyHasher.SpookyHash64(new Byte[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Byte[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64Byte()
         {
-            SpookyHasher.SpookyHash64(new Byte[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Byte[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Byte()
         {
-            SpookyHasher.SpookyHash64(new Byte[]{default(Byte)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new Byte[]{default(Byte)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64Byte()
         {
-            SpookyHasher.SpookyHash64(new Byte[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Byte[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128Byte()
         {
-            SpookyHasher.SpookyHash128(new Byte[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Byte[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128Byte()
         {
-            SpookyHasher.SpookyHash128(new Byte[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Byte[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Byte()
         {
-            SpookyHasher.SpookyHash128(new Byte[]{default(Byte)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new Byte[]{default(Byte)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128Byte()
         {
-            SpookyHasher.SpookyHash128(new Byte[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Byte[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -980,43 +984,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullCharArrayUpdate()
         {
-            new SpookyHash().Update((Char[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Char[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullCharArrayWithLength()
         {
-            new SpookyHash().Update((Char[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Char[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestChar()
         {
-            new SpookyHash().Update(new Char[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Char[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestChar()
         {
-            new SpookyHash().Update(new Char[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Char[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthChar()
         {
-            new SpookyHash().Update(new Char[]{default(Char)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new Char[]{default(Char)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthChar()
         {
-            new SpookyHash().Update(new Char[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Char[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -1060,81 +1069,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32Char()
         {
-            SpookyHasher.SpookyHash32(new Char[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Char[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32Char()
         {
-            SpookyHasher.SpookyHash32(new Char[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Char[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Char()
         {
-            SpookyHasher.SpookyHash32(new Char[]{default(Char)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new Char[]{default(Char)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32Char()
         {
-            SpookyHasher.SpookyHash32(new Char[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Char[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64Char()
         {
-            SpookyHasher.SpookyHash64(new Char[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Char[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64Char()
         {
-            SpookyHasher.SpookyHash64(new Char[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Char[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Char()
         {
-            SpookyHasher.SpookyHash64(new Char[]{default(Char)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new Char[]{default(Char)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64Char()
         {
-            SpookyHasher.SpookyHash64(new Char[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Char[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128Char()
         {
-            SpookyHasher.SpookyHash128(new Char[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Char[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128Char()
         {
-            SpookyHasher.SpookyHash128(new Char[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Char[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Char()
         {
-            SpookyHasher.SpookyHash128(new Char[]{default(Char)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new Char[]{default(Char)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128Char()
         {
-            SpookyHasher.SpookyHash128(new Char[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Char[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -1166,43 +1171,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullInt16ArrayUpdate()
         {
-            new SpookyHash().Update((Int16[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Int16[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullInt16ArrayWithLength()
         {
-            new SpookyHash().Update((Int16[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Int16[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestInt16()
         {
-            new SpookyHash().Update(new Int16[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Int16[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestInt16()
         {
-            new SpookyHash().Update(new Int16[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Int16[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthInt16()
         {
-            new SpookyHash().Update(new Int16[]{default(Int16)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new Int16[]{default(Int16)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthInt16()
         {
-            new SpookyHash().Update(new Int16[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Int16[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -1246,81 +1256,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32Int16()
         {
-            SpookyHasher.SpookyHash32(new Int16[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Int16[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32Int16()
         {
-            SpookyHasher.SpookyHash32(new Int16[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Int16[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Int16()
         {
-            SpookyHasher.SpookyHash32(new Int16[]{default(Int16)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new Int16[]{default(Int16)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32Int16()
         {
-            SpookyHasher.SpookyHash32(new Int16[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Int16[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64Int16()
         {
-            SpookyHasher.SpookyHash64(new Int16[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Int16[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64Int16()
         {
-            SpookyHasher.SpookyHash64(new Int16[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Int16[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Int16()
         {
-            SpookyHasher.SpookyHash64(new Int16[]{default(Int16)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new Int16[]{default(Int16)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64Int16()
         {
-            SpookyHasher.SpookyHash64(new Int16[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Int16[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128Int16()
         {
-            SpookyHasher.SpookyHash128(new Int16[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Int16[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128Int16()
         {
-            SpookyHasher.SpookyHash128(new Int16[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Int16[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Int16()
         {
-            SpookyHasher.SpookyHash128(new Int16[]{default(Int16)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new Int16[]{default(Int16)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128Int16()
         {
-            SpookyHasher.SpookyHash128(new Int16[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Int16[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -1352,43 +1358,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullInt32ArrayUpdate()
         {
-            new SpookyHash().Update((Int32[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Int32[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullInt32ArrayWithLength()
         {
-            new SpookyHash().Update((Int32[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Int32[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestInt32()
         {
-            new SpookyHash().Update(new Int32[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Int32[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestInt32()
         {
-            new SpookyHash().Update(new Int32[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Int32[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthInt32()
         {
-            new SpookyHash().Update(new Int32[]{default(Int32)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new Int32[]{default(Int32)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthInt32()
         {
-            new SpookyHash().Update(new Int32[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Int32[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -1432,81 +1443,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32Int32()
         {
-            SpookyHasher.SpookyHash32(new Int32[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Int32[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32Int32()
         {
-            SpookyHasher.SpookyHash32(new Int32[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Int32[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Int32()
         {
-            SpookyHasher.SpookyHash32(new Int32[]{default(Int32)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new Int32[]{default(Int32)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32Int32()
         {
-            SpookyHasher.SpookyHash32(new Int32[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Int32[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64Int32()
         {
-            SpookyHasher.SpookyHash64(new Int32[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Int32[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64Int32()
         {
-            SpookyHasher.SpookyHash64(new Int32[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Int32[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Int32()
         {
-            SpookyHasher.SpookyHash64(new Int32[]{default(Int32)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new Int32[]{default(Int32)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64Int32()
         {
-            SpookyHasher.SpookyHash64(new Int32[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Int32[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128Int32()
         {
-            SpookyHasher.SpookyHash128(new Int32[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Int32[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128Int32()
         {
-            SpookyHasher.SpookyHash128(new Int32[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Int32[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Int32()
         {
-            SpookyHasher.SpookyHash128(new Int32[]{default(Int32)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new Int32[]{default(Int32)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128Int32()
         {
-            SpookyHasher.SpookyHash128(new Int32[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Int32[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -1538,43 +1545,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullInt64ArrayUpdate()
         {
-            new SpookyHash().Update((Int64[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Int64[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullInt64ArrayWithLength()
         {
-            new SpookyHash().Update((Int64[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Int64[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestInt64()
         {
-            new SpookyHash().Update(new Int64[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Int64[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestInt64()
         {
-            new SpookyHash().Update(new Int64[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Int64[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthInt64()
         {
-            new SpookyHash().Update(new Int64[]{default(Int64)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new Int64[]{default(Int64)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthInt64()
         {
-            new SpookyHash().Update(new Int64[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Int64[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -1618,81 +1630,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32Int64()
         {
-            SpookyHasher.SpookyHash32(new Int64[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Int64[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32Int64()
         {
-            SpookyHasher.SpookyHash32(new Int64[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Int64[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Int64()
         {
-            SpookyHasher.SpookyHash32(new Int64[]{default(Int64)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new Int64[]{default(Int64)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32Int64()
         {
-            SpookyHasher.SpookyHash32(new Int64[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Int64[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64Int64()
         {
-            SpookyHasher.SpookyHash64(new Int64[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Int64[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64Int64()
         {
-            SpookyHasher.SpookyHash64(new Int64[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Int64[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Int64()
         {
-            SpookyHasher.SpookyHash64(new Int64[]{default(Int64)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new Int64[]{default(Int64)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64Int64()
         {
-            SpookyHasher.SpookyHash64(new Int64[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Int64[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128Int64()
         {
-            SpookyHasher.SpookyHash128(new Int64[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Int64[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128Int64()
         {
-            SpookyHasher.SpookyHash128(new Int64[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Int64[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Int64()
         {
-            SpookyHasher.SpookyHash128(new Int64[]{default(Int64)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new Int64[]{default(Int64)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128Int64()
         {
-            SpookyHasher.SpookyHash128(new Int64[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Int64[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -1724,43 +1732,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullSingleArrayUpdate()
         {
-            new SpookyHash().Update((Single[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Single[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullSingleArrayWithLength()
         {
-            new SpookyHash().Update((Single[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Single[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestSingle()
         {
-            new SpookyHash().Update(new Single[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Single[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestSingle()
         {
-            new SpookyHash().Update(new Single[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Single[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthSingle()
         {
-            new SpookyHash().Update(new Single[]{default(Single)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new Single[]{default(Single)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthSingle()
         {
-            new SpookyHash().Update(new Single[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Single[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -1804,81 +1817,77 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32Single()
         {
-            SpookyHasher.SpookyHash32(new Single[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Single[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32Single()
         {
-            SpookyHasher.SpookyHash32(new Single[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Single[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Single()
         {
-            SpookyHasher.SpookyHash32(new Single[]{default(Single)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new Single[]{default(Single)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32Single()
         {
-            SpookyHasher.SpookyHash32(new Single[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Single[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64Single()
         {
-            SpookyHasher.SpookyHash64(new Single[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Single[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64Single()
         {
-            SpookyHasher.SpookyHash64(new Single[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Single[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Single()
         {
-            SpookyHasher.SpookyHash64(new Single[]{default(Single)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new Single[]{default(Single)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64Single()
         {
-            SpookyHasher.SpookyHash64(new Single[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Single[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128Single()
         {
-            SpookyHasher.SpookyHash128(new Single[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Single[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128Single()
         {
-            SpookyHasher.SpookyHash128(new Single[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Single[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Single()
         {
-            SpookyHasher.SpookyHash128(new Single[]{default(Single)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new Single[]{default(Single)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128Single()
         {
-            SpookyHasher.SpookyHash128(new Single[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Single[0], 0, -2));
         }
             }
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -1910,43 +1919,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullDoubleArrayUpdate()
         {
-            new SpookyHash().Update((Double[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Double[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullDoubleArrayWithLength()
         {
-            new SpookyHash().Update((Double[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((Double[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffestDouble()
         {
-            new SpookyHash().Update(new Double[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Double[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffestDouble()
         {
-            new SpookyHash().Update(new Double[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Double[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLengthDouble()
         {
-            new SpookyHash().Update(new Double[]{default(Double)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new Double[]{default(Double)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLengthDouble()
         {
-            new SpookyHash().Update(new Double[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new Double[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -1990,78 +2004,75 @@ namespace SpookyHashTesting
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest32Double()
         {
-            SpookyHasher.SpookyHash32(new Double[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Double[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest32Double()
         {
-            SpookyHasher.SpookyHash32(new Double[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Double[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength32Double()
         {
-            SpookyHasher.SpookyHash32(new Double[]{default(Double)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash32(new Double[]{default(Double)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength32Double()
         {
-            SpookyHasher.SpookyHash32(new Double[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash32(new Double[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest64Double()
         {
-            SpookyHasher.SpookyHash64(new Double[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Double[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest64Double()
         {
-            SpookyHasher.SpookyHash64(new Double[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Double[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength64Double()
         {
-            SpookyHasher.SpookyHash64(new Double[]{default(Double)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash64(new Double[]{default(Double)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength64Double()
         {
-            SpookyHasher.SpookyHash64(new Double[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash64(new Double[0], 0, -2));
         }
         
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest128Double()
         {
-            SpookyHasher.SpookyHash128(new Double[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Double[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest128Double()
         {
-            SpookyHasher.SpookyHash128(new Double[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Double[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength128Double()
         {
-            SpookyHasher.SpookyHash128(new Double[]{default(Double)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash128(new Double[]{default(Double)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength128Double()
         {
-            SpookyHasher.SpookyHash128(new Double[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash128(new Double[0], 0, -2));
         }
             }
 }

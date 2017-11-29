@@ -24,4 +24,23 @@
     <PackageReference Include="Mnemosyne" Version="1.0.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="SpookyHashOverloads.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SpookyHashOverloads.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="SpookyHashOverloads.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SpookyHashOverloads.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

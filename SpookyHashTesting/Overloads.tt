@@ -32,7 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SpookilySharp;
-using NUnit.Framework;
+using Xunit;
 
 namespace SpookyHashTesting
 {
@@ -43,7 +43,6 @@ namespace SpookyHashTesting
         var type = types[i];
         string name = type.Name;
 #>
-	[TestFixture]
 	public sealed partial class HashUpdateTests
 	{
         [Fact]
@@ -75,43 +74,48 @@ namespace SpookyHashTesting
             sh.Update(arr.Select(i => i));
         }
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Null<#=name#>ArrayUpdate()
         {
-            new SpookyHash().Update((<#=name#>[])null);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((<#=name#>[])null));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void Null<#=name#>ArrayWithLength()
         {
-            new SpookyHash().Update((<#=name#>[])null, 0, 0);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentNullException>(() => hash.Update((<#=name#>[])null, 0, 0));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest<#=name#>()
         {
-            new SpookyHash().Update(new <#=name#>[0], -1, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new <#=name#>[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest<#=name#>()
         {
-            new SpookyHash().Update(new <#=name#>[0], 40, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new <#=name#>[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength<#=name#>()
         {
-            new SpookyHash().Update(new <#=name#>[]{default(<#=name#>)}, 0, 2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentException>(() => hash.Update(new <#=name#>[]{default(<#=name#>)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength<#=name#>()
         {
-            new SpookyHash().Update(new <#=name#>[0], 0, -2);
+            SpookyHash hash = new SpookyHash();
+			Assert.Throws<ArgumentOutOfRangeException>(() => hash.Update(new <#=name#>[0], 0, -2));
         }
     }
-    [TestFixture]
+
     public sealed partial class HasherTests
     {
         [Fact]
@@ -158,28 +162,27 @@ namespace SpookyHashTesting
 #>
 
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeOffest<#=size#><#=name#>()
         {
-            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], -1, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], -1, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExcessiveOffest<#=size#><#=name#>()
         {
-            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], 40, 2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], 40, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentException))]
         public void ExcessiveLength<#=size#><#=name#>()
         {
-            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[]{default(<#=name#>)}, 0, 2);
+            Assert.Throws<ArgumentException>(() => SpookyHasher.SpookyHash<#=size#>(new <#=name#>[]{default(<#=name#>)}, 0, 2));
         }
+
         [Fact]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeLength<#=size#><#=name#>()
         {
-            SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], 0, -2);
+            Assert.Throws<ArgumentOutOfRangeException>(() => SpookyHasher.SpookyHash<#=size#>(new <#=name#>[0], 0, -2));
         }
         <#}#>
     }
