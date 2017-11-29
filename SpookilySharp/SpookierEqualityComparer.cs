@@ -34,9 +34,6 @@ namespace SpookilySharp
             // Not worth using a concurrent dictionary or (importing Ariadne or similar for < 4.0) here
             // as we should expect very few concurrent writes.
             // Note: Hashtable is documented as thread-safe for single-writer, multiple-reader.
-            // Dictionary<TKey, TValue> as implemented in both .NET and Mono is safe for that when
-            // both key and value types are capable of atomic read or write , but not documented as such,
-            // so we play it safe.
             // Analysis disable once StaticFieldInGenericType
             private static readonly Hashtable Store = new Hashtable();
             public static bool? KnownQuality(Type type)
