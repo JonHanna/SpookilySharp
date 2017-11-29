@@ -32,20 +32,7 @@ namespace SpookilySharp
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
         [CLSCompliant(false)]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
-            Justification = "More readable with the repeated blocks of the mixing.")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1118:ParameterMustNotSpanMultipleLines",
-            Justification = "Necessary to allow conditional compilation of extension methods.")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1115:ParameterMustFollowComma",
-            Justification = "Necessary to allow conditional compilation of extension methods.")]
-        public static uint Rehash(
-#if !NET_20 && !NET_30
-            this
-#endif
-            uint message, uint seed)
+        public static uint Rehash(this uint message, uint seed)
         {
             // Fast-path equivalent of calling SpookyHash.Hash32 with a uint, with all paths not taken by such values
             // removed, all paths that don't affect the output removed, and the remaining code folded into constants or
@@ -73,11 +60,7 @@ namespace SpookilySharp
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
         [CLSCompliant(false)]
-        public static uint Rehash(
-#if !NET_20 && !NET_30
-            this
-#endif
-            uint message)
+        public static uint Rehash(this uint message)
         {
             return Rehash(message, 0xDEADBEEF);
         }
@@ -89,17 +72,7 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1118:ParameterMustNotSpanMultipleLines",
-            Justification = "Necessary to allow conditional compilation of extension methods.")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1115:ParameterMustFollowComma",
-            Justification = "Necessary to allow conditional compilation of extension methods.")]
-        public static int Rehash(
-#if !NET_20 && !NET_30
-            this
-#endif
-            int message, int seed)
+        public static int Rehash(this int message, int seed)
         {
             return unchecked((int)Rehash((uint)message, (uint)seed));
         }
@@ -110,11 +83,7 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
-        public static int Rehash(
-#if !NET_20 && !NET_30
-            this
-#endif
-            int message)
+        public static int Rehash(this int message)
         {
             return unchecked(Rehash(message, (int)0xDEADBEEF));
         }
@@ -127,20 +96,7 @@ namespace SpookilySharp
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
         [CLSCompliant(false)]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
-            Justification = "More readable with the repeated blocks of the mixing.")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1118:ParameterMustNotSpanMultipleLines",
-            Justification = "Necessary to allow conditional compilation of extension methods.")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1115:ParameterMustFollowComma",
-            Justification = "Necessary to allow conditional compilation of extension methods.")]
-        public static ulong Rehash(
-#if !NET_20 && !NET_30
-            this
-#endif
-            ulong message, ulong seed)
+        public static ulong Rehash(this ulong message, ulong seed)
         {
             // Fast-path equivalent of calling SpookyHash.Hash64 with a ulong, with all paths not taken by such values
             // removed, all paths that don't affect the output removed, and the remaining code folded into constants or
@@ -169,11 +125,7 @@ namespace SpookilySharp
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
         [CLSCompliant(false)]
-        public static ulong Rehash(
-#if !NET_20 && !NET_30
-            this
-#endif
-            ulong message)
+        public static ulong Rehash(this ulong message)
         {
             return unchecked(Rehash(message, SpookyHash.SpookyConst));
         }
@@ -185,17 +137,7 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1118:ParameterMustNotSpanMultipleLines",
-            Justification = "Necessary to allow conditional compilation of extension methods.")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1115:ParameterMustFollowComma",
-            Justification = "Necessary to allow conditional compilation of extension methods.")]
-        public static long Rehash(
-#if !NET_20 && !NET_30
-            this
-#endif
-            long message, long seed)
+        public static long Rehash(this long message, long seed)
         {
             return unchecked((long)Rehash((ulong)message, (ulong)seed));
         }
@@ -206,11 +148,7 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall collision-risk of a poor hash, but does improve poor hashes that
         /// suffer particularly in the lower bits, which includes a great many that are to be found in .NET and
         /// Mono.</remarks>
-        public static long Rehash(
-#if !NET_20 && !NET_30
-            this
-#endif
-            long message)
+        public static long Rehash(this long message)
         {
             return unchecked(Rehash(message, (long)SpookyHash.SpookyConst));
         }

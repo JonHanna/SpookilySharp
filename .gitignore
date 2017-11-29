@@ -17,3 +17,4 @@ StyleCopViolations.xml
 /Documentation/*.shfbproj_*
 Help
 deleteme.*
+*.user

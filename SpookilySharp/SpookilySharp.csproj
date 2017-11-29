@@ -1,234 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <ProjectGuid>{B010C38D-0BC9-4859-9433-0890B03CF6BE}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">Framework46</Platform>
-    <OutputType>Library</OutputType>
-    <RootNamespace>SpookilySharp</RootNamespace>
-    <AssemblyName>SpookilySharp</AssemblyName>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <NoWin32Manifest>False</NoWin32Manifest>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <NoStdLib>False</NoStdLib>
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <IntermediateOutputPath>obj\$(Configuration)\$(Platform)\</IntermediateOutputPath>
-    <OutputPath>bin\$(Configuration)\$(Platform)\</OutputPath>
-    <DocumentationFile>$(OutputPath)\SpookilySharp.xml</DocumentationFile>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <BaseAddress>4194304</BaseAddress>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <FileAlignment>4096</FileAlignment>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DelaySign>false</DelaySign>
-    <SourceAnalysisOverrideSettingsFile>D:\SpookilySharp\SpookilySharp\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
-    <Prefer32Bit>False</Prefer32Bit>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Spookily Sharp</PackageId>
+    <Version>1.2</Version>
+    <Authors>Jon Hanna</Authors>
+    <Company />
+    <Product>Spookily Sharp</Product>
+    <Copyright>© 2014–2017 Jon Hanna</Copyright>
+    <Description>.NET/Mono implementation of SpookyHash</Description>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Framework46' ">
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <DefineConstants>NET_46</DefineConstants>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Framework452' ">
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <DefineConstants>NET_452</DefineConstants>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Framework451' ">
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <DefineConstants>NET_451</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Framework45' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DefineConstants>NET_45</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Framework40' ">
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DefineConstants>NET_40</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Framework35' ">
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <DefineConstants>NET_35</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Framework30' ">
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
-    <DefineConstants>NET_30</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'Framework20' ">
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <DefineConstants>NET_20</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
-    <DefineConstants>$(DefineConstants);DEBUG;CODE_ANALYSIS</DefineConstants>
-    <RunCodeAnalysis>True</RunCodeAnalysis>
-    <CodeAnalysisRules>-Microsoft.Design#CA2210;-Microsoft.Usage#CA2233</CodeAnalysisRules>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-    <CodeAnalysisRules>-Microsoft.Performance#CA1822;-Microsoft.Usage#CA2233</CodeAnalysisRules>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Signing' ">
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-    <Optimize>True</Optimize>
-    <RunCodeAnalysis>False</RunCodeAnalysis>
-    <CodeAnalysisRules>-Microsoft.Performance#CA1822;-Microsoft.Usage#CA2233</CodeAnalysisRules>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Signing' ">
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework46' ">
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework46' ">
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework46' ">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework452' ">
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework452' ">
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework452' ">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework451' ">
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework451' ">
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework451' ">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework45' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework45' ">
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework45' ">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework40' ">
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework40' ">
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework40' ">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework35' ">
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework35' ">
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework35' ">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework30' ">
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework30' ">
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework30' ">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Framework20' ">
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Framework20' ">
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Signing|Framework20' ">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Assembly Signing\hackcraft.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Mnemosyne">
-      <HintPath>..\packages\Mnemosyne.1.0.0.1\lib\Mnemosyne.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
+    <PackageReference Include="Mnemosyne" Version="1.0.0.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="HashCode128.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Redistributor.cs" />
-    <Compile Include="SpookierEqualityComparer.cs" />
-    <Compile Include="SpookyHash.cs" />
-    <Compile Include="SpookyHasher.cs" />
-    <Compile Include="SpookyHashOverloads.generated.cs">
-      <DependentUpon>SpookyHashOverloads.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
-    </Compile>
-    <Compile Include="SpookyStringEqualityComparer.cs" />
-    <Compile Include="ExceptionHelper.cs" />
-    <Compile Include="WellDistributedHashAttribute.cs" />
-    <Compile Include="HashedStream.cs" />
-    <Compile Include="ExcludeFromCodeCoverageAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="CodeAnalysisDictionary.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SpookyHashOverloads.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SpookyHashOverloads.generated.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <StyleCopAdditionalAddinPaths Include="..\packages\StyleCopPlus.MSBuild.4.7.49.0\tools">
-      <Visible>False</Visible>
-    </StyleCopAdditionalAddinPaths>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <TextStylePolicy inheritsSet="null" scope="text/x-csharp" />
-          <CSharpFormattingPolicy IndentSwitchBody="True" SimplePropertyFormatting="ForceNewLine" AutoPropertyFormatting="ForceOneLine" IndentPreprocessorDirectives="False" AnonymousMethodBraceStyle="NextLine" PropertyBraceStyle="NextLine" PropertyGetBraceStyle="NextLine" PropertySetBraceStyle="NextLine" SimpleGetBlockFormatting="ForceOneLine" SimpleSetBlockFormatting="ForceOneLine" EventBraceStyle="NextLine" EventAddBraceStyle="NextLine" EventRemoveBraceStyle="NextLine" StatementBraceStyle="NextLine" ElseNewLinePlacement="NewLine" CatchNewLinePlacement="NewLine" FinallyNewLinePlacement="NewLine" BeforeMethodDeclarationParentheses="False" BeforeMethodCallParentheses="False" BeforeConstructorDeclarationParentheses="False" BeforeIndexerDeclarationBracket="False" BeforeDelegateDeclarationParentheses="False" AfterDelegateDeclarationParameterComma="True" NewParentheses="False" IfParentheses="False" WhileParentheses="False" ForParentheses="False" ForeachParentheses="False" CatchParentheses="False" SwitchParentheses="False" LockParentheses="False" UsingParentheses="False" SpaceAroundUnsafeArrowOperator="True" SpacesBeforeBrackets="False" BlankLinesBeforeUsings="1" BlankLinesAroundRegion="0" BlankLinesInsideRegion="0" MethodCallArgumentWrapping="WrapIfTooLong" NewLineAferMethodCallOpenParentheses="NewLine" MethodCallClosingParenthesesOnNewLine="SameLine" MethodDeclarationParameterWrapping="WrapIfTooLong" NewLineAferMethodDeclarationOpenParentheses="NewLine" MethodDeclarationClosingParenthesesOnNewLine="SameLine" AlignToFirstMethodDeclarationParameter="False" IndexerDeclarationParameterWrapping="WrapIfTooLong" NewLineAferIndexerDeclarationOpenBracket="NewLine" IndexerDeclarationClosingBracketOnNewLine="SameLine" AlignToFirstIndexerDeclarationParameter="False" IndexerArgumentWrapping="WrapIfTooLong" NewLineAferIndexerOpenBracket="NewLine" IndexerClosingBracketOnNewLine="SameLine" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
-          <TextStylePolicy FileWidth="120" NoTabsAfterNonTabs="True" EolMarker="Unix" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
-          <TextStylePolicy inheritsSet="null" scope="application/xml" />
-          <XmlFormattingPolicy inheritsSet="Mono" inheritsScope="application/xml" scope="application/xml">
-            <DefaultFormat ContentIndentString="    " AttributesIndentString="    " />
-          </XmlFormattingPolicy>
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
-  <Import Project="..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" />
+
 </Project>

@@ -24,9 +24,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Security;
-#if NET_20 || NET_30 || NET_35
 using System.Security.Permissions;
-#endif
 using System.Text.RegularExpressions;
 using Mnemosyne;
 
@@ -42,8 +40,6 @@ namespace SpookilySharp
         private const int BlockSize = NumVars * 8;
         private const int BufSize = 2 * BlockSize;
         private static readonly bool AllowUnalignedRead = AttemptDetectAllowUnalignedRead();
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
-            Justification = "Many exceptions possible, all of them survivable.")]
         [ExcludeFromCodeCoverage]
         private static bool AttemptDetectAllowUnalignedRead()
         {
@@ -65,17 +61,17 @@ namespace SpookilySharp
             }
         }
         [SecuritySafeCritical]
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
-            Justification = "Many exceptions possible, all of them survivable.")]
         [ExcludeFromCodeCoverage]
         private static bool FindAlignSafetyFromUname()
         {
-            var startInfo = new ProcessStartInfo("uname", "-p");
-            startInfo.CreateNoWindow = true;
-            startInfo.ErrorDialog = false;
-            startInfo.LoadUserProfile = false;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.UseShellExecute = false;
+            var startInfo = new ProcessStartInfo("uname", "-p")
+            {
+                CreateNoWindow = true,
+                ErrorDialog = false,
+                LoadUserProfile = false,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
             try
             {
                 using (var proc = new Process())
@@ -156,15 +152,6 @@ namespace SpookilySharp
         /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
         /// may have incorrect results.</exception>
         [CLSCompliant(false), SecurityCritical]
-        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference",
-            Justification = "Mirroring C++ interface")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
-            Justification = "More readable with the repeated blocks of the mixing.")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.SpacingRules", "SA1025:CodeMustNotContainMultipleWhitespaceInARow",
-            Justification = "More readable with the repeated blocks of the mixing.")]
-        [SuppressMessage("Microsoft.Security", "CA2116:AptcaMethodsShouldOnlyCallAptcaMethods",
-            Justification = "Method already protected by SecurityCritical")]
         public static unsafe void Hash128(void* message, int length, ref ulong hash1, ref ulong hash2)
         {
             if((int)message == 0)
@@ -305,14 +292,6 @@ namespace SpookilySharp
             return (uint)Hash64(message, length, seed);
         }
         [SecurityCritical]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
-            Justification = "More readable with the repeated blocks of the mixing.")]
-        [SuppressMessage("StyleCopPlus.StyleCopPlusRules",
-            "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "One of the two main methods of the algorithm (this is a fastpath version); "
-            + "inherenly large, and won't break into calls into other methods as this would gain little, "
-            + "and cause a mild performance hit.")]
         private static unsafe void Short(void* message, int length, ref ulong hash1, ref ulong hash2, bool skipTest)
         {
             ulong* p64;
@@ -566,15 +545,6 @@ namespace SpookilySharp
         /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
         /// may have incorrect results.</exception>
         [CLSCompliant(false), SecurityCritical]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
-            Justification = "More readable with the repeated blocks of the mixing.")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.SpacingRules", "SA1025:CodeMustNotContainMultipleWhitespaceInARow",
-            Justification = "More readable with the repeated blocks of the mixing.")]
-        [SuppressMessage("StyleCopPlus.StyleCopPlusRules",
-            "SP2101:MethodMustNotContainMoreLinesThan",
-            Justification = "One of the two main methods of the algorithm; inherenly large, and won't break into calls"
-            + "into other methods as this would gain little, and cause a mild performance hit.")]
         public unsafe void Update(void* message, int length)
         {
             if((int)message == 0)
@@ -713,13 +683,9 @@ namespace SpookilySharp
         /// multiple times while the hash is added to.</summary>
         /// <param name="hash1">The first half of the 128-bit hash.</param>
         /// <param name="hash2">The second half of the 128-bit hash.</param>
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", Justification = "Mirroring C++ interface")]
-        [SuppressMessage("Microsoft.Security", "CA2116:AptcaMethodsShouldOnlyCallAptcaMethods",
-            Justification = "Method already protected by SecurityCritical")]
         public void Final(out long hash1, out long hash2)
         {
-            ulong uhash1, uhash2;
-            Final(out uhash1, out uhash2);
+            Final(out ulong uhash1, out ulong uhash2);
             hash1 = (long)uhash1;
             hash2 = (long)uhash2;
         }
@@ -729,8 +695,7 @@ namespace SpookilySharp
         /// <returns>A <see cref="HashCode128"/> representing the 128-bit hash.</returns>
         public HashCode128 Final()
         {
-            ulong hash1, hash2;
-            Final(out hash1, out hash2);
+            Final(out ulong hash1, out ulong hash2);
             return new HashCode128(hash1, hash2);
         }
 
@@ -741,12 +706,6 @@ namespace SpookilySharp
         /// <remarks>This is not a CLS-compliant method, and is not accessible by some .NET languages.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", Justification = "Mirroring C++ interface")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
-            Justification = "More readable with the repeated blocks of the mixing.")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.SpacingRules", "SA1025:CodeMustNotContainMultipleWhitespaceInARow",
-            Justification = "More readable with the repeated blocks of the mixing.")]
         public unsafe void Final(out ulong hash1, out ulong hash2)
         {
             if (_length < BufSize)
@@ -835,11 +794,8 @@ namespace SpookilySharp
             hash2 = h1;
             hash1 = h0;
         }
-#if NET_20 || NET_30 || NET_35
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
-#else
         [SecurityCritical]
-#endif
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
         {
             ExceptionHelper.CheckNotNull(info, "info");

@@ -16,8 +16,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 // Analysis disable MemberHidesStaticFromOuterClass
 namespace SpookilySharp
@@ -89,14 +87,11 @@ namespace SpookilySharp
         /// <remarks>This cannot improve the overall risk of collision (indeed, will make it slightly worse), it can
         /// help when uses of hash codes are particularly sensitive to collisions in the one section of bits, e.g. with
         /// power-of-two hash tables.</remarks>
-        public static IEqualityComparer<T> WellDistributed<T>(
-#if !NET_20 && !NET_30
-            this
-#endif
-            IEqualityComparer<T> comparer)
+        public static IEqualityComparer<T> WellDistributed<T>(this IEqualityComparer<T> comparer)
         {
-            if(IntPtr.Size == 8 && typeof(T) == typeof(string) && EqualityComparer<string>.Default.Equals(comparer))
+            if (IntPtr.Size == 8 && typeof(T) == typeof(string) && EqualityComparer<string>.Default.Equals(comparer))
                 return (IEqualityComparer<T>)(object)new SpookyStringEqualityComparer();
+
             return IsGood<T>(comparer) ? comparer : new WellDistributedEqualityComparer<T>(comparer);
         }
 
@@ -111,8 +106,6 @@ namespace SpookilySharp
             return good;
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
-            Justification = "Allows for type inference.")]
         private static bool DetermineGood<T>(IEqualityComparer<T> comparer, Type type)
         {
             if(EqualityComparer<T>.Default.Equals(comparer))

@@ -246,7 +246,7 @@ namespace SpookyHashTesting
                 Assert.True(hashOut.WasMoved);
             }
         }
-        [Fact]
+        [Fact(Skip="Need a new way to test this.")]
         public void TimeoutRead()
         {
             WebRequest wr = WebRequest.Create("http://www.google.com/");
@@ -260,7 +260,7 @@ namespace SpookyHashTesting
                 }
             }
         }
-        [Fact]
+        [Fact(Skip = "Need a new way to test this.")]
         public void TimeoutWrite()
         {
             WebRequest wr = WebRequest.Create("http://www.google.com/");

@@ -111,8 +111,6 @@ namespace SpookilySharp
         /// <param name="y">The array to compare.</param>
         /// <returns>True if the two sequences of characters are identical, or both are null, false otherwise.</returns>
         [SecuritySafeCritical]
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
-            Justification = "Mirror the similar, interface-defined, methods.")]
         public unsafe bool Equals(string x, char[] y)
         {
             if(x == null)
@@ -135,8 +133,6 @@ namespace SpookilySharp
         /// <param name="y">The string to compare.</param>
         /// <returns>True if the two sequences of characters are identical, or both are null, false otherwise.</returns>
         [SecuritySafeCritical]
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic",
-            Justification = "Mirror the similar, interface-defined, methods.")]
         public unsafe bool Equals(char[] x, string y)
         {
             if(x == null)

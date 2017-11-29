@@ -36,18 +36,12 @@ namespace SpookilySharp
             throw new FormatException("The string did not contain a 32-digit hexadecimal number.");
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage",
-            "CA2208:InstantiateArgumentExceptionsCorrectly",
-            Justification = "Helper method called by methods with such a parameter")]
         private static void StartIndexOutOfRange()
         {
             // Analysis disable once NotResolvedInText
             throw new ArgumentOutOfRangeException("startIndex");
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage",
-            "CA2208:InstantiateArgumentExceptionsCorrectly",
-            Justification = "Helper method called by methods with such a parameter")]
         private static void NegativeLength()
         {
             // Analysis disable once NotResolvedInText

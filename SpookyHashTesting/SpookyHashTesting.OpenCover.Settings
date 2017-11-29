@@ -1,4 +1,0 @@
-﻿<OpenCoverSettings>
-  <Rule>+[SpookilySharp]*</Rule>
-  <Rule>-" -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All</Rule>
-</OpenCoverSettings>

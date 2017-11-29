@@ -85,9 +85,6 @@ namespace SpookilySharp
         /// <remarks>The value passed to <paramref name="s"/> must be a 32-digit hexadecimal number for this to succeed.
         /// Leading, trailing and contained whitespace is allowed. A leading <c>0x</c> is permitted, but not required.
         /// Leading zeros must not be omitted.</remarks>
-        [SuppressMessage("Microsoft.StyleCop.CSharp.ReadabilityRules",
-            "SA1107:CodeMustNotContainMultipleStatementsOnOneLine",
-            Justification = "More readable with multiple case statements.")]
         public static bool TryParse(string s, out HashCode128 result)
         {
             if(s != null)
@@ -188,8 +185,7 @@ namespace SpookilySharp
         public static HashCode128 Parse(string s)
         {
             ExceptionHelper.CheckNotNullString(s);
-            HashCode128 ret;
-            if(!TryParse(s, out ret))
+            if(!TryParse(s, out HashCode128 ret))
                 ExceptionHelper.BadHashCode128Format();
             return ret;
         }
@@ -244,8 +240,6 @@ namespace SpookilySharp
 
         /// <summary>Returns a <see cref="string"/> that represents the current <see cref="HashCode128"/>.</summary>
         /// <returns>A <see cref="string"/> that represents the hash code as a 32-digit hexadecimal number.</returns>
-        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider",
-            Justification = "Irrelevant to formatstring in question.")]
         public override string ToString()
         {
             return _hash1.ToString("X16") + _hash2.ToString("X16");
