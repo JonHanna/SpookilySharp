@@ -22,7 +22,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mnemosyne" Version="1.1.0-beta" />
+    <Reference Include="Mnemosyne">
+      <HintPath>..\..\Mnemosyne\MnemosyneKnownGoodCpBlk\bin\Release\Mnemosyne.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
