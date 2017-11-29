@@ -41,7 +41,9 @@ namespace SpookilySharp
             public static void Record(Type type, bool good)
             {
                 lock(Store)
+                {
                     Store[type] = good;
+                }
             }
         }
 
@@ -90,7 +92,9 @@ namespace SpookilySharp
         public static IEqualityComparer<T> WellDistributed<T>(this IEqualityComparer<T> comparer)
         {
             if (IntPtr.Size == 8 && typeof(T) == typeof(string) && EqualityComparer<string>.Default.Equals(comparer))
+            {
                 return (IEqualityComparer<T>)(object)new SpookyStringEqualityComparer();
+            }
 
             return IsGood<T>(comparer) ? comparer : new WellDistributedEqualityComparer<T>(comparer);
         }
@@ -100,7 +104,10 @@ namespace SpookilySharp
             Type type = comparer.GetType();
             bool? knownGood = HashQualityStore<T>.KnownQuality(type);
             if(knownGood.HasValue)
+            {
                 return knownGood.Value;
+            }
+
             bool good = DetermineGood(comparer, type);
             HashQualityStore<T>.Record(type, good);
             return good;
@@ -109,8 +116,11 @@ namespace SpookilySharp
         private static bool DetermineGood<T>(IEqualityComparer<T> comparer, Type type)
         {
             if(EqualityComparer<T>.Default.Equals(comparer))
+            {
                 return typeof(T).GetMethod("GetHashCode", new Type[0])
-                    .GetCustomAttributes(typeof(WellDistributedHashAttribute), false).Length == 1;
+                           .GetCustomAttributes(typeof(WellDistributedHashAttribute), false).Length == 1;
+            }
+
             var imap = type.GetInterfaceMap(typeof(IEqualityComparer<T>));
             int idx = imap.InterfaceMethods[0].ReturnType == typeof(int) ? 0 : 1;
             return imap.TargetMethods[idx].GetCustomAttributes(typeof(WellDistributedHashAttribute), false).Length != 0;

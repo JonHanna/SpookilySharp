@@ -41,14 +41,18 @@ namespace SpookyHashTesting
                 a = seed1;
                 b = seed2;
                 fixed(byte* buf = bufArr)
+                {
                     SpookyHash.Hash128(buf, i, ref a, ref b);
+                }
 
                 // all as one piece
                 c = 0xdeadbeefdeadbeef;
                 d = 0xbaceba11baceba11;
                 state.Init(seed1, seed2);
                 fixed(byte* buf = bufArr)
+                {
                     state.Update(buf, i);
+                }
                 state.Final(out c, out d);
 
                 Assert.Equal(a, c);

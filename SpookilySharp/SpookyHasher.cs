@@ -30,7 +30,9 @@ namespace SpookilySharp
             string message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             fixed(char* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length << 1, ref seed0, ref seed1);
+            }
             return new HashCode128(seed0, seed1);
         }
 
@@ -52,7 +54,9 @@ namespace SpookilySharp
             this string message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if (message == null)
+            {
                 return default(HashCode128);
+            }
 
             ExceptionHelper.CheckBounds(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, seed0, seed1));
@@ -103,7 +107,9 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this string message, int startIndex, int length)
         {
             if (message == null)
+            {
                 return default(HashCode128);
+            }
 
             ExceptionHelper.CheckBounds(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
@@ -122,7 +128,9 @@ namespace SpookilySharp
         private static unsafe long SpookyHash64Unchecked(string message, int startIndex, int length, long seed)
         {
             fixed(char* ptr = message)
+            {
                 return unchecked((long)SpookyHash.Hash64(ptr + startIndex, length << 1, (ulong)seed));
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of a <see cref="string"/>.</summary>
@@ -140,7 +148,9 @@ namespace SpookilySharp
         public static unsafe long SpookyHash64(this string message, int startIndex, int length, long seed)
         {
             if (message == null)
+            {
                 return 0L;
+            }
 
             ExceptionHelper.CheckBounds(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, seed);
@@ -160,7 +170,9 @@ namespace SpookilySharp
         public static unsafe long SpookyHash64(this string message, int startIndex, int length)
         {
             if (message == null)
+            {
                 return 0L;
+            }
 
             ExceptionHelper.CheckBounds(message, startIndex, length);
             return SpookyHash64Unchecked(message, 0, message.Length, unchecked((long)SpookyHash.SpookyConst));
@@ -209,7 +221,9 @@ namespace SpookilySharp
         public static int SpookyHash32(this string message, int startIndex, int length, int seed)
         {
             if (message == null)
+            {
                 return 0;
+            }
 
             ExceptionHelper.CheckBounds(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
@@ -229,7 +243,9 @@ namespace SpookilySharp
         public static int SpookyHash32(this string message, int startIndex, int length)
         {
             if (message == null)
+            {
                 return 0;
+            }
 
             ExceptionHelper.CheckBounds(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
@@ -272,8 +288,12 @@ namespace SpookilySharp
             var hash = new SpookyHash(seed0, seed1);
             var buffer = new byte[4096];
             fixed (void* ptr = buffer)
+            {
                 for (int len = stream.Read(buffer, 0, 4096); len != 0; len = stream.Read(buffer, 0, 4096))
+                {
                     hash.Update(ptr, len);
+                }
+            }
             return hash.Final();
         }
 
@@ -352,8 +372,12 @@ namespace SpookilySharp
             var hash = new SpookyHash(seed, seed);
             var buffer = new byte[4096];
             fixed (void* ptr = buffer)
+            {
                 for (int len = stream.Read(buffer, 0, 4096); len != 0; len = stream.Read(buffer, 0, 4096))
+                {
                     hash.Update(ptr, len);
+                }
+            }
             hash.Final(out seed, out seed);
             return seed;
         }

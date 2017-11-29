@@ -83,17 +83,29 @@ namespace SpookilySharp
         public unsafe bool Equals(char[] x, char[] y)
         {
             if(x == y)
+            {
                 return true;
+            }
             if(x == null || y == null)
+            {
                 return false;
+            }
+
             int len = x.Length;
             if(y.Length != len)
+            {
                 return false;
+            }
             if(len == 0)
+            {
                 return true;
+            }
+
             fixed(char* px = x)
                 fixed(char* py = y)
+                {
                     return Equals(px, py, len);
+                }
         }
 
         /// <summary>Returns true if the two <see cref="string"/>s are identical.</summary>
@@ -114,17 +126,29 @@ namespace SpookilySharp
         public unsafe bool Equals(string x, char[] y)
         {
             if(x == null)
+            {
                 return y == null;
+            }
             if(y == null)
+            {
                 return false;
+            }
+
             int len = x.Length;
             if(y.Length != len)
+            {
                 return false;
+            }
             if(len == 0)
+            {
                 return true;
+            }
+
             fixed(char* px = x)
                 fixed(char* py = y)
+                {
                     return Equals(px, py, len);
+                }
         }
 
         /// <summary>Returns true if the string and array of characters contain the same sequence of characters, or both
@@ -136,17 +160,29 @@ namespace SpookilySharp
         public unsafe bool Equals(char[] x, string y)
         {
             if(x == null)
+            {
                 return y == null;
+            }
             if(y == null)
+            {
                 return false;
+            }
+
             int len = x.Length;
             if(y.Length != len)
+            {
                 return false;
+            }
             if(len == 0)
+            {
                 return true;
+            }
+
             fixed(char* px = x)
                 fixed(char* py = y)
+                {
                     return Equals(px, py, len);
+                }
         }
         [SecurityCritical]
         private static unsafe bool Equals(char* pX, char* pY, int length)
@@ -157,78 +193,133 @@ namespace SpookilySharp
             {
                 int move = length & ~1;
                 if(*(pX + move) != *(pY + move))
+                {
                     return false;
+                }
             }
             int intLen = length >> 1;
             if(intLen == 0)
+            {
                 return true;
+            }
+
             switch(intLen & 15)
             {
                 case 0:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 15;
                 case 15:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 14;
                 case 14:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 13;
                 case 13:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 12;
                 case 12:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 11;
                 case 11:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 10;
                 case 10:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 9;
                 case 9:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 8;
                 case 8:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 7;
                 case 7:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 6;
                 case 6:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 5;
                 case 5:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 4;
                 case 4:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 3;
                 case 3:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 2;
                 case 2:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     goto case 1;
                 case 1:
                     if(*ipX++ != *ipY++)
+                    {
                         return false;
+                    }
+
                     if((intLen -= 16) > 0)
+                    {
                         goto case 0;
+                    }
                     break;
             }
             return true;

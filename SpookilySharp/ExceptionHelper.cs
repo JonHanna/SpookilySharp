@@ -23,7 +23,9 @@ namespace SpookilySharp
         public static void CheckNotNull<T>(T arg, string name) where T : class
         {
             if(arg == null)
+            {
                 throw new ArgumentNullException(name);
+            }
         }
 
         public static void CheckNotNullString(string arg)
@@ -61,13 +63,17 @@ namespace SpookilySharp
         private static void CheckNotNegativeLength(int length)
         {
             if(length < 0)
+            {
                 NegativeLength();
+            }
         }
 
         private static void CheckIndexInRange(int startIndex, int length)
         {
             if((uint)startIndex >= (uint)length)
+            {
                 StartIndexOutOfRange();
+            }
         }
 
         public static void CheckArray<T>(T[] message, int startIndex, int length)
@@ -76,7 +82,9 @@ namespace SpookilySharp
             int len = message.Length;
             CheckIndexInRange(startIndex, len);
             if(startIndex + length > len)
+            {
                 PastArrayBounds();
+            }
         }
 
         public static void CheckArrayIncNull<T>(T[] message, int startIndex, int length)
@@ -90,7 +98,9 @@ namespace SpookilySharp
             int len = message.Length;
             CheckIndexInRange(startIndex, len);
             if(startIndex + length > len)
+            {
                 PastStringBounds();
+            }
         }
         public static void CheckString(string message, int startIndex, int length)
         {
@@ -100,12 +110,16 @@ namespace SpookilySharp
         public static void CheckMessageNotNull<T>(T message) where T : class
         {
             if(message == null)
+            {
                 throw new ArgumentNullException("message");
+            }
         }
         public static void CheckNotNull(Stream stream)
         {
             if(stream == null)
+            {
                 throw new ArgumentNullException("stream");
+            }
         }
     }
 }

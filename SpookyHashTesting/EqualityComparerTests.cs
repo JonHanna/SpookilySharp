@@ -31,7 +31,9 @@ namespace SpookyHashTesting
                 yield return new SpookyStringEqualityComparer(true);
                 var rand = new Random();
                 for(int i = 0; i != 8; ++i)
+                {
                     yield return new SpookyStringEqualityComparer(rand.Next(int.MinValue, int.MaxValue));
+                }
             }
         }
         [Fact]

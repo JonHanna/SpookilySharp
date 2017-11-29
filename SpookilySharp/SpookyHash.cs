@@ -85,6 +85,7 @@ namespace SpookilySharp
                         {
                             string trimmed = line.Trim();
                             if (trimmed.Length != 0)
+                            {
                                 switch (trimmed)
                                 {
                                     case "amd64":
@@ -93,6 +94,7 @@ namespace SpookilySharp
                                     case "x64":
                                         return true; // Known to tolerate unaligned-reads well.
                                 }
+                            }
                         }
                     }
                 }
@@ -116,6 +118,7 @@ namespace SpookilySharp
                         {
                             string trimmed = line.Trim();
                             if (trimmed.Length != 0)
+                            {
                                 switch (trimmed)
                                 {
                                     case "amd64":
@@ -129,6 +132,7 @@ namespace SpookilySharp
                                     default:
                                         return new Regex(@"i\d86").IsMatch(trimmed);
                                 }
+                            }
                         }
                     }
                 }
@@ -195,6 +199,7 @@ namespace SpookilySharp
                 }
             }
             else
+            {
                 while (p64 < end)
                 {
                     Memory.Copy(buf, p64, BlockSize);
@@ -213,10 +218,14 @@ namespace SpookilySharp
                     h11 += buf[11];  h1 ^= h9;    h10 ^= h11;  h11 = h11 << 46 | h11 >> -46;  h10 += h0;
                     p64 += NumVars;
                 }
+            }
+
             int remainder = length - (int)((byte*)end - (byte*)message);
 
             if(remainder != 0)
+            {
                 Memory.Copy(buf, end, remainder);
+            }
             Memory.Zero(((byte*)buf) + remainder, BlockSize - remainder);
             ((byte*)buf)[BlockSize - 1] = (byte)remainder;
 
@@ -504,7 +513,9 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckString(message, startIndex, length);
             fixed(char* ptr = message)
+            {
                 Update(ptr + startIndex, length << 1);
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -530,11 +541,19 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             foreach(string item in message)
+            {
                 if(item == null)
+                {
                     Update(SpookyConst); // Just to make sure we produce a different hash for this case.
+                }
                 else
+                {
                     fixed(char* ptr = item)
+                    {
                         Update(ptr, item.Length << 1);
+                    }
+                }
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -548,15 +567,23 @@ namespace SpookilySharp
         public unsafe void Update(void* message, int length)
         {
             if((int)message == 0)
+            {
                 throw new ArgumentNullException("message");
+            }
+
             if(length == 0)
+            {
                 return;
+            }
+
             ulong h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11;
             int newLength = length + _remainder;
             if (newLength < BufSize)
             {
                 fixed(ulong* uptr = _data)
+                {
                     Memory.Copy(((byte*)uptr) + _remainder, message, length);
+                }
                 _length = length + _length;
                 _remainder = newLength;
                 return;
@@ -621,11 +648,14 @@ namespace SpookilySharp
                     length -= prefix;
                 }
                 else
+                {
                     p64 = (ulong*)message;
+                }
 
                 ulong* end = p64 + ((length / BlockSize) * NumVars);
                 byte remainder = (byte)(length - ((byte*)end - ((byte*)p64)));
                 if(AllowUnalignedRead || (((long)message) & 7) == 0)
+                {
                     while (p64 < end)
                     {
                         h0  += p64[0];  h2  ^= h10; h11 ^= h0;  h0 =  h0 << 11  | h0 >>  -11; h11 += h1;
@@ -642,8 +672,11 @@ namespace SpookilySharp
                         h11 += p64[11]; h1  ^= h9;  h10 ^= h11; h11 = h11 << 46 | h11 >> -46; h10 += h0;
                         p64 += NumVars;
                     }
+                }
                 else
+                {
                     fixed(ulong* dataPtr = _data)
+                    {
                         while (p64 < end)
                         {
                             Memory.Copy(dataPtr, p64, BlockSize);
@@ -661,9 +694,14 @@ namespace SpookilySharp
                             h11 += _data[11]; h1  ^= h9;  h10 ^= h11; h11 = h11 << 46 | h11 >> -46; h10 += h0;
                             p64 += NumVars;
                         }
+                    }
+                }
+
                 _remainder = remainder;
                 if(remainder != 0)
+                {
                     Memory.Copy(p64Fixed, end, remainder);
+                }
             }
             _state0 = h0;
             _state1 = h1;
@@ -713,7 +751,9 @@ namespace SpookilySharp
                 hash1 = _state0;
                 hash2 = _state1;
                 fixed(void* ptr = _data)
+                {
                     Short(ptr, _length, ref hash1, ref hash2, false);
+                }
                 return;
             }
             ulong h0 = _state0;

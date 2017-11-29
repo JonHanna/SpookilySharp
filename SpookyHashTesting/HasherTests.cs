@@ -32,7 +32,9 @@ namespace SpookyHashTesting
             string testString;
             using(var stm = GetStream())
             using(var tr = new StreamReader(stm))
+            {
                 testString = tr.ReadToEnd();
+            }
             var sh = new SpookyHash();
             sh.Update(testString);
             var h = sh.Final();

@@ -109,12 +109,14 @@ namespace SpookyHashTesting
             var buf = new byte[BufferSize];
             var saw = new uint[BufferSize];
             fixed(byte* ptr = buf)
+            {
                 for(int i = 0; i != BufferSize; ++i)
                 {
-                buf[i] = unchecked((byte)(i + 128));
+                    buf[i] = unchecked((byte)(i + 128));
                     saw[i] = SpookyHash.Hash32(ptr, i, 0);
                     Assert.Equal(expected[i], saw[i]);
                 }
+            }
         }
         [Fact]
         public void EmptyString()
@@ -214,13 +216,17 @@ namespace SpookyHashTesting
         public void TestNativeSpeed()
         {
             for(int i = 0; i != 1000000; ++i)
+            {
                 MediumLengthString.GetHashCode();
+            }
         }
         [Fact(Skip = "Long Running")]
         public void TestSpookySpeed()
         {
             for(int i = 0; i != 1000000; ++i)
+            {
                 SpookyHasher.SpookyHash32(MediumLengthString);
+            }
         }
         private static IEnumerable<string> MediumLengthSequence()
         {
@@ -247,17 +253,21 @@ namespace SpookyHashTesting
         {
             var rand = new Random();
             while(num-- != 0)
+            {
                 yield return rand.Next(int.MinValue, int.MaxValue);
+            }
         }
         private static IEnumerable<ulong> RandomUlongs(int num)
         {
             using(var en = RandomUints(num * 2).GetEnumerator())
+            {
                 while(en.MoveNext())
                 {
                     ulong high = (ulong)en.Current << 4;
                     en.MoveNext();
                     yield return high & en.Current;
                 }
+            }
         }
         private static IEnumerable<long> RandomLongs(int num)
         {

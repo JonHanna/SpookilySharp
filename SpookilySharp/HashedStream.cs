@@ -125,7 +125,9 @@ namespace SpookilySharp
         {
             base.Dispose(disposing);
             if(disposing)
+            {
                 _backing.Dispose();
+            }
         }
 
         /// <inheritdoc/>
@@ -183,7 +185,9 @@ namespace SpookilySharp
         {
             int ret = _backing.ReadByte();
             if(ret != -1)
+            {
                 _read.Update((byte)ret);
+            }
             return ret;
         }
 

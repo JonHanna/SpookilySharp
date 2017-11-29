@@ -128,7 +128,9 @@ namespace SpookilySharp
                                     goto fail;
                             }
                             if(++idx == 16)
+                            {
                                 break;
+                            }
                         }
                     }
                     if(idx == 16)
@@ -157,8 +159,13 @@ namespace SpookilySharp
                                 if(++idx == 32)
                                 {
                                     for(++stringIndex; stringIndex != len; ++stringIndex)
+                                    {
                                         if(!char.IsWhiteSpace(s[stringIndex]))
+                                        {
                                             goto fail;
+                                        }
+                                    }
+
                                     result = new HashCode128(first, second);
                                     return true;
                                 }
@@ -186,7 +193,9 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckNotNullString(s);
             if(!TryParse(s, out HashCode128 ret))
+            {
                 ExceptionHelper.BadHashCode128Format();
+            }
             return ret;
         }
 
@@ -234,7 +243,10 @@ namespace SpookilySharp
         public override bool Equals(object obj)
         {
             if(obj is HashCode128)
+            {
                 return Equals((HashCode128)obj);
+            }
+
             return false;
         }
 
