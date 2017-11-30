@@ -31,22 +31,22 @@ namespace SpookilySharp
 
         public static void CheckNotNullString(string arg) => CheckNotNull(arg, "s");
 
-        public static void BadHashCode128Format() =>
-            throw new FormatException("The string did not contain a 32-digit hexadecimal number.");
+        public static Exception BadHashCode128Format() =>
+            new FormatException("The string did not contain a 32-digit hexadecimal number.");
 
-        private static void StartIndexOutOfRange() => throw new ArgumentOutOfRangeException("startIndex");
+        private static Exception StartIndexOutOfRange() => new ArgumentOutOfRangeException("startIndex");
 
-        private static void NegativeLength() => throw new ArgumentOutOfRangeException("length");
+        private static Exception NegativeLength() => new ArgumentOutOfRangeException("length");
 
-        private static void PastArrayBounds() => throw new ArgumentException("Attempt to read beyond the end of the array.");
+        private static Exception PastArrayBounds() => new ArgumentException("Attempt to read beyond the end of the array.");
 
-        private static void PastStringBounds() => throw new ArgumentException("Attempt to read beyond the end of the string.");
+        private static Exception PastStringBounds() => new ArgumentException("Attempt to read beyond the end of the string.");
 
         private static void CheckNotNegativeLength(int length)
         {
             if (length < 0)
             {
-                NegativeLength();
+                throw NegativeLength();
             }
         }
 
@@ -54,7 +54,7 @@ namespace SpookilySharp
         {
             if ((uint)startIndex >= (uint)length)
             {
-                StartIndexOutOfRange();
+                throw StartIndexOutOfRange();
             }
         }
 
@@ -65,7 +65,7 @@ namespace SpookilySharp
             CheckIndexInRange(startIndex, len);
             if (startIndex + length > len)
             {
-                PastArrayBounds();
+                throw PastArrayBounds();
             }
         }
 
@@ -82,7 +82,7 @@ namespace SpookilySharp
             CheckIndexInRange(startIndex, len);
             if (startIndex + length > len)
             {
-                PastStringBounds();
+                throw PastStringBounds();
             }
         }
 

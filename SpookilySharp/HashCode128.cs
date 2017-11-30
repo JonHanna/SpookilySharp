@@ -220,7 +220,7 @@ namespace SpookilySharp
             ExceptionHelper.CheckNotNullString(s);
             if (!TryParse(s, out HashCode128 ret))
             {
-                ExceptionHelper.BadHashCode128Format();
+                throw ExceptionHelper.BadHashCode128Format();
             }
 
             return ret;
