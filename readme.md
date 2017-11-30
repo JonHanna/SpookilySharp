@@ -2,15 +2,11 @@
 
 A .NET/Mono implementation of Bob Jenkins’ [SpookyHash version 2](http://burtleburtle.net/bob/hash/spooky.html). Offers 32- 64- and 128-bit hashes of strings, char and byte arrays, streams and any type of object represented by an array of simple types.  
 
+Development is only active for .NET Standard 2.0 (.NET Core 2.0, .NET Framework 4.6.1, Mono 5.4, etc.). Packages for previous frameworks down to .NET Framework 2.0 are available but will only be updated if serious issues are discovered.
+
 # License
 
-> Licensed under the EUPL, Version 1.1 only (the “Licence”).  
-> You may not use, modify or distribute this work except in compliance with the Licence.  
-> You may obtain a copy of the Licence at:  
-> <http://joinup.ec.europa.eu/software/page/eupl/licence-eupl>  
-> A copy is also distributed with this source code.  
-> Unless required by applicable law or agreed to in writing, software distributed under the  
-> Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
+> Licensed under the MIT license. See the LICENSE file in the repository root for more details.
 
 # NuGet Package
 

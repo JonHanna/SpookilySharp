@@ -3,15 +3,9 @@
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
 //
-// © 2014 Jon Hanna
+// © 2014–2017 Jon Hanna
 //
-// This source code is licensed under the EUPL, Version 1.1 only (the “Licence”).
-// You may not use, modify or distribute this work except in compliance with the Licence.
-// You may obtain a copy of the Licence at:
-// <http://joinup.ec.europa.eu/software/page/eupl/licence-eupl>
-// A copy is also distributed with this source code.
-// Unless required by applicable law or agreed to in writing, software distributed under the
-// Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
+// Licensed under the MIT license. See the LICENSE file in the repository root for more details.
 
 using System;
 using SpookilySharp;
@@ -39,8 +33,8 @@ namespace SpookyHashTesting
             Assert.Equal(0, HashCode128.Zero.GetHashCode());
             Assert.Equal<ulong>(0x123456789abcdef0, hash.UHash1);
             Assert.Equal<ulong>(0x0fedcba987654321, hash.UHash2);
-            Assert.Equal(hash.Hash1, 0x123456789abcdef0);
-            Assert.Equal(hash.Hash2, 0x0fedcba987654321);
+            Assert.Equal(0x123456789abcdef0, hash.Hash1);
+            Assert.Equal(0x0fedcba987654321, hash.Hash2);
             Assert.Equal(hash, new HashCode128(0x123456789abcdef0u, 0x0fedcba987654321));
             Assert.Equal(hash, new HashCode128(0x123456789abcdef0, 0x0fedcba987654321));
             Assert.Equal(hash, HashCode128.Parse("0x123456789abcdef00fedcba987654321"));

@@ -8,13 +8,25 @@
     <Company />
     <Product>Spookily Sharp</Product>
     <Copyright>© 2014–2017 Jon Hanna</Copyright>
-    <Description>.NET/Mono implementation of SpookyHash</Description>
+    <Summary>A .NET/Mono implementation of Bob Jenkins’ SpookyHash version 2. Offers 32-, 64- and 128-bit hashes.</Summary>
+    <Description>A .NET/Mono implementation of Bob Jenkins’ SpookyHash version 2. Offers 32-, 64- and 128-bit hashes of strings, char and byte arrays, streams and any type of object represented by an array of simple types.</Description>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/JonHanna/SpookilySharp/</PackageProjectUrl>
+    <RepositoryUrl>git@github.com:JonHanna/SpookilySharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>SpookyHash hashcode hash hashing</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <BaseAddress>162856960</BaseAddress>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>latest</LangVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>

@@ -3,15 +3,9 @@
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
 //
-// © 2014 Jon Hanna
+// © 2014–2017 Jon Hanna
 //
-// Licensed under the EUPL, Version 1.1 only (the “Licence”).
-// You may not use, modify or distribute this work except in compliance with the Licence.
-// You may obtain a copy of the Licence at:
-// <http://joinup.ec.europa.eu/software/page/eupl/licence-eupl>
-// A copy is also distributed with this source code.
-// Unless required by applicable law or agreed to in writing, software distributed under the
-// Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
+// Licensed under the MIT license. See the LICENSE file in the repository root for more details.
 
 using System;
 using System.IO;
@@ -53,7 +47,7 @@ namespace SpookilySharp
         {
             if (message == null)
             {
-                return default(HashCode128);
+                return default;
             }
 
             ExceptionHelper.CheckBounds(message, startIndex, length);
@@ -84,7 +78,7 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static HashCode128 SpookyHash128(this string message, long seed0, long seed1) =>
             message == null
-            ? default(HashCode128)
+            ? default
             : unchecked(SpookyHash128Unchecked(message, 0, message.Length, (ulong)seed0, (ulong)seed1));
 
         /// <summary>Produces an 128-bit SpookyHash of a <see cref="string"/>, using a default seed.</summary>
@@ -102,7 +96,7 @@ namespace SpookilySharp
         {
             if (message == null)
             {
-                return default(HashCode128);
+                return default;
             }
 
             ExceptionHelper.CheckBounds(message, startIndex, length);

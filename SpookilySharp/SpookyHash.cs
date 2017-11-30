@@ -3,20 +3,9 @@
 // Author:
 //     Jon Hanna <jon@hackcraft.net>
 //
-// © 2014 Jon Hanna
+// © 2014–2017 Jon Hanna
 //
-// Licensed under the EUPL, Version 1.1 only (the “Licence”).
-// You may not use, modify or distribute this work except in compliance with the Licence.
-// You may obtain a copy of the Licence at:
-// <http://joinup.ec.europa.eu/software/page/eupl/licence-eupl>
-// A copy is also distributed with this source code.
-// Unless required by applicable law or agreed to in writing, software distributed under the
-// Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
-
-// Based on Bob Jenkins’ SpookyHash version 2. <http://burtleburtle.net/bob/hash/spooky.html>
-// Described by Jenkins as “public domain” which may or may not be legally possible for the
-// work of a living person in your jurisdiction. If not, it may be reasonably inferred that
-// permission is given by him to port the algorithm into other languages, as per here.
+// Licensed under the MIT license. See the LICENSE file in the repository root for more details.
 
 using System;
 using System.Collections.Generic;
