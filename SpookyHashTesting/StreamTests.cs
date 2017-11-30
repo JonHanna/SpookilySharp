@@ -24,9 +24,9 @@ namespace SpookyHashTesting
 {
     public class StreamTests
     {
-        private FileStream GetFileStream() => new FileStream("testfile.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
+        private static FileStream GetFileStream() => new FileStream("testfile.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
 
-        private void WriteOut(HashedStream inStr, HashedStream outStr)
+        private static void WriteOut(HashedStream inStr, HashedStream outStr)
         {
             Random rand = new Random();
             using (inStr)
@@ -63,7 +63,7 @@ namespace SpookyHashTesting
             }
         }
 
-        private async Task WriteOutAsync(HashedStream inStr, HashedStream outStr)
+        private static async Task WriteOutAsync(HashedStream inStr, HashedStream outStr)
         {
             Random rand = new Random();
             using (inStr)
@@ -316,18 +316,18 @@ namespace SpookyHashTesting
             HashCode128 hash;
             using (HashedStream hs = new HashedStream(GetFileStream()))
             {
-                hash = SpookyHasher.SpookyHash128(hs);
+                hash = hs.SpookyHash128();
                 Assert.Equal(hash, hs.ReadHash128);
             }
             using (FileStream fs = GetFileStream())
             {
-                Assert.Equal(hash, SpookyHasher.SpookyHash128(fs, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
+                Assert.Equal(hash, fs.SpookyHash128(0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
             }
             using (FileStream fs = GetFileStream())
             {
                 Assert.Equal(
                     hash,
-                    unchecked(SpookyHasher.SpookyHash128(fs, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
+                    unchecked(fs.SpookyHash128((long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
             }
         }
 
@@ -337,19 +337,18 @@ namespace SpookyHashTesting
             HashCode128 hash;
             using (HashedStream hs = new HashedStream(GetFileStream()))
             {
-                hash = await SpookyHasher.SpookyHash128Async(hs);
+                hash = await hs.SpookyHash128Async();
                 Assert.Equal(hash, hs.ReadHash128);
             }
             using (FileStream fs = GetFileStream())
             {
-                Assert.Equal(hash, await SpookyHasher.SpookyHash128Async(fs, 0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
+                Assert.Equal(hash, await fs.SpookyHash128Async(0xDEADBEEFDEADBEEF, 0xDEADBEEFDEADBEEF));
             }
             using (FileStream fs = GetFileStream())
             {
                 Assert.Equal(
                     hash,
-                    await unchecked(SpookyHasher.SpookyHash128Async(
-                        fs, (long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
+                    await unchecked(fs.SpookyHash128Async((long)0xDEADBEEFDEADBEEF, (long)0xDEADBEEFDEADBEEF)));
             }
         }
 
@@ -359,16 +358,16 @@ namespace SpookyHashTesting
             long hash;
             using (HashedStream hs = new HashedStream(GetFileStream()))
             {
-                hash = SpookyHasher.SpookyHash64(hs);
+                hash = hs.SpookyHash64();
                 Assert.Equal(hash, hs.ReadHash64);
             }
             using (FileStream fs = GetFileStream())
             {
-                Assert.Equal((ulong)hash, SpookyHasher.SpookyHash64(fs, 0xDEADBEEFDEADBEEF));
+                Assert.Equal((ulong)hash, fs.SpookyHash64(0xDEADBEEFDEADBEEF));
             }
             using (FileStream fs = GetFileStream())
             {
-                Assert.Equal(hash, unchecked(SpookyHasher.SpookyHash64(fs, (long)0xDEADBEEFDEADBEEF)));
+                Assert.Equal(hash, unchecked(fs.SpookyHash64((long)0xDEADBEEFDEADBEEF)));
             }
         }
 
@@ -383,11 +382,11 @@ namespace SpookyHashTesting
             }
             using (FileStream fs = GetFileStream())
             {
-                Assert.Equal((ulong)hash, await SpookyHasher.SpookyHash64Async(fs, 0xDEADBEEFDEADBEEF));
+                Assert.Equal((ulong)hash, await fs.SpookyHash64Async(0xDEADBEEFDEADBEEF));
             }
             using (FileStream fs = GetFileStream())
             {
-                Assert.Equal(hash, unchecked(await SpookyHasher.SpookyHash64Async(fs, (long)0xDEADBEEFDEADBEEF)));
+                Assert.Equal(hash, unchecked(await fs.SpookyHash64Async((long)0xDEADBEEFDEADBEEF)));
             }
         }
 
@@ -397,15 +396,15 @@ namespace SpookyHashTesting
             int hash;
             using (FileStream fs = GetFileStream())
             {
-                hash = SpookyHasher.SpookyHash32(fs);
+                hash = fs.SpookyHash32();
             }
             using (FileStream fs = GetFileStream())
             {
-                Assert.Equal(hash, SpookyHasher.SpookyHash32(fs, unchecked((int)0xDEADBEEF)));
+                Assert.Equal(hash, fs.SpookyHash32(unchecked((int)0xDEADBEEF)));
             }
             using (FileStream fs = GetFileStream())
             {
-                Assert.Equal(hash, unchecked(SpookyHasher.SpookyHash32(fs, (int)0xDEADBEEF)));
+                Assert.Equal(hash, unchecked(fs.SpookyHash32((int)0xDEADBEEF)));
             }
         }
 
@@ -430,25 +429,25 @@ namespace SpookyHashTesting
         [Fact]
         public void NullStream128()
         {
-            Assert.Throws<ArgumentNullException>("stream", () => SpookyHasher.SpookyHash128((Stream)null));
+            Assert.Throws<ArgumentNullException>("stream", () => ((Stream)null).SpookyHash128());
         }
 
         [Fact]
         public void NullStreamS128()
         {
-            Assert.Throws<ArgumentNullException>("stream", () => SpookyHasher.SpookyHash128((Stream)null, 1L, 1L));
+            Assert.Throws<ArgumentNullException>("stream", () => ((Stream)null).SpookyHash128(1L, 1L));
         }
 
         [Fact]
         public void NullStream64()
         {
-            Assert.Throws<ArgumentNullException>("stream", () => SpookyHasher.SpookyHash64((Stream)null));
+            Assert.Throws<ArgumentNullException>("stream", () => ((Stream)null).SpookyHash64());
         }
 
         [Fact]
         public void NullStream32()
         {
-            Assert.Throws<ArgumentNullException>("stream", () => SpookyHasher.SpookyHash32((Stream)null));
+            Assert.Throws<ArgumentNullException>("stream", () => ((Stream)null).SpookyHash32());
         }
 
         [Fact]

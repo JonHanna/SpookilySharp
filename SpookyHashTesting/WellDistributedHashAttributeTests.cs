@@ -178,14 +178,14 @@ namespace SpookyHashTesting
             }
         }
 
-        private void ConfirmBad<T>(IEqualityComparer<T> cmp)
+        private static void ConfirmBad<T>(IEqualityComparer<T> cmp)
         {
-            Assert.NotSame(cmp, SpookierEqualityComparers.WellDistributed(cmp));
+            Assert.NotSame(cmp, cmp.WellDistributed());
         }
 
-        private void ConfirmGood<T>(IEqualityComparer<T> cmp)
+        private static void ConfirmGood<T>(IEqualityComparer<T> cmp)
         {
-            Assert.Same(cmp, SpookierEqualityComparers.WellDistributed(cmp));
+            Assert.Same(cmp, cmp.WellDistributed());
         }
     }
 }

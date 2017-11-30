@@ -116,13 +116,13 @@ namespace SpookyHashTesting
         [Fact]
         public void EmptyString()
         {
-            Assert.Equal(0x6bf50919, SpookyHasher.SpookyHash32("", 0));
+            Assert.Equal(0x6bf50919, "".SpookyHash32(0));
         }
 
         [Fact]
         public void NullString()
         {
-            Assert.Equal(0, SpookyHasher.SpookyHash32((string)null));
+            Assert.Equal(0, ((string)null).SpookyHash32());
         }
 
         [Fact]
@@ -223,7 +223,7 @@ namespace SpookyHashTesting
         {
             for (int i = 0; i != 1000000; ++i)
             {
-                SpookyHasher.SpookyHash32(MediumLengthString);
+                MediumLengthString.SpookyHash32();
             }
         }
 
@@ -244,7 +244,7 @@ namespace SpookyHashTesting
         {
             SpookyHash sh = new SpookyHash();
             sh.Update(MediumLengthSequence());
-            Assert.Equal(SpookyHasher.SpookyHash128(MediumLengthString), sh.Final());
+            Assert.Equal(MediumLengthString.SpookyHash128(), sh.Final());
         }
 
         private static IEnumerable<uint> RandomUints(int num)
@@ -289,13 +289,13 @@ namespace SpookyHashTesting
             {
                 uint copy = message;
                 uint* p = &copy;
-                Assert.Equal(SpookyHash.Hash32(p, 4, seed), Redistributor.Rehash(message, seed));
+                Assert.Equal(SpookyHash.Hash32(p, 4, seed), message.Rehash(seed));
             }
             foreach (uint message in RandomUints(RandomCycleCount))
             {
                 uint copy = message;
                 uint* p = &copy;
-                Assert.Equal(SpookyHash.Hash32(p, 4, 0xDEADBEEF), Redistributor.Rehash(message));
+                Assert.Equal(SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.Rehash());
             }
         }
 
@@ -309,7 +309,7 @@ namespace SpookyHashTesting
                 int* p = &copy;
                 unchecked
                 {
-                    Assert.Equal((int)SpookyHash.Hash32(p, 4, (uint)seed), Redistributor.Rehash(message, seed));
+                    Assert.Equal((int)SpookyHash.Hash32(p, 4, (uint)seed), message.Rehash(seed));
                 }
             }
             foreach (int message in RandomInts(RandomCycleCount))
@@ -318,7 +318,7 @@ namespace SpookyHashTesting
                 int* p = &copy;
                 unchecked
                 {
-                    Assert.Equal((int)SpookyHash.Hash32(p, 4, 0xDEADBEEF), Redistributor.Rehash(message));
+                    Assert.Equal((int)SpookyHash.Hash32(p, 4, 0xDEADBEEF), message.Rehash());
                 }
             }
         }
@@ -331,13 +331,13 @@ namespace SpookyHashTesting
             {
                 ulong copy = message;
                 ulong* p = &copy;
-                Assert.Equal(SpookyHash.Hash64(p, 8, seed), Redistributor.Rehash(message, seed));
+                Assert.Equal(SpookyHash.Hash64(p, 8, seed), message.Rehash(seed));
             }
             foreach (ulong message in RandomUlongs(RandomCycleCount))
             {
                 ulong copy = message;
                 ulong* p = &copy;
-                Assert.Equal(SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), Redistributor.Rehash(message));
+                Assert.Equal(SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.Rehash());
             }
         }
 
@@ -351,7 +351,7 @@ namespace SpookyHashTesting
                 long* p = &copy;
                 unchecked
                 {
-                    Assert.Equal((long)SpookyHash.Hash64(p, 8, (ulong)seed), Redistributor.Rehash(message, seed));
+                    Assert.Equal((long)SpookyHash.Hash64(p, 8, (ulong)seed), message.Rehash(seed));
                 }
             }
             foreach (long message in RandomLongs(RandomCycleCount))
@@ -360,7 +360,7 @@ namespace SpookyHashTesting
                 long* p = &copy;
                 unchecked
                 {
-                    Assert.Equal((long)SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), Redistributor.Rehash(message));
+                    Assert.Equal((long)SpookyHash.Hash64(p, 8, 0xDEADBEEFDEADBEEF), message.Rehash());
                 }
             }
         }
