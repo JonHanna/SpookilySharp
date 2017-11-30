@@ -18,3 +18,4 @@ StyleCopViolations.xml
 Help
 deleteme.*
 *.user
+*.coverage
