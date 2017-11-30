@@ -128,7 +128,7 @@ namespace SpookyHashTesting
         [Fact]
         public unsafe void NullPointerUpdate()
         {
-            Assert.Throws<ArgumentNullException>("message", () => new SpookyHash().Update((void*)null, 42));
+            Assert.Throws<ArgumentNullException>("message", () => new SpookyHash().Update(null, 42));
         }
 
         [SuppressMessage(

@@ -52,7 +52,6 @@ namespace SpookilySharp
                     return true;
             }
 
-            // Analysis disable EmptyGeneralCatchClause
             try
             {
                 return FindAlignSafetyFromUname();
@@ -146,7 +145,6 @@ namespace SpookilySharp
                 // Again, just eat the exception.
             }
 
-            // Analysis restore EmptyGeneralCatchClause
             return false;
         }
 
@@ -171,7 +169,7 @@ namespace SpookilySharp
 
             if (length < BufSize)
             {
-                Short(message, length, ref hash1, ref hash2, false);
+                Short(message, length, ref hash1, ref hash2);
                 return;
             }
 
@@ -323,11 +321,11 @@ namespace SpookilySharp
             }
 
             int remainder = length - (int)((byte*)end - (byte*)message);
-
             if (remainder != 0)
             {
                 Memory.Copy(buf, end, remainder);
             }
+
             Memory.Zero((byte*)buf + remainder, BlockSize - remainder);
             ((byte*)buf)[BlockSize - 1] = (byte)remainder;
 
@@ -481,14 +479,13 @@ namespace SpookilySharp
         public static unsafe uint Hash32(void* message, int length, uint seed) => (uint)Hash64(message, length, seed);
 
         [SecurityCritical]
-        private static unsafe void Short(void* message, int length, ref ulong hash1, ref ulong hash2, bool skipTest)
+        private static unsafe void Short(void* message, int length, ref ulong hash1, ref ulong hash2)
         {
-            if (!skipTest && !AllowUnalignedRead && length != 0 && ((long)message & 7) != 0)
+            if (!AllowUnalignedRead && length != 0 && ((long)message & 7) != 0)
             {
                 ulong* buf = stackalloc ulong[2 * NumVars];
                 Memory.Copy(buf, message, length);
-                Short(buf, length, ref hash1, ref hash2, true);
-                return;
+                message = buf;
             }
 
             ulong* p64 = (ulong*)message;
@@ -614,7 +611,7 @@ namespace SpookilySharp
                     d += (ulong)((byte*)p64)[9] << 8;
                     goto case 9;
                 case 9:
-                    d += (ulong)((byte*)p64)[8];
+                    d += ((byte*)p64)[8];
                     goto case 8;
                 case 8:
                     c += p64[0];
@@ -638,7 +635,7 @@ namespace SpookilySharp
                     c += (ulong)((byte*)p64)[1] << 8;
                     goto case 1;
                 case 1:
-                    c += (ulong)((byte*)p64)[0];
+                    c += ((byte*)p64)[0];
                     break;
                 case 0:
                     c += SpookyConst;
@@ -732,18 +729,12 @@ namespace SpookilySharp
         /// <param name="seed2">Second half of a 128-bit seed for the hash.</param>
         /// <remarks>This is not a CLS-compliant method, and is not accessible by some .NET languages.</remarks>
         [CLSCompliant(false)]
-        public SpookyHash(ulong seed1, ulong seed2)
-        {
-            Init(seed1, seed2);
-        }
+        public SpookyHash(ulong seed1, ulong seed2) => Init(seed1, seed2);
 
         /// <summary>Initialises a new instance of the <see cref="SpookyHash"/> class.</summary>
         /// <param name="seed1">First half of a 128-bit seed for the hash.</param>
         /// <param name="seed2">Second half of a 128-bit seed for the hash.</param>
-        public SpookyHash(long seed1, long seed2)
-        {
-            Init(seed1, seed2);
-        }
+        public SpookyHash(long seed1, long seed2) => Init(seed1, seed2);
 
         /// <summary>Re-initialise the <see cref="SpookyHash"/> object with the specified seed.</summary>
         /// <param name="seed1">First half of a 128-bit seed for the hash.</param>
@@ -760,10 +751,7 @@ namespace SpookilySharp
         /// <summary>Re-initialise the <see cref="SpookyHash"/> object with the specified seed.</summary>
         /// <param name="seed1">First half of a 128-bit seed for the hash.</param>
         /// <param name="seed2">Second half of a 128-bit seed for the hash.</param>
-        public void Init(long seed1, long seed2)
-        {
-            Init((ulong)seed1, (ulong)seed2);
-        }
+        public void Init(long seed1, long seed2) => Init((ulong)seed1, (ulong)seed2);
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
         /// <param name="message">String to hash.</param>
@@ -832,7 +820,7 @@ namespace SpookilySharp
         [CLSCompliant(false), SecurityCritical]
         public unsafe void Update(void* message, int length)
         {
-            if ((int)message == 0)
+            if (message == null)
             {
                 throw new ArgumentNullException("message");
             }
@@ -850,6 +838,7 @@ namespace SpookilySharp
                 {
                     Memory.Copy((byte*)uptr + _remainder, message, length);
                 }
+
                 _length = length + _length;
                 _remainder = newLength;
                 return;
@@ -876,7 +865,8 @@ namespace SpookilySharp
                 h10 = _state10;
                 h11 = _state11;
             }
-            _length = length + _length;
+
+            _length += length;
 
             fixed (ulong* p64Fixed = _data)
             {
@@ -1162,6 +1152,7 @@ namespace SpookilySharp
                     Memory.Copy(p64Fixed, end, remainder);
                 }
             }
+
             _state0 = h0;
             _state1 = h1;
             _state2 = h2;
@@ -1211,8 +1202,9 @@ namespace SpookilySharp
                 hash2 = _state1;
                 fixed (void* ptr = _data)
                 {
-                    Short(ptr, _length, ref hash1, ref hash2, false);
+                    Short(ptr, _length, ref hash1, ref hash2);
                 }
+
                 return;
             }
 

@@ -38,59 +38,59 @@ namespace SpookyHashTesting
             public virtual int GetHashCode(int obj) => 0;
         }
 
-        private class InheritsBad : Bad
+        private sealed class InheritsBad : Bad
         {
         }
 
-        private class InheritsGood : Good
+        private sealed class InheritsGood : Good
         {
         }
 
-        private class InheritsBadOverridesBad : Bad
+        private sealed class InheritsBadOverridesBad : Bad
         {
             public override int GetHashCode(int obj) => 0;
         }
 
-        private class InheritsBadOverridesGood : Bad
+        private sealed class InheritsBadOverridesGood : Bad
         {
             [WellDistributedHash]
             public override int GetHashCode(int obj) => 0;
         }
 
-        private class InheritsGoodOverridesBad : Good
+        private sealed class InheritsGoodOverridesBad : Good
         {
             public override int GetHashCode(int obj) => 0;
         }
 
-        private class InheritsGoodOverridesGood : Good
+        private sealed class InheritsGoodOverridesGood : Good
         {
             [WellDistributedHash]
             public override int GetHashCode(int obj) => 0;
         }
 
-        private class InheritsBadExpliticOverridesBad : Bad, IEqualityComparer<int>
+        private sealed class InheritsBadExpliticOverridesBad : Bad, IEqualityComparer<int>
         {
             int IEqualityComparer<int>.GetHashCode(int obj) => 0;
         }
 
-        private class InheritsBadExpliticOverridesGood : Bad, IEqualityComparer<int>
-        {
-            [WellDistributedHash]
-            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
-        }
-
-        private class InheritsGoodExpliticOverridesBad : Good, IEqualityComparer<int>
-        {
-            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
-        }
-
-        private class InheritsGoodExpliticOverridesGood : Good, IEqualityComparer<int>
+        private sealed class InheritsBadExpliticOverridesGood : Bad, IEqualityComparer<int>
         {
             [WellDistributedHash]
             int IEqualityComparer<int>.GetHashCode(int obj) => 0;
         }
 
-        private class GoodButAlsoBad : IEqualityComparer<int>, IEqualityComparer<string>
+        private sealed class InheritsGoodExpliticOverridesBad : Good, IEqualityComparer<int>
+        {
+            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
+        }
+
+        private sealed class InheritsGoodExpliticOverridesGood : Good, IEqualityComparer<int>
+        {
+            [WellDistributedHash]
+            int IEqualityComparer<int>.GetHashCode(int obj) => 0;
+        }
+
+        private sealed class GoodButAlsoBad : IEqualityComparer<int>, IEqualityComparer<string>
         {
             public bool Equals(string x, string y) => true;
 
@@ -102,7 +102,7 @@ namespace SpookyHashTesting
             public int GetHashCode(int obj) => 0;
         }
 
-        private class BadButAlsoGood : IEqualityComparer<int>, IEqualityComparer<string>
+        private sealed class BadButAlsoGood : IEqualityComparer<int>, IEqualityComparer<string>
         {
             public bool Equals(string x, string y) => true;
 
@@ -114,7 +114,7 @@ namespace SpookyHashTesting
             public int GetHashCode(int obj) => 0;
         }
 
-        private class ExplicitGood : IEqualityComparer<int>
+        private sealed class ExplicitGood : IEqualityComparer<int>
         {
             bool IEqualityComparer<int>.Equals(int x, int y) => true;
 
@@ -122,7 +122,7 @@ namespace SpookyHashTesting
             int IEqualityComparer<int>.GetHashCode(int obj) => 0;
         }
 
-        private class ExplicitBad : IEqualityComparer<int>
+        private sealed class ExplicitBad : IEqualityComparer<int>
         {
             bool IEqualityComparer<int>.Equals(int x, int y) => true;
 

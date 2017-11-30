@@ -29,6 +29,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Overloads.generated.cs</LastGenOutput>
     </None>
+    <None Update="testfile.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

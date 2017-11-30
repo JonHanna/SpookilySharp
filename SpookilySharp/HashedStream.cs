@@ -118,10 +118,7 @@ namespace SpookilySharp
         }
 
         /// <inheritdoc/>
-        public override void Flush()
-        {
-            _backing.Flush();
-        }
+        public override void Flush() => _backing.Flush();
 
         /// <inheritdoc/>
         public override Task FlushAsync(CancellationToken cancellationToken) => _backing.FlushAsync(cancellationToken);
@@ -167,6 +164,7 @@ namespace SpookilySharp
             {
                 _read.Update((byte)ret);
             }
+
             return ret;
         }
 

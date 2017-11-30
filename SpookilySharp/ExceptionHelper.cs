@@ -21,7 +21,7 @@ namespace SpookilySharp
     internal static class ExceptionHelper
     {
         // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Global
-        public static void CheckNotNull<T>(T arg, string name) where T : class
+        public static void CheckNotNull(object arg, string name)
         {
             if (arg == null)
             {
@@ -29,37 +29,18 @@ namespace SpookilySharp
             }
         }
 
-        public static void CheckNotNullString(string arg)
-        {
-            CheckNotNull(arg, "s");
-        }
+        public static void CheckNotNullString(string arg) => CheckNotNull(arg, "s");
 
-        public static void BadHashCode128Format()
-        {
+        public static void BadHashCode128Format() =>
             throw new FormatException("The string did not contain a 32-digit hexadecimal number.");
-        }
 
-        private static void StartIndexOutOfRange()
-        {
-            // Analysis disable once NotResolvedInText
-            throw new ArgumentOutOfRangeException("startIndex");
-        }
+        private static void StartIndexOutOfRange() => throw new ArgumentOutOfRangeException("startIndex");
 
-        private static void NegativeLength()
-        {
-            // Analysis disable once NotResolvedInText
-            throw new ArgumentOutOfRangeException("length");
-        }
+        private static void NegativeLength() => throw new ArgumentOutOfRangeException("length");
 
-        private static void PastArrayBounds()
-        {
-            throw new ArgumentException("Attempt to read beyond the end of the array.");
-        }
+        private static void PastArrayBounds() => throw new ArgumentException("Attempt to read beyond the end of the array.");
 
-        private static void PastStringBounds()
-        {
-            throw new ArgumentException("Attempt to read beyond the end of the string.");
-        }
+        private static void PastStringBounds() => throw new ArgumentException("Attempt to read beyond the end of the string.");
 
         private static void CheckNotNegativeLength(int length)
         {
@@ -111,8 +92,7 @@ namespace SpookilySharp
             CheckBounds(message, startIndex, length);
         }
 
-        // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Global
-        public static void CheckMessageNotNull<T>(T message) where T : class
+        public static void CheckMessageNotNull(object message)
         {
             if (message == null)
             {
@@ -120,7 +100,6 @@ namespace SpookilySharp
             }
         }
 
-        // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Global
         public static void CheckNotNull(Stream stream)
         {
             if (stream == null)

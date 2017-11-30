@@ -22,8 +22,7 @@ namespace SpookyHashTesting
 {
     public sealed partial class HasherTests
     {
-        private Stream GetStream() =>
-            new FileStream("xunit.assert.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
+        private Stream GetStream() => new FileStream("testfile.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
 
         [Fact]
         public void StringExtension()

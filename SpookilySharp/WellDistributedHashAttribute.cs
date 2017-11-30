@@ -14,9 +14,6 @@
 // Licence is distributed on an “AS IS” basis, without warranties or conditions of any kind.
 
 using System;
-
-// Analysis disable once RedundantUsingDirective used by xml doc.
-// Analysis disable EmptyConstructor otherwise inherit en-US documentation.
 using System.Collections.Generic;
 
 namespace SpookilySharp
@@ -33,7 +30,7 @@ namespace SpookilySharp
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     public sealed class WellDistributedHashAttribute : Attribute
     {
-        /// <summary>Initialises a new instance of the <see cref="WellDistributedHashAttribute"/> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="T:SpookilySharp.WellDistributedHashAttribute" /> class.</summary>
         public WellDistributedHashAttribute()
         {
         }

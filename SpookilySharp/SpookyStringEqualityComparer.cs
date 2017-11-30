@@ -40,10 +40,7 @@ namespace SpookilySharp
         /// input, but different hash codes than other instances.</param>
         /// <remarks>Instances with different seeds will produces different hash codes for the same item. This can be
         /// useful in preventing Hash DoS attacks.</remarks>
-        public SpookyStringEqualityComparer(int seed)
-        {
-            _seed = seed;
-        }
+        public SpookyStringEqualityComparer(int seed) => _seed = seed;
 
         /// <summary>Initialises a new instance of the <see cref="SpookyStringEqualityComparer"/> class with a default
         /// or randomised seed.</summary>
@@ -60,13 +57,13 @@ namespace SpookilySharp
         /// <summary>Returns a 32-bit signed SpookyHash hash code for the specified array.</summary>
         /// <param name="obj">The array of <see cref="char"/> to hash.</param>
         [WellDistributedHash]
-        public int GetHashCode(char[] obj) => obj == null ? 0 : SpookyHasher.SpookyHash32(obj, _seed);
+        public int GetHashCode(char[] obj) => obj == null ? 0 : obj.SpookyHash32(_seed);
 
         /// <returns>The 32-bit signed SpookyHash hash code, or zero if the string is null.</returns>
         /// <summary>Returns a 32-bit signed SpookyHash hash code for the specified string.</summary>
         /// <param name="obj">The <see cref="string"/> to hash.</param>
         [WellDistributedHash]
-        public int GetHashCode(string obj) => obj == null ? 0 : SpookyHasher.SpookyHash32(obj, _seed);
+        public int GetHashCode(string obj) => obj == null ? 0 : obj.SpookyHash32(_seed);
 
         /// <summary>Returns true if the two arrays are identical.</summary>
         /// <param name="x">The first array to compare.</param>
@@ -79,7 +76,8 @@ namespace SpookilySharp
             {
                 return true;
             }
-            if (x == null || y == null)
+
+            if (x == null | y == null)
             {
                 return false;
             }
@@ -89,6 +87,7 @@ namespace SpookilySharp
             {
                 return false;
             }
+
             if (len == 0)
             {
                 return true;
@@ -119,6 +118,7 @@ namespace SpookilySharp
             {
                 return y == null;
             }
+
             if (y == null)
             {
                 return false;
@@ -129,6 +129,7 @@ namespace SpookilySharp
             {
                 return false;
             }
+
             if (len == 0)
             {
                 return true;
@@ -163,6 +164,7 @@ namespace SpookilySharp
             {
                 return false;
             }
+
             if (len == 0)
             {
                 return true;
@@ -204,6 +206,7 @@ namespace SpookilySharp
                     }
 
                     goto case 15;
+
                 case 15:
                     if (*ipX++ != *ipY++)
                     {
@@ -211,6 +214,7 @@ namespace SpookilySharp
                     }
 
                     goto case 14;
+
                 case 14:
                     if (*ipX++ != *ipY++)
                     {
@@ -218,6 +222,7 @@ namespace SpookilySharp
                     }
 
                     goto case 13;
+
                 case 13:
                     if (*ipX++ != *ipY++)
                     {
@@ -225,6 +230,7 @@ namespace SpookilySharp
                     }
 
                     goto case 12;
+
                 case 12:
                     if (*ipX++ != *ipY++)
                     {
@@ -232,6 +238,7 @@ namespace SpookilySharp
                     }
 
                     goto case 11;
+
                 case 11:
                     if (*ipX++ != *ipY++)
                     {
@@ -239,6 +246,7 @@ namespace SpookilySharp
                     }
 
                     goto case 10;
+
                 case 10:
                     if (*ipX++ != *ipY++)
                     {
@@ -246,6 +254,7 @@ namespace SpookilySharp
                     }
 
                     goto case 9;
+
                 case 9:
                     if (*ipX++ != *ipY++)
                     {
@@ -253,6 +262,7 @@ namespace SpookilySharp
                     }
 
                     goto case 8;
+
                 case 8:
                     if (*ipX++ != *ipY++)
                     {
@@ -260,6 +270,7 @@ namespace SpookilySharp
                     }
 
                     goto case 7;
+
                 case 7:
                     if (*ipX++ != *ipY++)
                     {
@@ -267,6 +278,7 @@ namespace SpookilySharp
                     }
 
                     goto case 6;
+
                 case 6:
                     if (*ipX++ != *ipY++)
                     {
@@ -274,6 +286,7 @@ namespace SpookilySharp
                     }
 
                     goto case 5;
+
                 case 5:
                     if (*ipX++ != *ipY++)
                     {
@@ -281,6 +294,7 @@ namespace SpookilySharp
                     }
 
                     goto case 4;
+
                 case 4:
                     if (*ipX++ != *ipY++)
                     {
@@ -288,6 +302,7 @@ namespace SpookilySharp
                     }
 
                     goto case 3;
+
                 case 3:
                     if (*ipX++ != *ipY++)
                     {
@@ -295,6 +310,7 @@ namespace SpookilySharp
                     }
 
                     goto case 2;
+
                 case 2:
                     if (*ipX++ != *ipY++)
                     {
@@ -302,6 +318,7 @@ namespace SpookilySharp
                     }
 
                     goto case 1;
+
                 case 1:
                     if (*ipX++ != *ipY++)
                     {
@@ -312,6 +329,7 @@ namespace SpookilySharp
                     {
                         goto case 0;
                     }
+
                     break;
             }
 
@@ -335,6 +353,6 @@ namespace SpookilySharp
 
         /// <inheritdoc/>
         [WellDistributedHash]
-        public override int GetHashCode() => Redistributor.Rehash(_seed);
+        public override int GetHashCode() => _seed.Rehash();
     }
 }

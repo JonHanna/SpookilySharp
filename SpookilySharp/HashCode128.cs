@@ -100,7 +100,7 @@ namespace SpookilySharp
                                 case '7':
                                 case '8':
                                 case '9':
-                                    first = (first << 4) + (ulong)c - (ulong)'0';
+                                    first = (first << 4) + c - '0';
                                     break;
                                 case 'a':
                                 case 'b':
@@ -108,7 +108,7 @@ namespace SpookilySharp
                                 case 'd':
                                 case 'e':
                                 case 'f':
-                                    first = (first << 4) + (ulong)c - ((ulong)'a' - 0xA);
+                                    first = (first << 4) + c - ((ulong)'a' - 0xA);
                                     break;
                                 case 'A':
                                 case 'B':
@@ -116,7 +116,7 @@ namespace SpookilySharp
                                 case 'D':
                                 case 'E':
                                 case 'F':
-                                    first = (first << 4) + (ulong)c - ((ulong)'A' - 0xA);
+                                    first = (first << 4) + c - ((ulong)'A' - 0xA);
                                     break;
                                 case 'X':
                                 case 'x':
@@ -159,7 +159,7 @@ namespace SpookilySharp
                                     case '7':
                                     case '8':
                                     case '9':
-                                        second = (second << 4) + (ulong)c - (ulong)'0';
+                                        second = (second << 4) + c - '0';
                                         break;
                                     case 'a':
                                     case 'b':
@@ -167,7 +167,7 @@ namespace SpookilySharp
                                     case 'd':
                                     case 'e':
                                     case 'f':
-                                        second = (second << 4) + (ulong)c - ((ulong)'a' - 0xA);
+                                        second = (second << 4) + c - ((ulong)'a' - 0xA);
                                         break;
                                     case 'A':
                                     case 'B':
@@ -175,7 +175,7 @@ namespace SpookilySharp
                                     case 'D':
                                     case 'E':
                                     case 'F':
-                                        second = (second << 4) + (ulong)c - ((ulong)'A' - 0xA);
+                                        second = (second << 4) + c - ((ulong)'A' - 0xA);
                                         break;
                                     default:
                                         goto fail;
@@ -222,6 +222,7 @@ namespace SpookilySharp
             {
                 ExceptionHelper.BadHashCode128Format();
             }
+
             return ret;
         }
 
@@ -254,15 +255,7 @@ namespace SpookilySharp
         /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="HashCode128"/>.</param>
         /// <returns><see langword="true"/> if the specified <see cref="object"/> is a boxed <see cref="HashCode128"/>
         /// with the same value as the current; otherwise, <see langword="false"/>.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is HashCode128 code128)
-            {
-                return Equals(code128);
-            }
-
-            return false;
-        }
+        public override bool Equals(object obj) => obj is HashCode128 code128 && Equals(code128);
 
         /// <summary>Returns a <see cref="string"/> that represents the current <see cref="HashCode128"/>.</summary>
         /// <returns>A <see cref="string"/> that represents the hash code as a 32-digit hexadecimal number.</returns>

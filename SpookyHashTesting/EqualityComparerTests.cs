@@ -131,9 +131,9 @@ namespace SpookyHashTesting
             SpookyStringEqualityComparer eq = new SpookyStringEqualityComparer();
             for (int i = 0; i != x.Length; ++i)
             {
-                x[i] = (char)(i + (int)'a');
+                x[i] = (char)(i + 'a');
                 Assert.False(eq.Equals(x, y));
-                y[i] = (char)(i + (int)'a');
+                y[i] = (char)(i + 'a');
             }
 
             Assert.True(eq.Equals(x, y));

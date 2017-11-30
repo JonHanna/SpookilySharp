@@ -24,8 +24,7 @@ namespace SpookyHashTesting
 {
     public class StreamTests
     {
-        private FileStream GetFileStream() => new FileStream(
-            "xunit.assert.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
+        private FileStream GetFileStream() => new FileStream("testfile.xml", FileMode.Open, FileAccess.Read, FileShare.Read);
 
         private void WriteOut(HashedStream inStr, HashedStream outStr)
         {
@@ -455,7 +454,7 @@ namespace SpookyHashTesting
         [Fact]
         public void NullStreamU32()
         {
-            Assert.Throws<ArgumentNullException>("stream", () => SpookyHasher.SpookyHash32((Stream)null, 1U));
+            Assert.Throws<ArgumentNullException>("stream", () => SpookyHasher.SpookyHash32(null, 1U));
         }
     }
 }

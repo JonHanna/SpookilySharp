@@ -33,7 +33,9 @@ namespace SpookilySharp
                 _remainder += sizeof(SByte);
             }
             else
+            {
                 Update(&message, sizeof(SByte));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -56,7 +58,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(SByte[] message, int startIndex, int length)
         {
             fixed(SByte* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(SByte));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -77,15 +81,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as SByte[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<SByte> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -95,7 +105,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(SByte[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(SByte* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(SByte), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -116,7 +129,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this SByte[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -138,7 +154,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this SByte[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -155,10 +174,8 @@ namespace SpookilySharp
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this SByte[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this SByte[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="SByte"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -166,18 +183,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this SByte[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this SByte[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this SByte[] message, int startIndex, int length, ulong seed)
         {
             fixed(SByte* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(SByte), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="SByte"/>s.</summary>
@@ -196,7 +213,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this SByte[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -216,7 +236,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this SByte[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -228,10 +251,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static long SpookyHash64(this SByte[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this SByte[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="SByte"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
@@ -239,16 +260,12 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static long SpookyHash64(this SByte[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this SByte[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(SByte[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(SByte[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="SByte"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -265,8 +282,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this SByte[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -285,8 +305,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this SByte[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -298,10 +321,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static int SpookyHash32(this SByte[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this SByte[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="SByte"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -309,10 +330,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static int SpookyHash32(this SByte[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this SByte[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -330,7 +349,9 @@ namespace SpookilySharp
                 _remainder += sizeof(UInt16);
             }
             else
+            {
                 Update(&message, sizeof(UInt16));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -353,7 +374,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(UInt16[] message, int startIndex, int length)
         {
             fixed(UInt16* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(UInt16));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -374,15 +397,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as UInt16[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<UInt16> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -392,7 +421,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(UInt16[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(UInt16* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(UInt16), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -413,7 +445,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this UInt16[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -435,7 +470,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this UInt16[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -452,10 +490,8 @@ namespace SpookilySharp
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this UInt16[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this UInt16[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="UInt16"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -463,18 +499,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this UInt16[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this UInt16[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this UInt16[] message, int startIndex, int length, ulong seed)
         {
             fixed(UInt16* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(UInt16), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="UInt16"/>s.</summary>
@@ -493,7 +529,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this UInt16[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -513,7 +552,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this UInt16[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -525,10 +567,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static long SpookyHash64(this UInt16[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this UInt16[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="UInt16"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
@@ -536,16 +576,12 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static long SpookyHash64(this UInt16[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this UInt16[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(UInt16[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(UInt16[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="UInt16"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -562,8 +598,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this UInt16[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -582,8 +621,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this UInt16[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -595,10 +637,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static int SpookyHash32(this UInt16[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this UInt16[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="UInt16"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -606,10 +646,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static int SpookyHash32(this UInt16[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this UInt16[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -627,7 +665,9 @@ namespace SpookilySharp
                 _remainder += sizeof(UInt32);
             }
             else
+            {
                 Update(&message, sizeof(UInt32));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -650,7 +690,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(UInt32[] message, int startIndex, int length)
         {
             fixed(UInt32* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(UInt32));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -671,15 +713,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as UInt32[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<UInt32> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -689,7 +737,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(UInt32[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(UInt32* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(UInt32), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -710,7 +761,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this UInt32[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -732,7 +786,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this UInt32[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -749,10 +806,8 @@ namespace SpookilySharp
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this UInt32[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this UInt32[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="UInt32"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -760,18 +815,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this UInt32[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this UInt32[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this UInt32[] message, int startIndex, int length, ulong seed)
         {
             fixed(UInt32* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(UInt32), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="UInt32"/>s.</summary>
@@ -790,7 +845,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this UInt32[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -810,7 +868,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this UInt32[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -822,10 +883,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static long SpookyHash64(this UInt32[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this UInt32[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="UInt32"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
@@ -833,16 +892,12 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static long SpookyHash64(this UInt32[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this UInt32[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(UInt32[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(UInt32[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="UInt32"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -859,8 +914,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this UInt32[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -879,8 +937,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this UInt32[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -892,10 +953,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static int SpookyHash32(this UInt32[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this UInt32[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="UInt32"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -903,10 +962,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static int SpookyHash32(this UInt32[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this UInt32[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -924,7 +981,9 @@ namespace SpookilySharp
                 _remainder += sizeof(UInt64);
             }
             else
+            {
                 Update(&message, sizeof(UInt64));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -947,7 +1006,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(UInt64[] message, int startIndex, int length)
         {
             fixed(UInt64* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(UInt64));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -968,15 +1029,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as UInt64[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<UInt64> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -986,7 +1053,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(UInt64[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(UInt64* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(UInt64), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -1007,7 +1077,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this UInt64[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -1029,7 +1102,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this UInt64[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -1046,10 +1122,8 @@ namespace SpookilySharp
         /// than the length of the array.</exception>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this UInt64[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this UInt64[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="UInt64"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -1057,18 +1131,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this UInt64[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this UInt64[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this UInt64[] message, int startIndex, int length, ulong seed)
         {
             fixed(UInt64* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(UInt64), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="UInt64"/>s.</summary>
@@ -1087,7 +1161,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this UInt64[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -1107,7 +1184,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this UInt64[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -1119,10 +1199,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static long SpookyHash64(this UInt64[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this UInt64[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="UInt64"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
@@ -1130,16 +1208,12 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static long SpookyHash64(this UInt64[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this UInt64[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(UInt64[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(UInt64[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="UInt64"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -1156,8 +1230,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this UInt64[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -1176,8 +1253,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this UInt64[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -1189,10 +1269,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static int SpookyHash32(this UInt64[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this UInt64[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="UInt64"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -1200,10 +1278,8 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static int SpookyHash32(this UInt64[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this UInt64[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -1220,7 +1296,9 @@ namespace SpookilySharp
                 _remainder += sizeof(Byte);
             }
             else
+            {
                 Update(&message, sizeof(Byte));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -1242,7 +1320,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Byte[] message, int startIndex, int length)
         {
             fixed(Byte* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(Byte));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -1261,15 +1341,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as Byte[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<Byte> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -1279,7 +1365,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(Byte[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(Byte* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(Byte), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -1299,7 +1388,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Byte[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -1321,7 +1413,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Byte[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -1337,10 +1432,8 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Byte[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Byte[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="Byte"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -1348,18 +1441,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Byte[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Byte[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this Byte[] message, int startIndex, int length, ulong seed)
         {
             fixed(Byte* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(Byte), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Byte"/>s.</summary>
@@ -1377,7 +1470,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Byte[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -1396,7 +1492,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Byte[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -1407,26 +1506,20 @@ namespace SpookilySharp
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Byte[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this Byte[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Byte"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Byte[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this Byte[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(Byte[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(Byte[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Byte"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -1442,8 +1535,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Byte[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -1461,8 +1557,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Byte[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -1473,20 +1572,16 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Byte[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this Byte[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Byte"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Byte[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this Byte[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -1503,7 +1598,9 @@ namespace SpookilySharp
                 _remainder += sizeof(Char);
             }
             else
+            {
                 Update(&message, sizeof(Char));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -1525,7 +1622,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Char[] message, int startIndex, int length)
         {
             fixed(Char* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(Char));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -1544,15 +1643,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as Char[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<Char> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -1562,7 +1667,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(Char[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(Char* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(Char), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -1582,7 +1690,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Char[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -1604,7 +1715,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Char[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -1620,10 +1734,8 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Char[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Char[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="Char"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -1631,18 +1743,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Char[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Char[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this Char[] message, int startIndex, int length, ulong seed)
         {
             fixed(Char* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(Char), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Char"/>s.</summary>
@@ -1660,7 +1772,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Char[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -1679,7 +1794,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Char[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -1690,26 +1808,20 @@ namespace SpookilySharp
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Char[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this Char[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Char"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Char[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this Char[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(Char[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(Char[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Char"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -1725,8 +1837,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Char[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -1744,8 +1859,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Char[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -1756,20 +1874,16 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Char[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this Char[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Char"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Char[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this Char[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -1786,7 +1900,9 @@ namespace SpookilySharp
                 _remainder += sizeof(Int16);
             }
             else
+            {
                 Update(&message, sizeof(Int16));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -1808,7 +1924,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Int16[] message, int startIndex, int length)
         {
             fixed(Int16* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(Int16));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -1827,15 +1945,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as Int16[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<Int16> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -1845,7 +1969,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(Int16[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(Int16* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(Int16), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -1865,7 +1992,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Int16[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -1887,7 +2017,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Int16[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -1903,10 +2036,8 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Int16[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Int16[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="Int16"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -1914,18 +2045,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Int16[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Int16[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this Int16[] message, int startIndex, int length, ulong seed)
         {
             fixed(Int16* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(Int16), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Int16"/>s.</summary>
@@ -1943,7 +2074,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Int16[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -1962,7 +2096,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Int16[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -1973,26 +2110,20 @@ namespace SpookilySharp
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Int16[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this Int16[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Int16"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Int16[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this Int16[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(Int16[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(Int16[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Int16"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -2008,8 +2139,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Int16[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -2027,8 +2161,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Int16[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -2039,20 +2176,16 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Int16[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this Int16[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Int16"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Int16[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this Int16[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -2069,7 +2202,9 @@ namespace SpookilySharp
                 _remainder += sizeof(Int32);
             }
             else
+            {
                 Update(&message, sizeof(Int32));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2091,7 +2226,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Int32[] message, int startIndex, int length)
         {
             fixed(Int32* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(Int32));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2110,15 +2247,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as Int32[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<Int32> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -2128,7 +2271,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(Int32[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(Int32* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(Int32), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -2148,7 +2294,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Int32[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -2170,7 +2319,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Int32[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -2186,10 +2338,8 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Int32[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Int32[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="Int32"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -2197,18 +2347,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Int32[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Int32[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this Int32[] message, int startIndex, int length, ulong seed)
         {
             fixed(Int32* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(Int32), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Int32"/>s.</summary>
@@ -2226,7 +2376,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Int32[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -2245,7 +2398,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Int32[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -2256,26 +2412,20 @@ namespace SpookilySharp
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Int32[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this Int32[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Int32"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Int32[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this Int32[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(Int32[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(Int32[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Int32"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -2291,8 +2441,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Int32[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -2310,8 +2463,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Int32[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -2322,20 +2478,16 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Int32[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this Int32[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Int32"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Int32[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this Int32[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -2352,7 +2504,9 @@ namespace SpookilySharp
                 _remainder += sizeof(Int64);
             }
             else
+            {
                 Update(&message, sizeof(Int64));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2374,7 +2528,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Int64[] message, int startIndex, int length)
         {
             fixed(Int64* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(Int64));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2393,15 +2549,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as Int64[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<Int64> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -2411,7 +2573,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(Int64[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(Int64* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(Int64), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -2431,7 +2596,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Int64[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -2453,7 +2621,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Int64[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -2469,10 +2640,8 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Int64[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Int64[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="Int64"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -2480,18 +2649,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Int64[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Int64[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this Int64[] message, int startIndex, int length, ulong seed)
         {
             fixed(Int64* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(Int64), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Int64"/>s.</summary>
@@ -2509,7 +2678,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Int64[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -2528,7 +2700,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Int64[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -2539,26 +2714,20 @@ namespace SpookilySharp
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Int64[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this Int64[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Int64"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Int64[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this Int64[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(Int64[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(Int64[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Int64"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -2574,8 +2743,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Int64[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -2593,8 +2765,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Int64[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -2605,20 +2780,16 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Int64[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this Int64[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Int64"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Int64[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this Int64[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -2635,7 +2806,9 @@ namespace SpookilySharp
                 _remainder += sizeof(Single);
             }
             else
+            {
                 Update(&message, sizeof(Single));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2657,7 +2830,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Single[] message, int startIndex, int length)
         {
             fixed(Single* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(Single));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2676,15 +2851,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as Single[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<Single> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -2694,7 +2875,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(Single[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(Single* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(Single), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -2714,7 +2898,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Single[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -2736,7 +2923,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Single[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -2752,10 +2942,8 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Single[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Single[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="Single"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -2763,18 +2951,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Single[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Single[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this Single[] message, int startIndex, int length, ulong seed)
         {
             fixed(Single* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(Single), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Single"/>s.</summary>
@@ -2792,7 +2980,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Single[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -2811,7 +3002,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Single[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -2822,26 +3016,20 @@ namespace SpookilySharp
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Single[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this Single[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Single"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Single[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this Single[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(Single[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(Single[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Single"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -2857,8 +3045,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Single[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -2876,8 +3067,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Single[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -2888,20 +3082,16 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Single[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this Single[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Single"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Single[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this Single[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -2918,7 +3108,9 @@ namespace SpookilySharp
                 _remainder += sizeof(Double);
             }
             else
+            {
                 Update(&message, sizeof(Double));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2940,7 +3132,9 @@ namespace SpookilySharp
         private unsafe void UpdateUnchecked(Double[] message, int startIndex, int length)
         {
             fixed(Double* ptr = message)
+            {
                 Update(ptr + startIndex, length * sizeof(Double));
+            }
         }
 
         /// <summary>Updates the in-progress hash generation with more of the message.</summary>
@@ -2959,15 +3153,21 @@ namespace SpookilySharp
         {
             ExceptionHelper.CheckMessageNotNull(message);
             var asArr = message as Double[];
-            if(asArr != null)
+            if (asArr != null)
+            {
                 UpdateUnchecked(asArr, 0, asArr.Length);
+            }
             else
+            {
                 UpdateEnumerable(message);
+            }
         }
         private void UpdateEnumerable(IEnumerable<Double> message)
         {
-            foreach(var item in message)
+            foreach (var item in message)
+            {
                 Update(item);
+            }
         }
     }
 
@@ -2977,7 +3177,10 @@ namespace SpookilySharp
         private static unsafe HashCode128 SpookyHash128Unchecked(Double[] message, int startIndex, int length, ulong hash1, ulong hash2)
         {
             fixed(Double* ptr = message)
+            {
                 SpookyHash.Hash128(ptr + startIndex, length * sizeof(Double), ref hash1, ref hash2);
+            }
+
             return new HashCode128(hash1, hash2);
         }
 
@@ -2997,7 +3200,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Double[] message, int startIndex, int length, long seed0, long seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash128Unchecked(message, startIndex, length, (ulong)seed0, (ulong)seed1));
         }
@@ -3019,7 +3225,10 @@ namespace SpookilySharp
         public static HashCode128 SpookyHash128(this Double[] message, int startIndex, int length, ulong seed0, ulong seed1)
         {
             if(message == null)
+            {
                 return default(HashCode128);
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash128Unchecked(message, startIndex, length, seed0, seed1);
         }
@@ -3035,10 +3244,8 @@ namespace SpookilySharp
         /// <exception cref="ArgumentException"><paramref name="startIndex"/> plus <paramref name="length"/> is greater
         /// than the length of the array.</exception>
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Double[] message, int startIndex, int length)
-        {
-            return SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Double[] message, int startIndex, int length) =>
+            SpookyHash128(message, startIndex, length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         /// <summary>Produces an 128-bit SpookyHash of an array of <see cref="Double"/>s.</summary>
         /// <returns>A <see cref="HashCode128"/> containing the two 64-bit halves of the 128-bit hash.</returns>
@@ -3046,18 +3253,18 @@ namespace SpookilySharp
         /// <remarks>For a null array, the hash will be <see cref="HashCode128.Zero"/> .</remarks>
         [CLSCompliant(false)]
         [SecuritySafeCritical]
-        public static HashCode128 SpookyHash128(this Double[] message)
-        {
-            return message == null
-                ? default(HashCode128)
-                : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
-        }
+        public static HashCode128 SpookyHash128(this Double[] message) =>
+            message == null
+            ? default(HashCode128)
+            : SpookyHash128Unchecked(message, 0, message.Length, SpookyHash.SpookyConst, SpookyHash.SpookyConst);
 
         [SecurityCritical]
         private static unsafe long SpookyHash64Unchecked(this Double[] message, int startIndex, int length, ulong seed)
         {
             fixed(Double* ptr = message)
+            {
                 return (long)SpookyHash.Hash64(ptr + startIndex, length * sizeof(Double), seed);
+            }
         }
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Double"/>s.</summary>
@@ -3075,7 +3282,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Double[] message, int startIndex, int length, long seed)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash64Unchecked(message, startIndex, length, (ulong)seed));
         }
@@ -3094,7 +3304,10 @@ namespace SpookilySharp
         public static long SpookyHash64(this Double[] message, int startIndex, int length)
         {
             if(message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return SpookyHash64Unchecked(message, startIndex, length, SpookyHash.SpookyConst);
         }
@@ -3105,26 +3318,20 @@ namespace SpookilySharp
         /// <param name="seed">The 64-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Double[] message, long seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
-        }
+        public static long SpookyHash64(this Double[] message, long seed) =>
+            message == null ? 0 : unchecked(SpookyHash64Unchecked(message, 0, message.Length, (ulong)seed));
 
         /// <summary>Produces a 64-bit SpookyHash of an array of <see cref="Double"/>s, using a default seed.</summary>
         /// <returns>A <see cref="long"/> containing the 64-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static long SpookyHash64(this Double[] message)
-        {
-            return message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
-        }
+        public static long SpookyHash64(this Double[] message) =>
+            message == null ? 0 : SpookyHash64Unchecked(message, 0, message.Length, SpookyHash.SpookyConst);
 
         [SecurityCritical]
-        private static int SpookyHash32Unchecked(Double[] message, int startIndex, int length, uint seed)
-        {
-            return unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
-        }
+        private static int SpookyHash32Unchecked(Double[] message, int startIndex, int length, uint seed) =>
+            unchecked((int)SpookyHash64Unchecked(message, startIndex, length, seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Double"/>s.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
@@ -3140,8 +3347,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Double[] message, int startIndex, int length, int seed)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)seed));
         }
@@ -3159,8 +3369,11 @@ namespace SpookilySharp
         [SecuritySafeCritical]
         public static int SpookyHash32(this Double[] message, int startIndex, int length)
         {
-            if(message == null)
+            if (message == null)
+            {
                 return 0;
+            }
+
             ExceptionHelper.CheckArray(message, startIndex, length);
             return unchecked(SpookyHash32Unchecked(message, startIndex, length, (uint)SpookyHash.SpookyConst));
         }
@@ -3171,20 +3384,16 @@ namespace SpookilySharp
         /// <param name="seed">The 32-bit seed value.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Double[] message, int seed)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
-        }
+        public static int SpookyHash32(this Double[] message, int seed) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)seed));
 
         /// <summary>Produces a 32-bit SpookyHash of an array of <see cref="Double"/>s, using a default seed.</summary>
         /// <returns>An <see cref="int"/> containing the two 32-bit hash.</returns>
         /// <param name="message">The array to hash.</param>
         /// <remarks>For a null array, the hash will be zero.</remarks>
         [SecuritySafeCritical]
-        public static int SpookyHash32(this Double[] message)
-        {
-            return message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
-        }
+        public static int SpookyHash32(this Double[] message) =>
+            message == null ? 0 : unchecked(SpookyHash32Unchecked(message, 0, message.Length, (uint)SpookyHash.SpookyConst));
     }
     public sealed partial class SpookyHash
     {
@@ -3216,10 +3425,8 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe ulong Hash64(UIntPtr message, int length, ulong seed)
-        {
-            return unchecked((ulong)Hash64((void*)message, length, (ulong)seed));
-        }
+        public static unsafe ulong Hash64(UIntPtr message, int length, ulong seed) =>
+            unchecked((ulong)Hash64((void*)message, length, (ulong)seed));
 
         /// <summary>Calculates a 32-bit SpookyHash for a message.</summary>
         /// <returns>The 32-bit hash.</returns>
@@ -3231,10 +3438,8 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe uint Hash32(UIntPtr message, int length, uint seed)
-        {
-            return unchecked((uint)Hash64(message, length, (uint)seed));
-        }
+        public static unsafe uint Hash32(UIntPtr message, int length, uint seed) =>
+            unchecked((uint)Hash64(message, length, (uint)seed));
         /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
         /// <param name="message">Pointer to the first element to hash.</param>
         /// <param name="length">The size, in bytes, of the elements to hash.</param>
@@ -3263,10 +3468,8 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe long Hash64(UIntPtr message, int length, long seed)
-        {
-            return unchecked((long)Hash64((void*)message, length, (ulong)seed));
-        }
+        public static unsafe long Hash64(UIntPtr message, int length, long seed) =>
+            unchecked((long)Hash64((void*)message, length, (ulong)seed));
 
         /// <summary>Calculates a 32-bit SpookyHash for a message.</summary>
         /// <returns>The 32-bit hash.</returns>
@@ -3278,10 +3481,8 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe int Hash32(UIntPtr message, int length, int seed)
-        {
-            return unchecked((int)Hash64(message, length, (uint)seed));
-        }
+        public static unsafe int Hash32(UIntPtr message, int length, int seed) =>
+            unchecked((int)Hash64(message, length, (uint)seed));
         /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
         /// <param name="message">Pointer to the first element to hash.</param>
         /// <param name="length">The size, in bytes, of the elements to hash.</param>
@@ -3310,10 +3511,8 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe ulong Hash64(IntPtr message, int length, ulong seed)
-        {
-            return unchecked((ulong)Hash64((void*)message, length, (ulong)seed));
-        }
+        public static unsafe ulong Hash64(IntPtr message, int length, ulong seed) =>
+            unchecked((ulong)Hash64((void*)message, length, (ulong)seed));
 
         /// <summary>Calculates a 32-bit SpookyHash for a message.</summary>
         /// <returns>The 32-bit hash.</returns>
@@ -3325,10 +3524,8 @@ namespace SpookilySharp
         /// may have incorrect results.</exception>
         [CLSCompliant(false)]
         [SecurityCritical]
-        public static unsafe uint Hash32(IntPtr message, int length, uint seed)
-        {
-            return unchecked((uint)Hash64(message, length, (uint)seed));
-        }
+        public static unsafe uint Hash32(IntPtr message, int length, uint seed) =>
+            unchecked((uint)Hash64(message, length, (uint)seed));
         /// <summary>Calculates the 128-bit SpookyHash for a message.</summary>
         /// <param name="message">Pointer to the first element to hash.</param>
         /// <param name="length">The size, in bytes, of the elements to hash.</param>
@@ -3355,10 +3552,8 @@ namespace SpookilySharp
         /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
         /// may have incorrect results.</exception>
         [SecurityCritical]
-        public static unsafe long Hash64(IntPtr message, int length, long seed)
-        {
-            return unchecked((long)Hash64((void*)message, length, (ulong)seed));
-        }
+        public static unsafe long Hash64(IntPtr message, int length, long seed) =>
+            unchecked((long)Hash64((void*)message, length, (ulong)seed));
 
         /// <summary>Calculates a 32-bit SpookyHash for a message.</summary>
         /// <returns>The 32-bit hash.</returns>
@@ -3369,9 +3564,7 @@ namespace SpookilySharp
         /// that <paramref name="message"/> points too, you may raise an <see cref="AccessViolationException"/>, or you
         /// may have incorrect results.</exception>
         [SecurityCritical]
-        public static unsafe int Hash32(IntPtr message, int length, int seed)
-        {
-            return unchecked((int)Hash64(message, length, (uint)seed));
-        }
+        public static unsafe int Hash32(IntPtr message, int length, int seed) =>
+            unchecked((int)Hash64(message, length, (uint)seed));
   }
 }

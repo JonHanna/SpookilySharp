@@ -18,7 +18,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-// Analysis disable MemberHidesStaticFromOuterClass
 namespace SpookilySharp
 {
     /// <summary>Improves the bit distribution of equality comparers.</summary>
@@ -33,7 +32,7 @@ namespace SpookilySharp
             // Not worth using a concurrent dictionary or (importing Ariadne or similar for < 4.0) here
             // as we should expect very few concurrent writes.
             // Note: Hashtable is documented as thread-safe for single-writer, multiple-reader.
-            // Analysis disable once StaticFieldInGenericType
+            // ReSharper disable once StaticMemberInGenericType
             private static readonly Hashtable Store = new Hashtable();
 
             public static bool? KnownQuality(Type type) => (bool?)Store[type];
@@ -52,20 +51,16 @@ namespace SpookilySharp
         {
             private readonly IEqualityComparer<T> _cmp;
 
-            public WellDistributedEqualityComparer(IEqualityComparer<T> comparer)
-            {
-                _cmp = comparer;
-            }
+            public WellDistributedEqualityComparer(IEqualityComparer<T> comparer) => _cmp = comparer;
 
             public bool Equals(T x, T y) => _cmp.Equals(x, y);
 
             [WellDistributedHash]
-            public int GetHashCode(T obj) => obj == null ? 0 : Redistributor.Rehash(_cmp.GetHashCode(obj));
+            public int GetHashCode(T obj) => obj == null ? 0 : _cmp.GetHashCode(obj).Rehash();
 
-            public override bool Equals(object obj) =>
-                obj is WellDistributedEqualityComparer<T> other && _cmp.Equals(other._cmp);
+            public override bool Equals(object obj) => obj is WellDistributedEqualityComparer<T> other && _cmp.Equals(other._cmp);
 
-            public override int GetHashCode() => Redistributor.Rehash(_cmp.GetHashCode());
+            public override int GetHashCode() => _cmp.GetHashCode().Rehash();
         }
 
         /// <summary>

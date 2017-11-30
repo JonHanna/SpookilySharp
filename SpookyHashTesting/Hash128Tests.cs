@@ -39,10 +39,10 @@ namespace SpookyHashTesting
             Assert.Equal(0, HashCode128.Zero.GetHashCode());
             Assert.Equal<ulong>(0x123456789abcdef0, hash.UHash1);
             Assert.Equal<ulong>(0x0fedcba987654321, hash.UHash2);
-            Assert.Equal(hash.Hash1, (long)0x123456789abcdef0);
-            Assert.Equal(hash.Hash2, (long)0x0fedcba987654321);
+            Assert.Equal(hash.Hash1, 0x123456789abcdef0);
+            Assert.Equal(hash.Hash2, 0x0fedcba987654321);
             Assert.Equal(hash, new HashCode128(0x123456789abcdef0u, 0x0fedcba987654321));
-            Assert.Equal(hash, new HashCode128((long)0x123456789abcdef0, (long)0x0fedcba987654321));
+            Assert.Equal(hash, new HashCode128(0x123456789abcdef0, 0x0fedcba987654321));
             Assert.Equal(hash, HashCode128.Parse("0x123456789abcdef00fedcba987654321"));
             Assert.Equal(hash, HashCode128.Parse("0x123456789abcdef00fedcba987654321"));
         }
