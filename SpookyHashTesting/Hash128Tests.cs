@@ -45,6 +45,9 @@ namespace SpookyHashTesting
             Assert.Equal(hash, new HashCode128(0x123456789abcdef0, 0x0fedcba987654321));
             Assert.Equal(hash, HashCode128.Parse("0x123456789abcdef00fedcba987654321"));
             Assert.Equal(hash, HashCode128.Parse("0x123456789abcdef00fedcba987654321"));
+            Assert.False(HashCode128.TryParse("x123456789abcdef00fedcba987654321", out hash));
+            Assert.False(HashCode128.TryParse("0xx123456789abcdef00fedcba987654321", out hash));
+            Assert.False(HashCode128.TryParse("1234x6789abcdef00fedcba987654321", out hash));
         }
 
         [Fact]

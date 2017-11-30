@@ -22,7 +22,7 @@ namespace SpookilySharp
     public struct HashCode128 : IEquatable<HashCode128>
     {
         /// <summary>A <see cref="HashCode128"/> that is all-zero. This is the same as the default value.</summary>
-        public static readonly HashCode128 Zero = default(HashCode128);
+        public static readonly HashCode128 Zero = default;
 
         /// <summary>Initialises a new instance of the <see cref="HashCode128"/> struct.</summary>
         /// <param name="hash1">The first 64 bits of the hash code.</param>
@@ -201,7 +201,7 @@ namespace SpookilySharp
             }
 
             fail:
-            result = default(HashCode128);
+            result = default;
             return false;
         }
 
