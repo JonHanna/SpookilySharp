@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpookilySharp", "SpookilySh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpookyHashTesting", "SpookyHashTesting\SpookyHashTesting.csproj", "{4F8556CD-E103-45E0-A999-26B22714FC40}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpookyHashTestingFromNuget", "SpookyHashTesting\SpookyHashTestingFromNuget.csproj", "{C41F7353-E830-4B89-A0D6-6F319CB4E71B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpookyHashTestingFromNuget", "TestFromNuget\SpookyHashTestingFromNuget.csproj", "{C41F7353-E830-4B89-A0D6-6F319CB4E71B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

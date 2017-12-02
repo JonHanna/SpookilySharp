@@ -22,25 +22,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Overloads.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Overloads.generated.cs</LastGenOutput>
-    </None>
-    <None Update="testfile.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Overloads.generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Overloads.tt</DependentUpon>
-    </Compile>
+    <Compile Include="..\SpookyHashTesting\*.cs" />
+    <None Include="..\SpookyHashTesting\testfile.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
