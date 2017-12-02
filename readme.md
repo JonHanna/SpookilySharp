@@ -1,4 +1,4 @@
-# Spookily Sharp [<img src="https://ci.appveyor.com/api/projects/status/y00kmlox0in8o8kj/branch/master?svg=true" align="right">](https://ci.appveyor.com/project/JonHanna/spookilysharp/branch/master)
+# Spookily Sharp [<img src="https://ci.appveyor.com/api/projects/status/y00kmlox0in8o8kj/branch/master?svg=true&passingText=passing%20%F0%9F%8E%89&pendingText=pending%20%E2%8F%B3&failingText=failing%20%F0%9F%94%A5" align="right">](https://ci.appveyor.com/project/JonHanna/spookilysharp/branch/master)
 
 A .NET/Mono implementation of Bob Jenkins’ [SpookyHash version 2](http://burtleburtle.net/bob/hash/spooky.html). Offers 32- 64- and 128-bit hashes of strings, char and byte arrays, streams and any type of object represented by an array of simple types.  
 
