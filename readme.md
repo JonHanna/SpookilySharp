@@ -1,10 +1,8 @@
-# Spookily Sharp
+# Spookily Sharp [<img src="https://ci.appveyor.com/api/projects/status/y00kmlox0in8o8kj/branch/master?svg=true" align="right">](https://ci.appveyor.com/project/JonHanna/spookilysharp/branch/master)
 
 A .NET/Mono implementation of Bob Jenkins’ [SpookyHash version 2](http://burtleburtle.net/bob/hash/spooky.html). Offers 32- 64- and 128-bit hashes of strings, char and byte arrays, streams and any type of object represented by an array of simple types.  
 
 Development is only active for .NET Standard 2.0 (.NET Core 2.0, .NET Framework 4.6.1, Mono 5.4, etc.). Packages for previous frameworks down to .NET Framework 2.0 are available but will only be updated if serious issues are discovered.
-
-[![Build status](https://ci.appveyor.com/api/projects/status/y00kmlox0in8o8kj/branch/master?svg=true)](https://ci.appveyor.com/project/JonHanna/spookilysharp/branch/master)
 
 # License
 
