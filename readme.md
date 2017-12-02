@@ -4,6 +4,8 @@ A .NET/Mono implementation of Bob Jenkins’ [SpookyHash version 2](http://burtl
 
 Development is only active for .NET Standard 2.0 (.NET Core 2.0, .NET Framework 4.6.1, Mono 5.4, etc.). Packages for previous frameworks down to .NET Framework 2.0 are available but will only be updated if serious issues are discovered.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/y00kmlox0in8o8kj/branch/master?svg=true)](https://ci.appveyor.com/project/JonHanna/spookilysharp/branch/master)
+
 # License
 
 > Licensed under the MIT license. See the LICENSE file in the repository root for more details.
