@@ -270,31 +270,62 @@ namespace SpookyHashTesting
             }
         }
 
-        [Fact(Skip = "Need a new way to test this.")]
+        private class MockStream : Stream
+        {
+            public override void Flush()
+            {
+            }
+
+            public override int Read(byte[] buffer, int offset, int count) => -1;
+
+            public override long Seek(long offset, SeekOrigin origin) => 0;
+
+            public override void SetLength(long value)
+            {
+            }
+
+            public override void Write(byte[] buffer, int offset, int count)
+            {
+            }
+
+            public override bool CanRead { get; }
+
+            public override bool CanSeek { get; }
+
+            public override bool CanWrite { get; }
+
+            public override long Length { get; }
+
+            public override long Position { get; set; }
+
+            public override int ReadTimeout { get; set; }
+
+            public override int WriteTimeout { get; set; }
+        }
+
+        [Fact]
         public void TimeoutRead()
         {
-            WebRequest wr = WebRequest.Create("http://www.google.com/");
-            using (WebResponse rsp = wr.GetResponse())
+            using (Stream stm = new MockStream())
+            using (HashedStream hs = new HashedStream(stm))
             {
-                Stream stm = rsp.GetResponseStream();
-                using (HashedStream hs = new HashedStream(stm))
-                {
-                    Assert.Equal(stm.ReadTimeout, hs.ReadTimeout);
-                    hs.ReadTimeout = stm.ReadTimeout;
-                }
+                stm.ReadTimeout = 123;
+                Assert.Equal(123, hs.ReadTimeout);
+                hs.ReadTimeout = 456;
+                Assert.Equal(456, stm.ReadTimeout);
             }
         }
 
-        [Fact(Skip = "Need a new way to test this.")]
+        [Fact]
         public void TimeoutWrite()
         {
-            WebRequest wr = WebRequest.Create("http://www.google.com/");
-            wr.Method = "POST";
-            Stream stm = wr.GetRequestStream();
+            using (Stream stm = new MockStream())
             using (HashedStream hs = new HashedStream(stm))
             {
-                Assert.Equal(stm.WriteTimeout, hs.WriteTimeout);
-                hs.WriteTimeout = stm.WriteTimeout;
+                stm.WriteTimeout = 123;
+                Assert.Equal(123, hs.WriteTimeout);
+                hs.WriteTimeout = 456;
+                Assert.Equal(456, stm.WriteTimeout);
             }
         }
 
