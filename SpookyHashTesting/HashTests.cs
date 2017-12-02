@@ -381,22 +381,22 @@ namespace SpookyHashTesting
             ulong ui1 = 0xdeadcafe;
             ulong ui2 = 0xbaceba11;
             SpookyHash fromU = new SpookyHash(ui1, ui2);
-            SpookyHash fromZU = new SpookyHash();
-            fromZU.Init(ui1, ui2);
+            SpookyHash fromZeroU = new SpookyHash();
+            fromZeroU.Init(ui1, ui2);
             long l1 = unchecked((long)ui1);
             long l2 = unchecked((long)ui2);
             SpookyHash fromL = new SpookyHash(l1, l2);
-            SpookyHash fromZL = new SpookyHash();
-            fromZL.Init(l1, l2);
+            SpookyHash fromZeroL = new SpookyHash();
+            fromZeroL.Init(l1, l2);
             fromU.Update(MediumLengthString);
-            fromZU.Update(MediumLengthString);
+            fromZeroU.Update(MediumLengthString);
             fromL.Update(MediumLengthString);
-            fromZL.Update(MediumLengthString);
+            fromZeroL.Update(MediumLengthString);
             HashCode128 hash = fromU.Final();
-            Assert.Equal(hash, fromZU.Final());
+            Assert.Equal(hash, fromZeroU.Final());
             Assert.Equal(hash, fromL.Final());
-            Assert.Equal(hash, fromZL.Final());
-            Assert.Equal(hash.ToString(), fromZL.Final().ToString());
+            Assert.Equal(hash, fromZeroL.Final());
+            Assert.Equal(hash.ToString(), fromZeroL.Final().ToString());
         }
 
         [Fact]

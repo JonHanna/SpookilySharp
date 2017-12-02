@@ -9,7 +9,6 @@
 
 using System;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using SpookilySharp;
 using Xunit;
@@ -270,7 +269,7 @@ namespace SpookyHashTesting
             }
         }
 
-        private class MockStream : Stream
+        private sealed class MockStream : Stream
         {
             public override void Flush()
             {
@@ -288,13 +287,13 @@ namespace SpookyHashTesting
             {
             }
 
-            public override bool CanRead { get; }
+            public override bool CanRead => false;
 
-            public override bool CanSeek { get; }
+            public override bool CanSeek => false;
 
-            public override bool CanWrite { get; }
+            public override bool CanWrite => false;
 
-            public override long Length { get; }
+            public override long Length => 0;
 
             public override long Position { get; set; }
 
